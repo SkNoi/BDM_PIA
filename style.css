@@ -1,0 +1,100 @@
+body, html{
+
+    height: 100%;
+    margin: 0;
+    position: relative;
+
+}
+
+body {
+    background-color: darkmagenta;
+    display: flex;
+    flex-direction: column;
+
+
+}
+
+.header{
+    text-align: center;
+    color: white;
+    padding: 20px;
+
+}
+
+
+.absolute-image{
+
+    position: absolute;
+    left: 20px;
+    max-width: 500px;
+    height: auto;
+
+}
+
+
+form{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+.usuario {
+
+    background-color: rgba(188, 111, 241, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    width: 500px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+
+}
+
+.usuario input {
+
+
+    margin-bottom: 10px;
+    width: 100%;
+    
+
+}
+
+input[type=submit]{    
+
+    background-color: black;
+    color: white;
+    padding: 10px 10px;
+    width: 50%;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 0;
+
+
+}
+
+
+h1, h2 {
+
+    color: white;
+
+}
+
+@media (max-width: 768px) {
+
+    .absolute-image {
+        max-width: 50%; /* Ajusta el tamaño de la imagen en pantallas más pequeñas */
+    }
+
+    .usuario {
+        width: 90%; /* Ajusta el ancho del formulario en pantallas más pequeñas */
+    }
+
+    input[type=submit] {
+        width: 100%; /* Asegura que el botón use el 100% del ancho disponible */
+    }
+}

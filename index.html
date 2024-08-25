@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+
+    <title>Inicio Session</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+
+    <div class="header">
+        
+    <h1>Bienvenidos a NOMBRE DE LA INSTITUCION</h1>
+    <h2>Cursos para todas las edades</h2>
+
+    </div>
+    
+        <img src="Recursos/pngegg.png" alt="Studihambres" class="absolute-image">
+        
+
+    <form id="Login" action="main.html" method="POST" onsubmit="return iniciosession()">
+
+        <div class="usuario">
+
+            <div>
+                <input type="text" name="txtusuario" id="user" placeholder="Usuario">
+            
+                <br>
+            
+                <input type="password" name="txtpass" id="password" placeholder="Contraseña">
+            
+                <br>
+            
+
+            </div>
+            
+            <input type="submit" value="iniciar Session">
+        </div>
+        
+    </form>
+    
+
+
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="inicio_session.js"></script>
+
+
+</body>
+</html>
