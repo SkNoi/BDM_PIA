@@ -6,7 +6,7 @@ function iniciosession(){
 
     if(usuario === "" || pass === ""){
 
-        alert("Favor de llenar los campos");
+        alert("Porfavor, complete los campos");
 
         return false;
         
