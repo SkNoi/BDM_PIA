@@ -8,53 +8,50 @@
     <title>Inicio Session</title>
 
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styleLogin.css">
+    <link rel="stylesheet" href="css/Footer.css">
     
 </head>
 <body>
 
-    <nav class="clase1">
-		<a href="https://www.google.com">Google</a>
-		<a href="https://www.facebook.com">Facebook</a>
-		<a href="https://www.youtube.com">Youtube</a>
-
-	</nav>
-
-    
+    <header id="idInicio" class="text-center mb-4">         
+        <h1>Login</h1>
+    </header>
 
     <div class="header">
         
-    <h1>Bienvenidos a NOMBRE DE LA INSTITUCION</h1>
+    <h1>Incio de session</h1>
     <h2>Cursos para todas las edades</h2>
 
     </div>
-    
-        <img src="Recursos/purepng.com-female-studentstudenteducationalinstitutionstudentsuniversity-studentschoolfemale-student-1421526922642xwzty.png" alt="Studihambres" class="absolute-image">
         
 
-    <form id="Login" action="main.html" method="POST" onsubmit="return iniciosession()">
-
-        <div class="usuario">
-
-            <h3>LOGIN</h3>
-
-            <div>
-                <input type="text" name="txtusuario" id="user" placeholder="Usuario">
-            
-                <br>
-            
-                <input type="password" name="txtpass" id="password" placeholder="Contraseña">
-            
-                <br>
-            
-
+    <div class="container">
+        <form id="Login" action="main.html" method="POST" onsubmit="return iniciosession()">
+            <div class="usuario">
+                <h3>LOGIN</h3>
+                <div>
+                    <input type="text" name="txtusuario" id="user" placeholder="Usuario">
+                    <br>
+                    <input type="password" name="txtpass" id="password" placeholder="Contraseña">
+                    <br>
+                </div>
+                <input type="submit" value="Iniciar Sesión">
             </div>
-            
-            <input type="submit" value="iniciar Session">
-        </div>
-        
-    </form>
+        </form>
     
+        <div class="register-section">
+            <p>¿No tienes cuenta?</p>
+            <a href="Registro.html" class="btn">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <footer id="idFin">
+        <h5>LMAD - BDM</h5>
+        <p>1600998 Kevin Martin Hernandez Gonzalez</p>
+        <p>1828596 Bryan Edgardo Pardo Alejo</p>    
+    </footer>
 
 
      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

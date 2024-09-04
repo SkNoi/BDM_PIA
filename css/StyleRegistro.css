@@ -1,0 +1,62 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+#idInicio {
+    background-color: #B39DDB;
+    color: white;
+    text-align: center;
+    padding: 20px 20px 10px 20px;
+    width: 100%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  }
+
+.header{
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.contenedor-registro {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+#Registro .form-group {
+    margin-bottom: 1rem;
+}
+
+.custom-image-container {
+    /* Establece el contenedor como un bloque flexible que permite mejor control del contenido */
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    height: 100%; /* Asegura que el contenedor ocupe el 100% del alto disponible */
+}
+
+.custom-img {
+    /* Controla el tamaño de la imagen manualmente */
+    width: 500%; /* Cambia este valor para ajustar el ancho de la imagen */
+    height: auto; /* Mantiene la proporción de aspecto */
+    max-width: 500px; /* Puedes establecer un tamaño máximo si lo deseas */
+    border-radius: 15px; /* Aplica un borde redondeado */
+}
+
+
+.rounded-avatar {
+    width: 150px; /* Ajusta el tamaño según tus necesidades */
+    height: 150px; /* Ajusta el tamaño según tus necesidades */
+    border-radius: 50%; /* Hace que la imagen sea circular */
+    object-fit: cover; /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
+    border: 2px solid #ccc; /* Opcional: añade un borde alrededor de la imagen */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Añade una sombra para darle un efecto de profundidad */
+    margin-top: 10px; /* Añade un poco de espacio superior */
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-left: 50px;
+}
+

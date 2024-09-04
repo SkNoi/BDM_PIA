@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/StyleRegistro.css">
+    <link rel="stylesheet" href="css/Footer.css">
+
+</head>
+<body>
+
+    <header id="idInicio" class="text-center mb-4">         
+        <h1>Registro</h1>
+    </header>
+    
+    <div class="container contenedor-registro">
+        <div class="row">
+            <div class="col-md-6">
+                <form id="Registro" action="index.html" method="POST" onsubmit="">
+                    <div class="mt-3">
+                        <img id="preview" src="Recursos/icon_user.png" alt="Vista previa del avatar" class="rounded-avatar" style="width: 150px; height: 150px;">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="correo">Correo</label>
+                        <input type="email" id="correo" name="correo" class="form-control" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contrasena">Contraseña</label>
+                        <input type="password" id="contrasena" name="contrasena" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="genero">Género</label>
+                        <select id="genero" name="genero" class="form-control" required>
+                            <option value="">Seleccione...</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fecha-nacimiento">Fecha de Nacimiento</label>
+                        <input type="date" id="fecha-nacimiento" name="fecha-nacimiento" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="foto">Foto</label>
+                        <input type="file" id="foto" name="foto" class="form-control-file" accept="image/*" onchange="previewImage(event)">
+                        
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrarse</button>
+                </form>
+            </div>
+            <div class="col-md-6 text-center custom-image-container">
+                <img src="Recursos/pngegg.png" alt="Imagen de Registro" class="custom-img">
+            </div>
+        </div>
+    </div>
+
+    <footer id="idFin" class="text-center mt-4">
+        <h5>LMAD - BDM</h5>
+        <p>1600998 Kevin Martin Hernandez Gonzalez</p>
+        <p>1828596 Bryan Edgardo Pardo Alejo</p>    
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="js/Registro.js"></script>
+</body>
+</html>
