@@ -13,6 +13,9 @@ body {
     background-position: center;
     color: #FFFFFF;
     font-family: 'Roboto', sans-serif;
+    min-height: 100vh; /* Ocupa al menos la altura total de la ventana */
+    display: flex;
+    flex-direction: column;
 }
 
 #idInicio {
@@ -36,11 +39,12 @@ body {
 }
 
 .container {
-    flex: 1;
+    flex: 1; /* Esto asegura que el contenido ocupe el espacio disponible */
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 120px; /* Espacio para compensar la altura del header */
+    padding-top: 120px; /* Espacio para compensar el header */
+    padding-bottom: 150px; /* Espacio para evitar que el footer tape el contenido */
 }
 
 .usuario {
@@ -121,11 +125,17 @@ h1, h2 {
 @media (max-width: 768px) {
     .usuario {
         width: 90%;
-        padding: 10px;
+        padding: 10px 15px; /* Ajustar un poco más el padding */
+    
     }
 
     input[type=submit] {
         width: 100%;
+    }
+
+    .register-section {
+        width: 90%;
+        padding: 10px;
     }
 }
 

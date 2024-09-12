@@ -1,5 +1,18 @@
+/* Estilos generales */
 body {
     font-family: 'Roboto', sans-serif;
+    min-height: 100%; /* Asegura que el contenido ocupe al menos el 100% de la pantalla */
+    margin: 0;
+    padding: 0;
+    padding-bottom: 80px; /* Añade espacio al final del cuerpo para el footer */
+}
+
+
+.contenedor-registro {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    padding-bottom: 80px; /* Añade suficiente espacio para que el botón no quede cubierto por el footer */
 }
 
 #idInicio {
@@ -9,9 +22,9 @@ body {
     padding: 20px 20px 10px 20px;
     width: 100%;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
-  }
+}
 
-.header{
+.header {
     text-align: center;
     color: white;
     padding: 20px;
@@ -28,35 +41,108 @@ body {
 }
 
 .custom-image-container {
-    /* Establece el contenedor como un bloque flexible que permite mejor control del contenido */
     display: flex;
     justify-content: left;
     align-items: center;
-    height: 100%; /* Asegura que el contenedor ocupe el 100% del alto disponible */
+    height: 100%;
 }
 
 .custom-img {
-    /* Controla el tamaño de la imagen manualmente */
-    width: 500%; /* Cambia este valor para ajustar el ancho de la imagen */
-    height: auto; /* Mantiene la proporción de aspecto */
-    max-width: 500px; /* Puedes establecer un tamaño máximo si lo deseas */
-    border-radius: 15px; /* Aplica un borde redondeado */
+    width: 500%;
+    height: auto;
+    max-width: 500px;
+    border-radius: 15px;
 }
 
-
 .rounded-avatar {
-    width: 150px; /* Ajusta el tamaño según tus necesidades */
-    height: 150px; /* Ajusta el tamaño según tus necesidades */
-    border-radius: 50%; /* Hace que la imagen sea circular */
-    object-fit: cover; /* Asegura que la imagen cubra todo el contenedor sin distorsionarse */
-    border: 2px solid #ccc; /* Opcional: añade un borde alrededor de la imagen */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Añade una sombra para darle un efecto de profundidad */
-    margin-top: 10px; /* Añade un poco de espacio superior */
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
 }
 
 img {
     max-width: 100%;
     height: auto;
     margin-left: 50px;
+}
+
+.error-message {
+    color: red;
+    font-size: 1rem;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid red;
+    border-radius: 5px;
+    background-color: #fdd;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff; /* Color primario */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+
+    /* Ajustes para el contenedor del registro en pantallas pequeñas */
+    .contenedor-registro {
+        max-width: 100%;  /* El ancho se ajusta a la pantalla completa */
+        padding: 10px;    /* Reduce el padding para más espacio en pantallas pequeñas */
+    }
+
+    /* Ajustes para el avatar redondeado */
+    .rounded-avatar {
+        width: 100px;    /* Reduce el tamaño del avatar en pantallas pequeñas */
+        height: 100px;
+    }
+
+    /* Ajustes para la imagen personalizada */
+    .custom-img {
+        width: 100%;    /* Asegura que la imagen ocupe el 100% del ancho disponible */
+        max-width: 100%; /* Evita que la imagen sea demasiado grande */
+        margin-left: 0;  /* Centra la imagen o elimina márgenes laterales */
+    }
+
+    /* Ajustes para el contenedor de la imagen */
+    .custom-image-container {
+        justify-content: center;  /* Centra la imagen en pantallas pequeñas */
+    }
+
+    /* Ajustes para el texto del encabezado */
+    .header {
+        font-size: 1.2rem;  /* Ajusta el tamaño de la fuente del encabezado */
+        padding: 10px;      /* Reduce el padding */
+    }
+
+    /* Ajustes para la sección de inicio */
+    #idInicio {
+        padding: 15px;  /* Ajusta el padding para que se vea bien en pantallas pequeñas */
+        font-size: 1rem;  /* Ajusta el tamaño del texto */
+    }
+
+    /* Ajustes para las imágenes generales */
+    img {
+        margin-left: 0;   /* Elimina el margen izquierdo en pantallas pequeñas */
+    }
+
+    .btn {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        font-size: 1.2rem; /* Aumenta el tamaño del texto */
+        margin-top: 10px; /* Añade espacio alrededor si es necesario */
+    }
 }
 

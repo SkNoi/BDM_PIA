@@ -9,4 +9,12 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     position: fixed;
     bottom: 0;
+    z-index: 1;  /* Asegura que el footer no cubra el contenido */
+    
   }
+
+  @media (max-width: 768px) {
+    #idFin {
+        position: relative;
+    }
+}
