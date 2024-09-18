@@ -1,0 +1,86 @@
+/* Estilos para la sección de cursos */
+body {
+    
+    background-color: aliceblue;
+}
+
+.cursos h1 {
+    color: #6A1B9A;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 80px;
+}
+
+.cursos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.curso {
+    background-color: white;
+    padding: 40px 20px;
+    margin-top: 80px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.curso:hover {
+    transform: scale(1.05);
+}
+
+.curso-imagen {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.curso-info h2 {
+    color: #6A1B9A;
+    margin: 10px 0 5px;
+}
+
+.curso-info p {
+    color: #555;
+}
+
+.btn {
+    background-color: #6A1B9A;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #4527A0;
+}
+
+
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .cursos h1 {
+        font-size: 1.5rem;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .cursos {
+        padding: 20px 10px;
+    }
+
+    .curso {
+        max-width: 100%;
+    }
+}
+

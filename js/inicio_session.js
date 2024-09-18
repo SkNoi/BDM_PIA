@@ -1,7 +1,7 @@
 
 function iniciosession(){
 
-    var usuario = document.getElementById("user").value;
+    var usuario = document.getElementById("email").value;
     var pass = document.getElementById("password").value;
 
     if(usuario === "" || pass === ""){

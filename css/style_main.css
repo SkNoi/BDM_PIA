@@ -1,6 +1,6 @@
 body {
-    background-color: #6A1B9A; /* Fondo morado suave */
-    color: #FFFFFF; /* Texto blanco */
+    background-color: aliceblue;
+    color: #FFFFFF;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -9,35 +9,9 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
-.clase1 {
-    background-color: #B39DDB; /* Fondo de la barra de navegación */
-    color: white;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    padding: 15px 30px;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.clase1 a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-size: 16px;
-    transition: color 0.3s;
-}
-
-.clase1 a:hover {
-    color: #6A1B9A; /* Color de los enlaces al pasar el ratón */
-}
-
 .header {
     text-align: center;
-    color: #EDE7F6;
+    color: #6A1B9A;
     padding: 100px 20px 20px;
 }
 
@@ -62,8 +36,185 @@ body {
     text-align: center;
 }
 
+.carousel-center{
+    display: flex;
+    justify-content: center; 
+    align-items: center;     
+    min-height: 50vh;       
+    margin: 0;
+}
+
+/* Contenedor del carrusel */
+.carousel {
+    width: 60%; /* Reduce el ancho del carrusel */
+    max-width: 600px; /* Ajusta el ancho máximo */
+    margin: 0 auto; /* Centra el carrusel en la página */
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Imágenes del carrusel */
+.carousel-images {
+    display: flex;
+    animation: slide 15s infinite;
+    height: auto; /* Ajusta automáticamente la altura según el contenido */
+}
+
+.carousel-images img {
+    width: 100%;
+    height: auto; /* Mantiene la proporción de las imágenes */
+    flex-shrink: 0;
+    object-fit: cover; /* Ajusta la imagen dentro del contenedor sin deformarla */
+}
+
+/* Animación del carrusel */
+@keyframes slide {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(0); }
+    25% { transform: translateX(-100%); }
+    45% { transform: translateX(-100%); }
+    50% { transform: translateX(-200%); }
+    70% { transform: translateX(-200%); }
+    75% { transform: translateX(-300%); }
+    95% { transform: translateX(-300%); }
+    100% { transform: translateX(0); }
+}
+
+.courses-gallery {
+    padding: 20px;
+    text-align: center;
+}
+
+.course-grid {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.course-item {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 300px;
+    text-align: left;
+}
+
+.course-item img {
+    width: 100%;
+    border-radius: 4px;
+}
+
+.courses-gallery h2 {
+    color: #6A1B9A;
+}
+
+.course-item h3 {
+    margin: 15px 0 15px;
+    color: #6A1B9A;
+
+}
+
+.course-item p {
+    color: #555;
+}
+
+.categories-nav {
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    overflow-y: auto; /* Permite el desplazamiento si hay muchas categorías */
+}
+
+.categories-nav h3 {
+    margin-top: 0;
+}
+
+.categories-nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.categories-nav ul li {
+    margin-bottom: 10px;
+}
+
+.categories-nav ul li a {
+    text-decoration: none;
+    color: #333;
+}
+
+.categories-nav ul li a:hover {
+    text-decoration: underline;
+}
+
+
+
+
 @media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .header {
+        padding: 50px 10px 10px;
+        font-size: 18px;
+    }
+
+    .features {
+        padding: 30px 10px;
+    }
+
     .feature-box {
+        padding: 15px;
         margin-bottom: 15px;
+    }
+
+    .carousel {
+        width: 100%; /* El carrusel ocupará todo el ancho de la pantalla en pantallas pequeñas */
+        max-width: none; /* Elimina la restricción de ancho máximo */
+    }
+
+    .carousel-center {
+        min-height: 30vh; /* Reduce el alto mínimo del contenedor del carrusel */
+    }
+
+    .footer {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 30px 5px;
+        font-size: 16px;
+    }
+
+    .features {
+        padding: 20px 5px;
+    }
+
+    .feature-box {
+        padding: 10px;
+        margin-bottom: 10px;
+        box-shadow: none; /* Elimina la sombra para simplificar el diseño en pantallas pequeñas */
+    }
+
+    .carousel {
+        width: 100%; /* Mantén el carrusel al 100% en pantallas muy pequeñas */
+        border-radius: 5px; /* Redondea menos las esquinas en pantallas pequeñas */
+    }
+
+    .footer {
+        padding: 5px;
+        font-size: 12px;
     }
 }

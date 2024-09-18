@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+    padding-top: 60px; /* Ajustar según el tamaño del navbar */
+    padding-bottom: 60px; /* Ajustar según el tamaño del footer */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+}
+
+.message-container {
+    width: 90%;
+    max-width: 800px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Asegura que el contenedor no se desborde */
+    margin-top: 50px;
+
+}
+
+.message-header {
+    background-color: #B699FF;
+    color: #fff;
+    padding: 10px;
+    border-radius: 8px 8px 0 0;
+}
+
+.message-select {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #fafafa;
+}
+
+.message-box {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    border-bottom: 1px solid #ccc;
+    background-color: #fafafa;
+}
+
+.message-input {
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+}
+
+.message-input textarea {
+    width: calc(100% - 20px);
+    height: 60px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: none;
+    margin-bottom: 10px;
+}
+
+.message-input button {
+    align-self: flex-end;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #b699ff;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.message-input button:hover {
+    background-color: #715AFF;
+}
+
+.message-select select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

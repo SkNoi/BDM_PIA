@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/stylePerfil.css">
+    <link rel="stylesheet" href="css/Footer.css">
+    <link rel="stylesheet" href="css/Navbar.css">
+
+
+</head>
+<body>
+    <div id="idNav"></div>
+        <nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3 mb-5 fixed-top">
+            <div class="container-fluid">
+                <a class="navbar-brand" id="enlaceTitular" href="main.html">Wowie</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="mx-auto d-flex flex-grow-1 justify-content-center">
+                        <form class="d-flex" id="formularioBusqueda">
+                            <input class="form-control me-2" id="inputBuscador" type="search" placeholder="Buscar cursos..." aria-label="Search" required>
+                            <div class="dropdown me-2">
+                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filtroBusqueda" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Filtro de búsqueda
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="filtroBusqueda">
+                                    <li>
+                                        <select class="form-select" id="campoCategoria" aria-label="Categoría">
+                                            <option selected disabled value="">Categorías</option>
+                                            <option value="programacion">Programación</option>
+                                            <option value="diseño">Diseño</option>
+                                            <option value="negocios">Negocios</option>
+                                        </select>
+                                    </li>
+                                    <br>
+                                    <li>
+                                        <select class="form-select" id="campoEstrellas" aria-label="Calificación">
+                                            <option value="">Calificación</option>
+                                            <option value="1">1 Estrella</option>
+                                            <option value="2">2 Estrellas</option>
+                                            <option value="3">3 Estrellas</option>
+                                            <option value="4">4 Estrellas</option>
+                                            <option value="5">5 Estrellas</option>
+                                        </select>
+                                    </li>
+                                </ul>
+                            </div>
+                            <button id="btnBuscar" type="submit" class="btn btn-primary">Buscar</button>
+                        </form>
+                    </div>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="misCursos.html">Mis Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Cursos.html">Cursos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="perfilUsuario.html">Mi Perfil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Mensajes.html">Mensajes</a>
+                        </li>
+    
+                        <!-- Dropdown Carrito de Compras -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="carritoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Carrito
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="carritoDropdown" style="width: 400px; max-height: 400px; overflow-y: auto;">
+                                <li>
+                                    <form id="payment-form">        
+                                        <h5>Pago del Carrito</h5>
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Producto</th>
+                                                    <th>Precio</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="carrito-body">
+                                                <!-- Aquí se agregarán los productos -->
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Total:</td>
+                                                    <td id="total">$0.00</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        <div id="paypal-button-container"></div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+    
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html?accion=logout" tabindex="-1" aria-disabled="true">Cerrar Sesión</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="container" id="idContenido">
+        <form id="formRegistro">
+            <div class="container"> 
+                <!--Toggle de edición de perfil-->
+                <div class="d-flex justify-content-center align-items-center mb-4">
+                    <div class="form-check form-switch form-switch-lg">
+                      <input class="form-check-input" type="checkbox" id="toggleEditar">
+                      <label class="form-check-label" for="toggleEditar">Editar</label>
+                    </div>
+                </div>  
+    
+                <h1 id="tituloPerfil"></h1>
+                <h3>Imagen de Perfil:</h3>       
+                <div class="form-group mb-3">
+                    <div id="contenedorImagen">
+                        <img id="imagenSeleccionada" class="rounded mx-auto d-block" src="Recursos/icon_user.png">
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <input type="file" class="form-control-file" id="foto" accept="image/*">
+                </div>
+            </div>
+    
+            <!--Contenedor de los campos con información del perfil-->
+            <div id="contenedorCampos">
+                <!--Nombre--> 
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="campoNombre" class="form-label">Nombre(s)</label>
+                        <input type="text" class="form-control" id="campoNombre" name="fnombre" placeholder="Ingresa tu Nombre" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                </div>
+    
+                <!--Apellidos-->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="campoApePat" class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" id="campoApePat" name="fapellidoPat" placeholder="Ingresa tu apellido paterno" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label for="campoApeMat" class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" id="campoApeMat" name="fapellidoMat" placeholder="Ingresa tu apellido materno" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                </div>
+    
+                <!--Sexo en un combobox-->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="campoSexo" class="form-label">Sexo</label>
+                        <select class="form-select" id="campoSexo" name="fsexo" required>
+                            <option selected disabled value="">Selecciona tu sexo</option>
+                            <option>Masculino</option>
+                            <option>Femenino</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid state.
+                        </div>
+                    </div>
+                </div>
+    
+                <!--Fecha de Nacimiento-->
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="campoFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <div class="input-group has-validation">
+                            <input type="date" class="form-control" id="campoFechaNacimiento" name="ffechanacimiento" required>
+                        </div>
+                    </div>
+    
+                    <!-- Rol del Usuario -->
+                    <label class="form-label">Rol del Usuario</label>
+                    <div class="col">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="btn-check" name="opcionesRol" id="opcionInstructor" autocomplete="off" checked>
+                            <label class="btn btn-secondary" for="opcionInstructor">Instructor</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="btn-check" name="opcionesRol" id="opcionEstudiante" autocomplete="off">
+                            <label class="btn btn-secondary" for="opcionEstudiante">Estudiante</label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="btn-check" name="opcionesRol" id="opcionAdministrador" autocomplete="off">
+                            <label class="btn btn-secondary" for="opcionAdministrador">Administrador</label>
+                        </div>
+                    </div>
+                </div>
+    
+                <!--Email-->
+                <div class="col mb-3">
+                    <label for="campoCorreo" class="form-label">Email</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                        <input type="email" class="form-control" id="campoCorreo" name="femail" aria-describedby="inputGroupPrepend" placeholder="Ingresa tu correo electrónico" required>
+                        <div class="invalid-feedback">
+                            Please choose a username.
+                        </div>
+                    </div>
+                </div>
+    
+                <!--Password-->
+                <div class="col mb-3">
+                    <label for="campoContrasena" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="campoContrasena" name="fcontra" placeholder="********" required>
+                    <div class="invalid-feedback">
+                        Please provide a valid zip.
+                    </div>
+                </div>
+                <hr> <!-- Separador -->    
+                <!--Boton-->
+                <div class="text-center mb-3">
+                    <button class="btn btn-primary" type="submit">Guardar cambios</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Sección de Cursos -->
+    <div class="container my-5" id="seccionCursos">
+        <h1 class="mb-4" id="tituloSeccionCursos">Mis Cursos Comprados</h1>
+        <div class="card-container row" id="card-container"></div>
+        <div class="d-flex justify-content-between my-4">
+            <button class="btn btn-secondary" id="btnAtras">Atrás</button>
+            <button class="btn btn-primary" id="btnSiguiente">Siguiente</button>
+        </div>
+        <div id="no-results" class="text-center" style="display: none;">
+            <p class="lead">No se encontraron Cursos.</p>
+        </div>
+    </div>
+    
+    <!-- Sección de Publicaciones -->
+    <div class="container my-5" id="seccionPublicaciones">
+        <h1 class="mb-4" id="tituloSeccionPublicaciones">Mis Publicaciones</h1>
+        <div class="card-container row" id="card-container-publicaciones"></div>
+        <div class="d-flex justify-content-between my-4">
+            <button class="btn btn-secondary" id="btnVentas">Ver Ventas</button>
+        </div>
+        <div id="no-results-publicaciones" class="text-center" style="display: none;">
+            <p class="lead">No se encontraron Publicaciones.</p>
+        </div>
+    </div>
+    
+        
+
+
+        <footer id="idFin">
+            <h5>LMAD - BDM</h5>
+            <p>1900171 Magdala Shania Quiroz González</p>
+            <p>1828596 Bryan Edgardo Pardo Alejo</p>
+            <p>1931952 Mariana Abigail Miranda González</p>
+            <p>2034232 Carlos Alejandro Segovia Romero</p>        
+        </footer>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AbzVKAU35LH6PZd7bsCMWJkB6M1ea_utScWyXhfli8HtarE0CX0RoR6MHeRlhbenBaYWlem_T1qkvnd8&currency=USD"></script>
+        <script>
+        // Configuración del botón de PayPal
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: '0.01'  // Monto de la compra
+                        }
+                    }]
+                });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Pago realizado con éxito por ' + details.payer.name.given_name);
+                });
+            }
+        }).render('#paypal-button-container');
+    </script>
+
+</body>
+</html>

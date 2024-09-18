@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+       <title>Nombre del Curso</title> 
+
+       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+       <link rel="stylesheet" href="css/styleDemo.css">
+       <link rel="stylesheet" href="css/Footer.css">
+       <link rel="stylesheet" href="css/Navbar.css">
+
+    </head>
+
+    <body>
+        <div id="idNav">
+            <nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3 mb-5 fixed-top">
+                <div class="container-fluid">
+                    <a class="navbar-brand" id="enlaceTitular" href="main.html">Wowie</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <div class="mx-auto d-flex flex-grow-1 justify-content-center">
+                            <form class="d-flex" id="formularioBusqueda">
+                                <input class="form-control me-2" id="inputBuscador" type="search" placeholder="Buscar cursos..." aria-label="Search" required>
+                                <div class="dropdown me-2">
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filtroBusqueda" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Filtro de búsqueda
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="filtroBusqueda">
+                                        <li>
+                                            <select class="form-select" id="campoCategoria" aria-label="Categoría">
+                                                <option selected disabled value="">Categorías</option>
+                                                <option value="programacion">Programación</option>
+                                                <option value="diseño">Diseño</option>
+                                                <option value="negocios">Negocios</option>
+                                            </select>
+                                        </li>
+                                        <br>
+                                        <li>
+                                            <select class="form-select" id="campoEstrellas" aria-label="Calificación">
+                                                <option value="">Calificación</option>
+                                                <option value="1">1 Estrella</option>
+                                                <option value="2">2 Estrellas</option>
+                                                <option value="3">3 Estrellas</option>
+                                                <option value="4">4 Estrellas</option>
+                                                <option value="5">5 Estrellas</option>
+                                            </select>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button id="btnBuscar" type="submit" class="btn btn-primary">Buscar</button>
+                            </form>
+                        </div>
+                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="misCursos.html">Mis Cursos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="Cursos.html">Cursos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="perfilUsuario.html">Mi Perfil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="mensajes.html">Mensajes</a>
+                            </li>
+        
+                            <!-- Dropdown Carrito de Compras -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="carritoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Carrito
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="carritoDropdown" style="width: 400px; max-height: 400px; overflow-y: auto;">
+                                    <li>
+                                        <form id="payment-form">        
+                                            <h5>Pago del Carrito</h5>
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Producto</th>
+                                                        <th>Precio</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Subtotal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="carrito-body">
+                                                    <!-- Aquí se agregarán los productos -->
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="3" class="text-end">Total:</td>
+                                                        <td id="total">$0.00</td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            <div id="paypal-button-container"></div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+        
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html?accion=logout" tabindex="-1" aria-disabled="true">Cerrar Sesión</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <br>
+        <div class="sidebar">
+            <h2>Contenidos del Curso</h2>
+            <ul>
+                <div class="course-contents">
+                    <button class="accordion">Curso Básico</button>
+                    <div class="panel">
+                        <div class="panel-content">
+                            <h3>Temario:</h3>
+                            <ul>
+                                <li>Introducción a la programación</li>
+                                <li>Tipos de datos y variables</li>
+                                <li>Estructuras de control</li>
+                                <li>Funciones básicas</li>
+                                <li>Prácticas y ejercicios</li>
+                            </ul>
+                        </div>
+                    </div>
+            
+                    <button class="accordion">Curso Intermedio</button>
+                    <div class="panel">
+                        <div class="panel-content">
+                            <h3>Temario:</h3>
+                            <ul>
+                                <li>Estructuras de datos avanzadas</li>
+                                <li>Programación orientada a objetos</li>
+                                <li>Manejo de archivos</li>
+                                <li>Interacción con bases de datos</li>
+                                <li>Prácticas y ejercicios</li>
+                            </ul>
+                        </div>
+                    </div>
+            
+                    <button class="accordion">Curso Avanzado</button>
+                    <div class="panel">
+                        <div class="panel-content">
+                            <h3>Temario:</h3>
+                            <ul>
+                                <li>Patrones de diseño</li>
+                                <li>Optimización de código</li>
+                                <li>Seguridad en aplicaciones</li>
+                                <li>Introducción a la Inteligencia Artificial</li>
+                                <li>Prácticas y ejercicios</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </ul>
+        </div>
+        
+        <div class="main-content">
+            <div class="video-section">
+                <video controls>
+                    <source src="Recursos/videotuto.mp4" type="video/mp4">
+                    Tu navegador no soporta la reproducción de videos.
+                </video>
+            </div>
+        
+        
+            <div class="additional-resources">
+                <h3>Recursos</h3>
+                <ul>
+                    <li><a href="#">Libros PDF</a></li>
+                    <li><a href="#">Ejercicios</a></li>
+                    <li><a href="#">Información extra</a></li>
+                </ul>
+        
+                <h3>Notas</h3>
+                <textarea placeholder="Escribe una nota..."></textarea>
+        
+                <h3>Calificación</h3>
+                <div class="rating-section">
+                    <label for="rating">Calificación (1-5):</label>
+                    <input type="number" id="rating" name="rating" min="1" max="5" placeholder="5">
+                </div>
+        
+                <button type="button" class="submit-btn">Enviar nota/comentario</button>
+            </div>
+        </div>
+    
+    <footer id="idFin">
+        <h5>LMAD - BDM</h5>
+        <p>1900171 Magdala Shania Quiroz González</p>
+        <p>1828596 Bryan Edgardo Pardo Alejo</p>
+        <p>1931952 Mariana Abigail Miranda González</p>
+        <p>2034232 Carlos Alejandro Segovia Romero</p> 
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AbzVKAU35LH6PZd7bsCMWJkB6M1ea_utScWyXhfli8HtarE0CX0RoR6MHeRlhbenBaYWlem_T1qkvnd8&currency=USD"></script>
+    <script>
+    // Configuración del botón de PayPal
+    paypal.Buttons({
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '0.01'  // Monto de la compra
+                    }
+                }]
+            });
+        },
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                alert('Pago realizado con éxito por ' + details.payer.name.given_name);
+            });
+        }
+    }).render('#paypal-button-container');
+    </script>
+
+    <script>
+    // Lógica de funcionamiento del acordeón
+    document.addEventListener("DOMContentLoaded", function() {
+    var acc = document.getElementsByClassName("accordion");
+    for (var i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+});
+    
+    </script>
+
+
+</body>
+</html>

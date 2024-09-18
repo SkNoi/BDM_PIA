@@ -1,0 +1,132 @@
+/* Contenedor principal */
+.container {
+    display: flex;
+    height: 100vh; /* Asegura que el contenedor cubra toda la altura de la pantalla */
+
+}
+
+/* Sidebar */
+.sidebar {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: 0;
+    top: 50%; /* Posiciona la parte superior de la barra lateral en el centro vertical de la pantalla */
+    transform: translateY(-50%); /* Ajusta la barra lateral para que esté centrada verticalmente */
+    height: auto; /* Permite que la altura sea automática según el contenido */
+    overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es más largo que la altura visible */
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 20%; /* Asegura que el contenido principal comience después de la barra lateral */
+    padding: 20px;
+    width: 80%;
+}
+
+/* Video section styles */
+.video-section video {
+    width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+/* Accordion button styles */
+.accordion {
+    background-color: #B39DDB;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.accordion:hover {
+    background-color: #715aff;
+}
+
+/* Accordion panel styles */
+.panel {
+    display: none;
+    overflow: hidden;
+}
+
+.panel-content {
+    padding: 10px;
+}
+
+/* Course contents */
+.course-contents h3 {
+    margin-top: 0;
+}
+
+.course-contents ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.course-contents ul li {
+    padding: 5px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Additional resources */
+.additional-resources {
+    margin-top: 20px;
+}
+
+.additional-resources h3 {
+    margin-top: 0;
+}
+
+.additional-resources ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.additional-resources ul li {
+    padding: 5px 0;
+}
+
+.additional-resources textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.rating-section {
+    margin-bottom: 20px;
+}
+
+.rating-section label {
+    margin-right: 10px;
+}
+
+.submit-btn {
+    background-color: #4527A0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submit-btn:hover {
+    background-color: #311B92;
+}
