@@ -12,7 +12,7 @@ function iniciosession(){
         
     } else{
 
-        window.location.href = "main.html";
+        window.location.href = "Principal.html";
         return false;
 
 	}

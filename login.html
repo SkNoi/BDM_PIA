@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">    
+
+    <title>Login/Wowie</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styleLogin.css">
+    <link rel="stylesheet" href="css/Footer.css">
+    
+</head>
+<body>
+
+    <header id="idInicio" class="text-center mb-4">         
+        <h1>Wowie</h1>
+    </header>
+
+    <div class="header">
+        
+    <h1>Bienvenidos a Wowie</h1>
+    <h2>Cursos para todas las edades</h2>
+
+    </div>
+        
+
+    <div class="container">
+        <form id="Login" action="main.html" method="POST" onsubmit="return iniciosession()">
+            <div class="usuario">
+                <h3>LOGIN</h3>
+                <div>
+                    <input type="email" name="txtemail" id="email" placeholder="Correo electrónico" required>
+                    <br>
+                    <input type="password" name="txtpass" id="password" placeholder="Contraseña">
+                    <br>
+                </div>
+                <input type="submit" value="Iniciar Sesión">
+            </div>
+        </form>
+    
+        <div class="register-section">
+            <p>¿No tienes cuenta?</p>
+            <a href="Registro.html" class="btn">Regístrate aquí</a>
+        </div>
+    </div>
+
+    <footer id="idFin">
+        <h5>LMAD - BDM</h5>
+        <p>1900171 Magdala Shania Quiroz González</p>
+        <p>1828596 Bryan Edgardo Pardo Alejo</p>
+        <p>1931952 Mariana Abigail Miranda González</p>
+        <p>2034232 Carlos Alejandro Segovia Romero</p>        
+    </footer>
+
+
+     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+     
+     <script type="text/javascript" src="js/inicio_session.js"></script>
+
+
+</body>
+</html>

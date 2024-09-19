@@ -1,0 +1,62 @@
+.editar-kardex {
+    padding: 20px;
+    background-color: #F5F5F5; /* Fondo general para que el kardex resalte */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: auto;
+    margin-top: 100px;
+}
+
+.kardex {
+    background-color: #FFFFFF; /* Fondo blanco para el kardex */
+    border-radius: 10px;
+    overflow: hidden;
+    
+}
+
+.kardex-header {
+    background-color: #B39DDB; /* Color principal */
+    color: #FFFFFF; /* Texto blanco */
+    padding: 20px;
+    text-align: center;
+}
+
+.kardex-header h1 {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.kardex-header p {
+    margin: 10px 0 0;
+    font-size: 1.2rem;
+}
+
+.kardex-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.kardex-table th, .kardex-table td {
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.kardex-table th {
+    background-color: #B39DDB; /* Color principal para el encabezado de la tabla */
+    color: #FFFFFF; /* Texto blanco */
+    font-size: 1.1rem;
+}
+
+.kardex-table td {
+    background-color: #FAFAFA; /* Color de fondo para las celdas */
+}
+
+.kardex-table tr:nth-child(even) td {
+    background-color: #F0F0F0; /* Color alternativo para las filas pares */
+}
+
+.kardex-table tr:hover td {
+    background-color: #E0E0E0; /* Color de fondo al pasar el mouse */
+}

@@ -16,7 +16,7 @@
     <div id="idNav"></div>
         <nav class="navbar navbar-expand-lg navbar-light shadow-lg p-3 mb-5 fixed-top">
             <div class="container-fluid">
-                <a class="navbar-brand" id="enlaceTitular" href="main.html">Wowie</a>
+                <a class="navbar-brand" id="enlaceTitular" href="Principal.html">Wowie</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -55,7 +55,7 @@
                     </div>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" href="misCursos.html">Mis Cursos</a>
+                            <a class="nav-link active" href="kardex.html">Kardex</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="Cursos.html">Cursos</a>
@@ -257,7 +257,10 @@
         <h1 class="mb-4" id="tituloSeccionPublicaciones">Mis Publicaciones</h1>
         <div class="card-container row" id="card-container-publicaciones"></div>
         <div class="d-flex justify-content-between my-4">
-            <button class="btn btn-secondary" id="btnVentas">Ver Ventas</button>
+            <button class="btn btn-secondary" id="btnVentas" onclick="window.location.href='Ventas.html'">Ver Ventas</button>
+        </div>
+        <div class="d-flex justify-content-between my-4"></div>
+            <button class="btn btn-secondary" id="btnCrear" onclick="window.location.href='crearCursos.html'">Crear Curso</button>
         </div>
         <div id="no-results-publicaciones" class="text-center" style="display: none;">
             <p class="lead">No se encontraron Publicaciones.</p>
@@ -298,6 +301,7 @@
             }
         }).render('#paypal-button-container');
     </script>
+    
 
 </body>
 </html>
