@@ -50,7 +50,7 @@
                                     </li>
                                 </ul>
                             </div>
-                            <button id="btnBuscar" type="submit" class="btn btn-primary">Buscar</button>
+                            <button id="btnBuscar" type="button" class="btn btn-primary" onclick="window.location.href='Busquedas.html'">Buscar</button>
                         </form>
                     </div>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -110,6 +110,7 @@
         </nav>
     </div>
     
+    <div class="wrapper">
     <div class="message-container">
         <div class="message-header">
             <h2>Conversación</h2>
@@ -122,12 +123,16 @@
         </div>
         <div class="message-box" id="message-box">
             <!-- Mensajes se agregarán aquí dinámicamente -->
+            <div class="message sent">Hola, ¿cómo estás?</div>
+            <div class="message received">¡Hola! Estoy bien, ¿y tú?</div>
+            <div class="message sent">¡También bien!</div>
         </div>
         <div class="message-input">
             <textarea id="message-input" placeholder="Escribe tu mensaje..."></textarea>
             <button onclick="sendMessage()">Enviar</button>
         </div>
     </div>
+</div>
     
     <footer id="idFin">
         <h5>LMAD - BDM</h5>

@@ -1,13 +1,50 @@
-body {
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    padding-top: 60px; /* Ajustar según el tamaño del navbar */
-    padding-bottom: 60px; /* Ajustar según el tamaño del footer */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
+    flex-direction: column;
 }
+
+.wrapper {
+    flex: 1;
+    width: 100%;
+}
+
+.message-container {
+    width: 90%;
+    max-width: 800px;
+    height: 80vh;
+    background-color: #fff;
+    margin: auto; /* Esto centrará verticalmente */
+}
+
+
+
+.message {
+    max-width: 70%; /* Ancho máximo de los mensajes para que no ocupen todo el contenedor */
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+    line-height: 1.4;
+    word-wrap: break-word; /* Permite que las palabras largas se rompan */
+}
+
+.sent {
+    align-self: flex-end; /* Alinea a la derecha */
+    background-color: aliceblue; /* Color para los mensajes enviados */
+    color: black;
+    border-radius: 10px 10px 0 10px; /* Esquinas redondeadas */
+}
+
+.received {
+    align-self: flex-start; /* Alinea a la izquierda */
+    background-color: #b699ff; /* Color para los mensajes recibidos */
+    color: black;
+    border-radius: 10px 10px 10px 0; /* Esquinas redondeadas */
+}
+
 
 .message-container {
     width: 90%;
@@ -20,8 +57,10 @@ body {
     height: 80vh;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden; /* Asegura que el contenedor no se desborde */
-    margin-top: 50px;
-
+    margin-top: 100px;
+    margin-bottom: 50px;
+    height: auto; /* Permite que el contenido crezca basado en su contenido */
+    min-height: 80vh; /* Asegura que siempre ocupe un mínimo del 80% de la altura */    
 }
 
 .message-header {
@@ -43,6 +82,11 @@ body {
     overflow-y: auto;
     border-bottom: 1px solid #ccc;
     background-color: #e3d8ff;
+    min-height: 200px; /* Asegura un tamaño mínimo */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Espacio entre los mensajes */
+    
 }
 
 .message-input {

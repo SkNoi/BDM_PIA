@@ -50,7 +50,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <button id="btnBuscar" type="submit" class="btn btn-primary">Buscar</button>
+                                <button id="btnBuscar" type="button" class="btn btn-primary" onclick="window.location.href='Busquedas.html'">Buscar</button>
                             </form>
                         </div>
                         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -112,52 +112,53 @@
         
         <br>
 
-        <div class="editar-kardex">
-            <div class="kardex">
-                <header class="kardex-header">
-                    <h1>Kardex Académico</h1>
-                    <p>Nombre del Estudiante: <strong>Max Petrikov</strong></p>
-                </header>
-                
-                <table class="kardex-table">
-                    <thead>
-                        <tr>
-                            <th>Curso</th>
-                            <th>Calificación</th>
-                            <th>Créditos</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Curso uno</td>
-                            <td>00</td>
-                            <td>00</td>
-                        </tr>
-                        <tr>
-                            <td>Curso dos</td>
-                            <td>00</td>
-                            <td>00</td>
-                        </tr>
-                        <tr>
-                            <td>Curso tres</td>
-                            <td>00</td>
-                            <td>00</td>
-                        </tr>
-                        <!-- Agregar más filas según sea necesario -->
-                    </tbody>
-                </table>
+        <div class="wrapper">
+            <div class="editar-kardex">
+                <div class="kardex">
+                    <header class="kardex-header">
+                        <h1>Kardex Académico</h1>
+                        <p>Nombre del Estudiante: <strong>Max Petrikov</strong></p>
+                    </header>
+                    
+                    <table class="kardex-table">
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Calificación</th>
+                                <th>Créditos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Curso uno</td>
+                                <td>00</td>
+                                <td>00</td>
+                            </tr>
+                            <tr>
+                                <td>Curso dos</td>
+                                <td>00</td>
+                                <td>00</td>
+                            </tr>
+                            <tr>
+                                <td>Curso tres</td>
+                                <td>00</td>
+                                <td>00</td>
+                            </tr>
+                            <!-- Agregar más filas según sea necesario -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-        
-        
-        <footer id="idFin">
-            <h5>LMAD - BDM</h5>
-            <p>1900171 Magdala Shania Quiroz González</p>
-            <p>1828596 Bryan Edgardo Pardo Alejo</p>
-            <p>1931952 Mariana Abigail Miranda González</p>
-            <p>2034232 Carlos Alejandro Segovia Romero</p>    
-        </footer>
     
+        <!-- Footer debe estar fuera del wrapper -->
+        <footer id="idFin">
+            LMAD - BDM
+            <br>1900171 Magdala Shania Quiroz González
+            <br>1828596 Bryan Edgardo Pardo Alejo
+            <br>1931952 Mariana Abigail Miranda González
+            <br>2034232 Carlos Alejandro Segovia Romero
+        </footer>
         
     
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

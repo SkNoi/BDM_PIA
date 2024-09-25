@@ -3,7 +3,7 @@ body {
 }
 
 #idFin {
-  position: fixed;
+  position: relative;
   background-color: #6A1B9A;
   color: white;
   text-align: center;
