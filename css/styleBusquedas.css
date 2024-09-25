@@ -1,9 +1,26 @@
 /* Ajustes generales */
-body {
-    height: 100vh;
+html, body {
+    height: 100%;
     margin: 0;
     display: flex;
     flex-direction: column;
+}
+
+.wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 60px); /* 60px puede ser la altura de tu navbar */
+}
+
+
+/* Estilo general para el footer */
+footer {
+    background-color: #f8f9fa; /* Color de fondo del footer */
+    text-align: center; /* Centrar el texto */
+    padding: 20px; /* Espaciado interno */
+    width: 100%; /* Asegura que el footer ocupe el ancho completo */
+    position: relative; /* Cambia a fixed si aún no se mantiene en la parte inferior */
 }
 
 /* Título */
@@ -16,7 +33,7 @@ h1 {
 
 /* Contenedor principal */
 #contenedorPrincipal {
-    flex-grow: 1;
+    flex-grow: 1; /* Permite que el contenedor crezca */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -85,24 +102,6 @@ h1 {
     background-color: #311B92;
 }
 
-/* Estilo para el enlace de productos */
-#enlaceProducto {
-    display: inline-block;
-    padding: 10px 20px;
-    margin: 0 20px;
-    background-color: #007BFF;
-    color: #ffffff;
-    text-decoration: none;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-#enlaceProducto:hover {
-    background-color: #0162c9;
-}
-
 /* Estilo para cuando no se encuentran resultados */
 #no-results {
     font-size: 1.25rem;
@@ -110,5 +109,3 @@ h1 {
     text-align: center;
     margin-top: 20px;
 }
-
-
