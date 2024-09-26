@@ -54,10 +54,19 @@ function SignUp(event) {
         return false; // Evita que se envíe el formulario
     }
 
-    alert('Registro exitoso');
-    window.location.href = 'index.html';
-    return true;
+    const userData = {
+        nombre: nombre,
+        email: email,
+        password: password,  // En un sistema real, nunca almacenarías contraseñas sin encriptarlas
+        genero: genero,
+        fechaNacimiento: fechaNacimiento
+    };
     
+    localStorage.setItem('userData', JSON.stringify(userData));
+    
+    alert('Registro exitoso');
+    window.location.href = 'login.html';
+    return true;    
 }
 
 
@@ -71,4 +80,3 @@ function containsSpecialChar(password) {
     const specialChars = /[¡”#$%&/=’?¡¿:;,.\-_+*{\[\]}]/;
     return specialChars.test(password);
 }
-
