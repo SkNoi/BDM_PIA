@@ -1,3 +1,15 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.wrapper {
+    flex: 1; /* Esto permite que el contenido ocupe todo el espacio restante disponible */
+}
+
+
 .container {
     margin-top: 100px;
 }
