@@ -47,7 +47,7 @@ html, body {
 /* Contenedor del carrusel */
 .carousel {
     width: 60%; /* Reduce el ancho del carrusel */
-    max-width: 600px; /* Ajusta el ancho máximo */
+    max-width: 900px; /* Ajusta el ancho máximo */
     margin: 0 auto; /* Centra el carrusel en la página */
     overflow: hidden;
     border-radius: 10px;
