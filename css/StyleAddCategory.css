@@ -1,0 +1,127 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4; /* Fondo neutro */
+    margin: 0;
+    padding: 0;
+    color: #333333; /* Texto general */
+    display: flex; /* Modo flex para el sidebar */
+}
+
+h1 {
+    background-color: #B699FF; /* Color principal */
+    color: white; /* Texto blanco */
+    padding: 20px;
+    text-align: center;
+}
+
+#sidebar {
+    background-color: #B699FF;
+    min-width: 200px;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#sidebar h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+#sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#sidebar a:hover {
+    background-color: #A073E0; /* Color de fondo al pasar el mouse */
+}
+
+#main-content {
+    flex: 1; /* Ocupa el espacio restante */
+    padding: 20px; /* Espaciado alrededor del contenido */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Ancho del formulario */
+    margin: 20px auto; /* Margen automático para centrar */
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+form label {
+    margin-bottom: 10px;
+    color: #333333; /* Color del texto del label */
+}
+
+form input {
+    padding: 8px;
+    margin-bottom: 15px; /* Espaciado inferior */
+    border: 1px solid #CCCCCC;
+    border-radius: 5px; /* Bordes redondeados para input */
+}
+
+form button {
+    background-color: #B699FF;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+form button:hover {
+    background-color: #A073E0; /* Tono más oscuro al pasar el mouse */
+}
+
+table {
+    width: 100%; /* Ancho completo de la tabla */
+    border-collapse: collapse;
+    margin: 20px auto; /* Centra la tabla y añade margen */
+}
+
+table, th, td {
+    border: 1px solid #CCCCCC; /* Bordes ligeros */
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #B699FF; /* Encabezados de tabla */
+    color: white;
+}
+
+ul {
+    padding-left: 20px;
+}
+
+ul li {
+    margin-bottom: 10px;
+    background-color: #F4F4F4;
+    padding: 10px;
+    border-left: 5px solid #B699FF; /* Barra izquierda */
+    border-radius: 5px;
+}
+
+ul li button {
+    background-color: #FF6B6B; /* Botón para eliminar comentarios */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+ul li button:hover {
+    background-color: #E05858; /* Color de fondo al pasar el mouse */
+}

@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #F4F4F4; /* Fondo neutro */
+    margin: 0;
+    padding: 0;
+    color: #333333; /* Texto general */
+    display: flex; /* Asegúrate de que el body esté en modo flex para el sidebar */
+}
+
+h1 {
+    background-color: #B699FF; /* Color principal */
+    color: white; /* Texto blanco */
+    padding: 20px;
+    text-align: center;
+}
+
+/* Estilo del sidebar */
+#sidebar {
+    background-color: #B699FF;
+    min-width: 200px;
+    height: 100vh;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#sidebar h2 {
+    color: white;
+    margin-bottom: 30px;
+}
+
+#sidebar a {
+    color: white;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+#sidebar a:hover {
+    background-color: #A073E0; /* Color de fondo al pasar el mouse */
+}
+
+/* Contenido principal */
+.wrapper {
+    flex: 1; /* Esto permite que el contenido ocupe todo el espacio restante disponible */
+    padding: 20px; /* Espacio alrededor del contenido */
+}
+
+.container {
+    background-color: white; /* Fondo blanco para los contenedores */
+    border-radius: 5px; /* Bordes redondeados */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 20px; /* Espaciado interno */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+.filtros {
+    margin-top: 20px; /* Ajusta según la altura de tu navbar */
+    padding: 20px; /* Espacio adicional si es necesario */
+}
+
+.filtros label {
+    margin-right: 10px;
+}
+
+.filtros input,
+.filtros select {
+    margin-right: 10px;
+}
+
+/* Estilo de la tabla */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Espaciado superior de la tabla */
+}
+
+.table th,
+.table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.table th {
+    background-color: #B39DDB; /* Color de fondo de los encabezados */
+    color: white; /* Texto blanco en encabezados */
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f2f2f2; /* Fondo gris claro en filas pares */
+}
+
+.table tbody tr:hover {
+    background-color: #ddd; /* Fondo gris oscuro al pasar el mouse */
+}
+
+/* Enlace para volver al panel */
+a[href="PrincipalAdmin.html"] {
+    display: block; /* Hace que el enlace ocupe todo el ancho */
+    margin-top: 20px; /* Margen superior para separación */
+    text-decoration: none; /* Sin subrayado */
+    color: #B699FF; /* Color del enlace */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    text-align: center; /* Centra el texto */
+    background-color: white; /* Fondo blanco */
+    transition: background 0.3s; /* Transición suave al pasar el mouse */
+}
+
+a[href="PrincipalAdmin.html"]:hover {
+    background-color: #E3E3E3; /* Color de fondo al pasar el mouse */
+}
