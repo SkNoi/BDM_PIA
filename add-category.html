@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Categorías</title>
+    <link rel="stylesheet" href="css/StyleAddCategory.css">
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Panel de Administración</h2>
+        <a href="block-users.html">Bloquear/Desbloquear Usuarios</a>
+        <a href="moderate-comments.html">Eliminar Comentarios Ofensivos</a>
+        <a href="add-category.html">Registrar Categorías</a>
+        <a href="view-reports.html">Ver Reportes</a>
+        <a href="index.html?accion=logout">Cerrar Sesión</a>
+    </div>
+
+    <div id="main-content">
+        <h1>Añadir Categoría</h1>
+        <form>
+            <label for="category-name">Nombre de la Categoría:</label>
+            <input type="text" id="category-name" placeholder="Introduce el nombre de la categoría" required>
+            <button type="submit">Añadir Categoría</button>
+        </form>
+        <h2>Categorías Existentes</h2>
+        <ul>
+            <li>Categoría 1 <button>Eliminar</button></li>
+            <li>Categoría 2 <button>Eliminar</button></li>
+        </ul>
+    </div>
+    <a href="PrincipalAdmin.html">Volver al Panel</a>
+</body>
+</html>

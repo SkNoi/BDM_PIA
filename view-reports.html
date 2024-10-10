@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Reportes</title>
+    <link rel="stylesheet" href="css/StyleReporte.css">
+</head>
+<body>
+
+    <div id="sidebar">
+        <h2>Panel de Administración</h2>
+        <a href="block-users.html">Bloquear/Desbloquear Usuarios</a>
+        <a href="moderate-comments.html">Eliminar Comentarios Ofensivos</a>
+        <a href="add-category.html">Registrar Categorías</a>
+        <a href="view-reports.html">Ver Reportes</a>
+        <a href="index.html?accion=logout">Cerrar Sesión</a>
+    </div>
+
+    <div class="wrapper">
+        <div class="container my-4">
+            <h2>Filtros</h2>
+            <div class="filtros">
+                <label for="tipoUsuario">Tipo de Usuario:</label>
+                <select id="tipoUsuario" onchange="cambiarTipoUsuario()">
+                    <option value="">Seleccionar...</option>
+                    <option value="instructor">Instructor</option>
+                    <option value="estudiante">Estudiante</option>
+                </select>
+
+                <label for="estado">Estado:</label>
+                <select id="estado">
+                    <option value="">Todos</option>
+                    <option value="activo">Activos</option>
+                    <option value="inactivo">Inactivos</option>
+                </select>
+
+                <button onclick="aplicarFiltros()">Aplicar Filtros</button>
+            </div>
+        </div>
+
+        <div class="container my-4">
+            <h2>Reporte de Usuarios</h2>
+            <table class="table">
+                <thead id="tabla-encabezados">
+                    <tr>
+                        <!-- Las columnas se llenarán dinámicamente -->
+                    </tr>
+                </thead>
+                <tbody id="tabla-usuarios">
+                    <!-- Filas generadas dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="PrincipalAdmin.html">Volver al Panel</a>
+</body>
+</html>

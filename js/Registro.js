@@ -16,8 +16,7 @@ function previewImage(event) {
     }
 }
 
-function SignUp(event) {
-
+function SignUp(event) { 
     event.preventDefault();
     
     let nombre = document.getElementById('usuario').value;
@@ -25,6 +24,7 @@ function SignUp(event) {
     let password = document.getElementById('contrasena').value;
     let genero = document.getElementById('genero').value;
     let fechaNacimiento = document.getElementById('fecha-nacimiento').value;
+    let rol = document.querySelector('input[name="rol"]:checked');
     let imagen = document.getElementById('foto').files[0];
 
     let errorElement = document.getElementById('error');
@@ -32,51 +32,53 @@ function SignUp(event) {
 
     let errores = [];
 
+    // Validaciones de campos vacíos
     if (nombre === '') errores.push('El nombre es obligatorio');
     if (email === '') errores.push('El correo es obligatorio');
     if (password === '') errores.push('La contraseña es obligatoria');
     if (genero === '') errores.push('El género es obligatorio');
     if (fechaNacimiento === '') errores.push('La fecha de nacimiento es obligatoria');
+    if (!rol) errores.push('Debes seleccionar un rol');
     if (!validation(email)) errores.push('El correo no es válido');
     
+    // Validar si se ha subido una imagen
     if (!imagen) {
-        errores.push('Debes subir una imagen'); // Agregar mensaje de error
+        errores.push('Debes subir una imagen');
     }
 
-    if (!validation(email)) errores.push('El correo no es válido');
+    // Validación de contraseña usando una expresión regular más robusta
+    let expresionRegular = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#\$%&/='?¡¿:;,.\\-_+*{\[\]}]).{8,}$/;
+    if (!expresionRegular.test(password)) {
+        errores.push('La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial');
+    }
 
-    if (password.length < 6) errores.push('La contraseña debe tener al menos 6 caracteres');
-    if (!containsSpecialChar(password)) errores.push('La contraseña debe contener al menos un carácter especial: ¡”#$%&/=’?¡¿:;,.-_+*{][}');
-
+    // Si hay errores, mostrarlos
     if (errores.length > 0) {
         errorElement.innerHTML = errores.join('<br>');
         errorElement.style.display = 'block'; // Mostrar el contenedor de errores
         return false; // Evita que se envíe el formulario
     }
 
+    // Simular el almacenamiento del usuario en localStorage (en un proyecto real, envías esta información al servidor)
     const userData = {
         nombre: nombre,
         email: email,
         password: password,  // En un sistema real, nunca almacenarías contraseñas sin encriptarlas
         genero: genero,
-        fechaNacimiento: fechaNacimiento
+        fechaNacimiento: fechaNacimiento,
+        rol: rol.value 
     };
     
     localStorage.setItem('userData', JSON.stringify(userData));
     
     alert('Registro exitoso');
-    window.location.href = 'login.html';
+    window.location.href = 'login.html'; // Redirigir a la página de login
     return true;    
 }
 
-
+// Validar formato de correo electrónico
 function validation(email) {
     const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
     return re.test(email);
-
 }
 
-function containsSpecialChar(password) {
-    const specialChars = /[¡”#$%&/=’?¡¿:;,.\-_+*{\[\]}]/;
-    return specialChars.test(password);
-}
