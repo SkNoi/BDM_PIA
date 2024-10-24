@@ -1,3 +1,26 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Escuchar cambios en los checkboxes de rol
+    const roles = document.querySelectorAll('input[name="rol"]');
+    roles.forEach(role => {
+        role.addEventListener('change', toggleCuentaBancaria);
+    });
+
+    // Llamar a la función una vez para asegurar el estado inicial
+    toggleCuentaBancaria();
+});
+
+function toggleCuentaBancaria() {
+    const cuentaBancariaContainer = document.getElementById('cuenta-bancaria-container');
+    const rol = document.querySelector('input[name="rol"]:checked');
+
+    // Mostrar el campo de cuenta bancaria si el rol es "Instructor"
+    if (rol && rol.value === 'Instructor') {
+        cuentaBancariaContainer.style.display = 'block';
+    } else {
+        cuentaBancariaContainer.style.display = 'none';
+    }
+}
+
 function previewImage(event) {
     const preview = document.getElementById('preview');
     const file = event.target.files[0];
@@ -16,64 +39,61 @@ function previewImage(event) {
     }
 }
 
-function SignUp(event) { 
-    event.preventDefault();
-    
-    let nombre = document.getElementById('usuario').value;
-    let email = document.getElementById('correo').value;
-    let password = document.getElementById('contrasena').value;
-    let genero = document.getElementById('genero').value;
-    let fechaNacimiento = document.getElementById('fecha-nacimiento').value;
-    let rol = document.querySelector('input[name="rol"]:checked');
-    let imagen = document.getElementById('foto').files[0];
+function SignUp(event) {
+    event.preventDefault();  // Evitar que el formulario se envíe automáticamente
 
-    let errorElement = document.getElementById('error');
-    errorElement.innerHTML = '';
+    const nombre = document.getElementById('usuario');
+    const email = document.getElementById('correo');
+    const password = document.getElementById('contrasena');
+    const genero = document.getElementById('genero');
+    const fechaNacimiento = document.getElementById('fecha-nacimiento');
+    const rol = document.querySelector('input[name="rol"]:checked');
+    const cuentaBancaria = document.getElementById('cuenta-bancaria').value;
+    const imagen = document.getElementById('foto'); // Aquí aseguramos que el input exista
 
-    let errores = [];
-
-    // Validaciones de campos vacíos
-    if (nombre === '') errores.push('El nombre es obligatorio');
-    if (email === '') errores.push('El correo es obligatorio');
-    if (password === '') errores.push('La contraseña es obligatoria');
-    if (genero === '') errores.push('El género es obligatorio');
-    if (fechaNacimiento === '') errores.push('La fecha de nacimiento es obligatoria');
-    if (!rol) errores.push('Debes seleccionar un rol');
-    if (!validation(email)) errores.push('El correo no es válido');
-    
-    // Validar si se ha subido una imagen
-    if (!imagen) {
-        errores.push('Debes subir una imagen');
+    // Verificamos si se ha seleccionado un archivo
+    if (imagen.files.length === 0) {
+        alert("Por favor, sube una imagen.");
+        return;
     }
 
-    // Validación de contraseña usando una expresión regular más robusta
-    let expresionRegular = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#\$%&/='?¡¿:;,.\\-_+*{\[\]}]).{8,}$/;
-    if (!expresionRegular.test(password)) {
-        errores.push('La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial');
+    const formData = new FormData();
+    formData.append('usuario', nombre.value); // Cambiado a 'usuario'
+    formData.append('correo', email.value);
+    formData.append('contrasena', password.value); // Cambiado a 'contrasena'
+    formData.append('genero', genero.value); // Cambiado a 'genero'
+    formData.append('fecha-nacimiento', fechaNacimiento.value); // Cambiado a 'fecha-nacimiento'
+    formData.append('rol', rol.value);
+    formData.append('foto', imagen.files[0]); // Cambiado a 'foto'
+
+    if (rol.value === 'Instructor') {
+        formData.append('cuentaBancaria', cuentaBancaria);
     }
 
-    // Si hay errores, mostrarlos
-    if (errores.length > 0) {
-        errorElement.innerHTML = errores.join('<br>');
-        errorElement.style.display = 'block'; // Mostrar el contenedor de errores
-        return false; // Evita que se envíe el formulario
-    }
-
-    // Simular el almacenamiento del usuario en localStorage (en un proyecto real, envías esta información al servidor)
-    const userData = {
-        nombre: nombre,
-        email: email,
-        password: password,  // En un sistema real, nunca almacenarías contraseñas sin encriptarlas
-        genero: genero,
-        fechaNacimiento: fechaNacimiento,
-        rol: rol.value 
-    };
-    
-    localStorage.setItem('userData', JSON.stringify(userData));
-    
-    alert('Registro exitoso');
-    window.location.href = 'login.html'; // Redirigir a la página de login
-    return true;    
+    fetch("Models/Usuario.php", {
+        method: "POST",
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error en la red');
+        }
+        return response.json(); // Esto funcionará correctamente ahora
+    })
+    .then(data => {
+        console.log('Respuesta del servidor:', data);
+        if (data.success) {
+            // Manejar el éxito del registro
+            alert(data.message);
+            window.location.href = 'login.html'; // Redirigir al login o a otra página
+        } else {
+            // Manejar errores
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }
 
 // Validar formato de correo electrónico

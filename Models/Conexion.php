@@ -2,7 +2,7 @@
 class Conexion {
     // Atributos
     private $host = "localhost";
-    private $baseDatos = "Proyecto_BDM";
+    private $baseDatos = "BDM_PIA";
     private $usuario = "root";
     private $contrasena = "";
     private $puerto = "3307";

@@ -80,17 +80,41 @@ img {
     margin-left: 50px;
 }
 
-.error-message {
-    color: red;
-    font-size: 1rem;
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid red;
-    border-radius: 5px;
-    background-color: #fdd;
-    max-height: 200px;
-    overflow-y: auto;
-    display: none;
+/* Estilos para el contenedor del campo de cuenta bancaria */
+#cuenta-bancaria-container {
+    margin-top: 15px; /* Espaciado superior */
+    margin-bottom: 15px; /* Espaciado inferior */
+}
+
+/* Estilos para la etiqueta */
+#cuenta-bancaria-container label {
+    display: block; /* Hacer que la etiqueta ocupe el ancho completo */
+    font-weight: bold; /* Negrita */
+    margin-bottom: 5px; /* Espaciado inferior */
+    color: #333; /* Color de la fuente */
+}
+
+/* Estilos para el input */
+#cuenta-bancaria {
+    width: 100%; /* Ancho completo */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 5px; /* Bordes redondeados */
+    transition: border-color 0.3s; /* Transición suave para el color del borde */
+}
+
+/* Efecto al enfocar el input */
+#cuenta-bancaria:focus {
+    border-color: #007BFF; /* Color del borde al enfocar */
+    outline: none; /* Sin contorno adicional */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra suave al enfocar */
+}
+
+/* Estilos para mostrar errores */
+#error {
+    color: red; /* Color rojo para el texto de error */
+    margin-top: 10px; /* Espaciado superior */
+    display: none; /* Inicialmente oculto */
 }
 
 .btn {
