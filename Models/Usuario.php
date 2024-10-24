@@ -32,6 +32,8 @@ class Usuario {
         // Obtener la conexión y abrirla
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();
+
+        
     
         if (!$conexionAbierta) {
             echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
@@ -71,7 +73,7 @@ class Usuario {
                 $idNuevoUsuario = $conexionAbierta->insert_id;
     
                 // Crear el nuevo usuario
-                $nuevoUsuario = new Usuario($idNuevoUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $imagenBase64, $correo, $contrasena, $rol, $cuentaBancaria, date("Y-m-d H:i:s"));
+                $nuevoUsuario = new Usuario($idNuevoUsuario, $nombreCompleto, $correo, $contrasena, $rol, $fechaNacimiento, $imagenBase64, $sexo, date("Y-m-d H:i:s"), $cuentaBancaria);
                 
                 echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente.", "usuario" => $nuevoUsuario]);
             } else {
@@ -84,12 +86,29 @@ class Usuario {
         // Cerrar la conexión
         $preparacion->close();
         $conexion->cerrarConexion();
+        
     }
-    
 }
-// Al final de tu archivo PHP, antes de cerrar la etiqueta PHP
-echo json_encode(["success" => true, "message" => "Usuario registrado exitosamente."]);
-exit();
 
+// Verificar si la solicitud es POST y obtener los datos del formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    // Obtener los datos enviados desde el formulario
+    $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+    $nombre = $_POST['usuario'];
+    $sexo = $_POST['genero'];
+    $fechaNacimiento = $_POST['fecha-nacimiento'];
+    $email = $_POST['correo'];
+    $contrasena = password_hash($_POST['contrasena'], PASSWORD_BCRYPT); // Encriptar la contraseña
+    $rol = $_POST['rol'];
+    $cuentaBancaria = null; // Por ahora lo dejamos en null, hasta que se agregue desde el perfil
+
+    // Crear el nombre completo a partir de los nombres y apellidos
+    $nombreCompleto = $nombre;
+
+    // Registrar al usuario llamando al método registrarUsuario
+    Usuario::registrarUsuario($nombreCompleto, $sexo, $fechaNacimiento, $imagenPerfil, $email, $contrasena, $rol, $cuentaBancaria);
+} else {
+    echo json_encode(["success" => false, "error" => "Método no permitido."]);
+}
 ?>

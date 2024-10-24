@@ -42,12 +42,18 @@ function previewImage(event) {
 function SignUp(event) {
     event.preventDefault();  // Evitar que el formulario se envíe automáticamente
 
-    const nombre = document.getElementById('usuario');
-    const email = document.getElementById('correo');
-    const password = document.getElementById('contrasena');
-    const genero = document.getElementById('genero');
-    const fechaNacimiento = document.getElementById('fecha-nacimiento');
-    const rol = document.querySelector('input[name="rol"]:checked');
+    const nombre = document.getElementById('usuario').value;
+    console.log("el nombre es: " + nombre);
+    const email = document.getElementById('correo').value;
+    console.log("el nombre es: " + email);
+    const password = document.getElementById('contrasena').value;
+    console.log("el nombre es: " + password);
+    const genero = document.getElementById('genero').value;
+    console.log("el nombre es: " + genero);
+    const fechaNacimiento = document.getElementById('fecha-nacimiento').value;
+    console.log("el nombre es: " + fechaNacimiento);
+    const rol = document.querySelector('input[name="rol"]:checked').value;
+    console.log("el nombre es: " + rol);
     const cuentaBancaria = document.getElementById('cuenta-bancaria').value;
     const imagen = document.getElementById('foto'); // Aquí aseguramos que el input exista
 
@@ -58,41 +64,43 @@ function SignUp(event) {
     }
 
     const formData = new FormData();
-    formData.append('usuario', nombre.value); // Cambiado a 'usuario'
-    formData.append('correo', email.value);
-    formData.append('contrasena', password.value); // Cambiado a 'contrasena'
-    formData.append('genero', genero.value); // Cambiado a 'genero'
-    formData.append('fecha-nacimiento', fechaNacimiento.value); // Cambiado a 'fecha-nacimiento'
-    formData.append('rol', rol.value);
+    formData.append('usuario', nombre); // Cambiado a 'usuario'
+    formData.append('correo', email);
+    formData.append('contrasena', password); // Cambiado a 'contrasena'
+    formData.append('genero', genero); // Cambiado a 'genero'
+    formData.append('fecha-nacimiento', fechaNacimiento); // Cambiado a 'fecha-nacimiento'
+    formData.append('rol', rol);
     formData.append('foto', imagen.files[0]); // Cambiado a 'foto'
 
     if (rol.value === 'Instructor') {
         formData.append('cuentaBancaria', cuentaBancaria);
     }
-
     fetch("Models/Usuario.php", {
         method: "POST",
-        body: formData,
+        body: formData
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Error en la red');
-        }
-        return response.json(); // Esto funcionará correctamente ahora
-    })
-    .then(data => {
-        console.log('Respuesta del servidor:', data);
-        if (data.success) {
-            // Manejar el éxito del registro
-            alert(data.message);
-            window.location.href = 'login.html'; // Redirigir al login o a otra página
-        } else {
-            // Manejar errores
-            alert(data.error);
+    .then(response => response.text()) // Cambia a text() para obtener HTML
+    .then(responseText => {
+        try {
+            let respuesta = JSON.parse(responseText); // Intenta parsear a JSON
+            if (respuesta.success) {
+                alert(respuesta.message);
+                window.location.href = "login.html"; // Redirigir al login
+            } else {
+                let mensajeFinal = "Se han detectado los siguientes errores:\n\n";
+                respuesta.mensaje.forEach(error => {
+                    mensajeFinal += "● " + error + "\n\n";
+                });
+                alert(mensajeFinal);
+            }
+        } catch (error) {
+            alert('Error al procesar la respuesta del servidor: ' + responseText);
+            console.error('Error:', error);
         }
     })
     .catch(error => {
-        console.error('Error:', error);
+        alert("Ocurrió un error inesperado al comunicarse con el servidor.");
+        console.error("Error:", error);
     });
 }
 

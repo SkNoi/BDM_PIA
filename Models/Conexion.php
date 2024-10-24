@@ -5,7 +5,7 @@ class Conexion {
     private $baseDatos = "BDM_PIA";
     private $usuario = "root";
     private $contrasena = "";
-    private $puerto = "3307";
+    private $puerto = "3306";
     
     private static $instancia = null;
     private $conexionAbierta = null;
