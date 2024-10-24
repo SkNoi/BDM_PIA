@@ -1,27 +1,20 @@
-$(document).ready(function() {   $('#Login').submit(function(event) { iniciosession(event); });
-});
-
 function iniciosession(event) {
-    // Evita que el formulario se envíe y la página se recargue
-    event.preventDefault();
+    event.preventDefault(); // Evita que se envíe el formulario de la manera tradicional
 
-    var usuario = document.getElementById("email").value;
-    var pass = document.getElementById("password").value;
+    // Obtener los valores de los campos de entrada
+    const usuario = document.getElementById('email').value;
+    const pass = document.getElementById('password').value;
 
-    if (usuario === "" || pass === "") {
-        alert("Por favor, complete los campos");
-        return false;
-    }    
-
+    // Crear el objeto de datos para el login
     const datos = {
         accion: 'login', // Tipo de acción
         usuario: usuario,
         contrasena: pass
     };
 
-    console.log("El usuario es:" + usuario);
-    console.log("El usuario es:" + pass);
+    console.log("Datos enviados:", datos); // Log de datos enviados
 
+    // Usar fetch para enviar la solicitud
     fetch('Models/Usuario.php', {
         method: 'POST',
         headers: {
@@ -30,41 +23,44 @@ function iniciosession(event) {
         body: JSON.stringify(datos) // Convertir el objeto a JSON
     })
     .then(response => {
-        // Verificar si la respuesta es correcta
+        console.log("Respuesta del servidor:", response); // Log de la respuesta
         if (!response.ok) {
             throw new Error('Error en la comunicación con el servidor.'); // Manejar errores de red
         }
-        return response.json(); // Parsear la respuesta como JSON
+        return response.text(); // Usar text() para obtener la respuesta completa
     })
-    .then(resultado => {
-        if (resultado.success) {
-            // Guardar el rol en sessionStorage
-            sessionStorage.setItem('rol', resultado.rol); // Cambié de message a rol
-    
-            // Redirigir según el rol del usuario
-            if (resultado.rol === 'Administrador') {
-                window.location.href = "PrincipalAdmin.html"; // Redirigir a la página de admin
-            } else if (resultado.rol === 'Instructor') {
-                window.location.href = "Principal.html"; // Asegúrate de tener una página específica para instructores
+    .then(text => {
+        console.log("Texto de respuesta:", text); // Log del texto de respuesta
+        try {
+            let resultado = JSON.parse(text); // Intentar convertir el texto a JSON
+            console.log("Resultado JSON:", resultado); // Log del resultado JSON
+            
+            if (resultado.success) {
+                sessionStorage.setItem('rol', resultado.message.Rol); // Cambié de message a rol
+                console.log('El resultado es:'+ resultado.message.Rol);
+                // Redirigir según el rol del usuario
+                if (resultado.Rol === 'Administrador') {
+                    window.location.href = "PrincipalAdmin.html"; // Redirigir a la página de admin
+                } else if (resultado.Rol === 'Instructor') {
+                    window.location.href = "Principal.html"; // Página específica para instructores
+                } else {
+                    window.location.href = "Principal.html"; // Página específica para estudiantes
+                }
             } else {
-                window.location.href = "Principal.html"; // Asegúrate de tener una página específica para estudiantes
+                // Muestra el mensaje de error
+                const loginErrorElement = document.getElementById('loginError');
+                if (loginErrorElement) {
+                    loginErrorElement.textContent = resultado.message; // Mostrar mensaje de error
+                } else {
+                    console.error('Elemento de error no encontrado.');
+                }
             }
-        } else {
-            // Muestra el mensaje de error
+        } catch (error) {
+            console.error('Respuesta inesperada del servidor:', text);
             const loginErrorElement = document.getElementById('loginError');
             if (loginErrorElement) {
-                loginErrorElement.textContent = resultado.message;
-            } else {
-                console.error('Elemento de error no encontrado.');
+                loginErrorElement.textContent = 'Respuesta inesperada del servidor.';
             }
         }
-    })
-    .catch(error => {
-        console.error('Error en la respuesta:', error);
-        const loginErrorElement = document.getElementById('loginError');
-        if (loginErrorElement) {
-            loginErrorElement.textContent = 'Error al comunicarse con el servidor.';
-        }
     });
-
 }

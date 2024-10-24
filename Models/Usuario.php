@@ -27,6 +27,8 @@ class Usuario {
         $this->Fecha_Registro = $Fecha_Registro; 
         $this->Cuenta_Bancaria = $Cuenta_Bancaria;
     }
+    
+    
 
     public static function registrarUsuario($nombreCompleto, $sexo, $fechaNacimiento, $imagenPerfil, $correo, $contrasena, $rol, $cuentaBancaria) {
         // Obtener la conexión y abrirla
@@ -85,28 +87,88 @@ class Usuario {
         $preparacion->close();
         $conexion->cerrarConexion();
     }
+    
+    public static function iniciarSesion($correo, $contrasena) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
+            exit();
+        }
+    
+        header('Content-Type: application/json');
+    
+        // Preparar la llamada al procedure
+        $preparacion = $conexionAbierta->prepare("CALL ObtenerCredenciales(?, ?)");
+    
+        if (!$preparacion) {
+            echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
+            $conexion->cerrarConexion();
+            exit();
+        }
+    
+        // Vincular parámetros
+        $preparacion->bind_param("ss", $correo, $contrasena);
+        $preparacion->execute();
+    
+        // Obtener resultados
+        $resultado = $preparacion->get_result();
+        if ($resultado->num_rows > 0) {
+            $usuario = $resultado->fetch_assoc();
+
+            echo json_encode(["success" => true, "message" => $usuario]);
+
+        } else {
+            echo json_encode(["success" => false, "message" => "Usuario no encontrado"]);
+        }
+    
+        $preparacion->close();
+        $conexion->cerrarConexion();
+    }
+    
+    
+
+
 }
 
-// Verificar si la solicitud es POST y obtener los datos del formulario
+
+
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Intentar obtener datos en formato JSON para el login
+    $datos = json_decode(file_get_contents("php://input"), true);
 
-    // Obtener los datos enviados desde el formulario
-    $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
-    $nombre = $_POST['usuario'];
-    $sexo = $_POST['genero'];
-    $fechaNacimiento = $_POST['fecha-nacimiento'];
-    $email = $_POST['correo'];
-    $usuario = $_POST['usuario'];
-    $contrasena = password_hash($_POST['contrasena'], PASSWORD_BCRYPT); // Encriptar la contraseña
-    $rol = $_POST['rol'];
-    $cuentaBancaria = null; // Por ahora lo dejamos en null, hasta que se agregue desde el perfil
+    // Comprobar si se está intentando realizar un login
+    if (isset($datos['accion']) && $datos['accion'] === 'login') {
+        // Obtener datos para login
+        $correo = $datos['usuario'];
+        $contrasena = $datos['contrasena'];
 
-    // Crear el nombre completo a partir de los nombres y apellidos
-    $nombreCompleto = $nombre;
+        // Llamar al método de iniciar sesión
+        Usuario::iniciarSesion($correo, $contrasena);
+    } else {
+        // Obtener los datos del formulario para registro
+        $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+        $nombre = $_POST['usuario'];
+        $sexo = $_POST['genero'];
+        $fechaNacimiento = $_POST['fecha-nacimiento'];
+        $email = $_POST['correo'];
+        $usuario = $_POST['usuario'];
+        $contrasena = $_POST['contrasena']; // Encriptar la contraseña
+        $rol = $_POST['rol'];
+        $cuentaBancaria = null; // Por ahora lo dejamos en null
 
-    // Registrar al usuario llamando al método registrarUsuario
-    Usuario::registrarUsuario($nombreCompleto, $sexo, $fechaNacimiento, $imagenPerfil, $email, $contrasena, $rol, $cuentaBancaria);
+        // Crear el nombre completo a partir de los nombres y apellidos
+        $nombreCompleto = $nombre;
+
+        // Registrar al usuario llamando al método registrarUsuario
+        Usuario::registrarUsuario($nombreCompleto, $sexo, $fechaNacimiento, $imagenPerfil, $email, $contrasena, $rol, $cuentaBancaria);
+    }
 } else {
     echo json_encode(["success" => false, "error" => "Método no permitido."]);
 }
+
 ?>
