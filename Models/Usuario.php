@@ -128,10 +128,61 @@ class Usuario {
         $conexion->cerrarConexion();
     }
     
+    public static function actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil) {
+        // Obtener la conexión y abrirla
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
     
+        if (!$conexionAbierta) {
+            echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
+            exit();
+        }
+    
+        header('Content-Type: application/json');
+    
+        // Preparar la llamada al procedure ActualizarUsuario
+        $preparacion = $conexionAbierta->prepare("CALL ActualizarUsuario(?, ?, ?, ?, ?, ?, ?)");
+    
+        if (!$preparacion) {
+            echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
+            $conexion->cerrarConexion();
+            exit();
+        }
+    
+        // Comprobar si la imagen de perfil ya está en base64
+        if (is_string($imagenPerfil)) {
+            $imagenBase64 = $imagenPerfil;
+        } else if ($imagenPerfil != null && $imagenPerfil['tmp_name'] && $imagenPerfil['size'] > 0) {
+            // Convertir la imagen de perfil a base64
+            $imagenBase64 = base64_encode(file_get_contents($imagenPerfil['tmp_name']));
+        } else {
+            // Si no se detectó una imagen, dejar este campo como null
+            $imagenBase64 = null;
+        }
+    
+        // Pasar los parámetros al procedure y ejecutarlo
+        $preparacion->bind_param("issssss", $idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenBase64);
+    
+        // Ejecutar la consulta
+        if ($preparacion->execute()) {
+            // Verificar si la actualización se realizó correctamente
+            if ($conexionAbierta->affected_rows > 0) {
+                echo json_encode(["success" => true, "message" => "Usuario actualizado exitosamente."]);
+            } else {
+                echo json_encode(["success" => false, "error" => "No se pudo actualizar el usuario."]);
+            }
+        } else {
+            echo json_encode(["success" => false, "error" => "Error al ejecutar el procedimiento almacenado: " . $preparacion->error]);
+        }
+    
+        // Cerrar la conexión
+        $preparacion->close();
+        $conexion->cerrarConexion();
+    }    
 
 
 }
+
 
 
 
@@ -149,6 +200,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Llamar al método de iniciar sesión
         Usuario::iniciarSesion($correo, $contrasena);
+
+    } elseif (isset($datos['accion']) && $datos['accion'] === 'actualizar') {
+        // Comprobar si se está intentando realizar una actualización de usuario
+        $idUsuario = intval($datos['idUsuario']); // Asegúrate de recibir el ID del usuario a actualizar
+        $nombreCompleto = $datos['nombreCompleto'];
+        $sexo = $datos['sexo'];
+        $fechaNacimiento = $datos['fechaNacimiento'];
+        $correo = $datos['correo'];
+        $contrasena = $datos['contrasena'];
+        $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+
+        // Llamar al método para actualizar usuario
+        Usuario::actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil);
+
     } else {
         // Obtener los datos del formulario para registro
         $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
@@ -170,5 +235,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 } else {
     echo json_encode(["success" => false, "error" => "Método no permitido."]);
 }
+
 
 ?>

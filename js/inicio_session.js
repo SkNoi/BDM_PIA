@@ -36,12 +36,24 @@ function iniciosession(event) {
             console.log("Resultado JSON:", resultado); // Log del resultado JSON
             
             if (resultado.success) {
-                sessionStorage.setItem('rol', resultado.message.Rol); // Cambié de message a rol
-                console.log('El resultado es:'+ resultado.message.Rol);
+                // Guardar todos los datos del usuario en localStorage
+                localStorage.setItem('usuario', JSON.stringify({
+                    ID_User: resultado.message.ID_User,
+                    NombreCompleto: resultado.message.NombreCompleto,
+                    Correo: resultado.message.Correo,
+                    Rol: resultado.message.Rol,
+                    Estado: resultado.message.Estado,
+                    FechaNacimiento: resultado.message.FechaNacimiento,
+                    imagen_Perfil: resultado.message.imagen_Perfil,
+                    Sexo: resultado.message.Sexo,
+                    contrasena: resultado.message.Contraseña
+                    
+                }));
+
                 // Redirigir según el rol del usuario
-                if (resultado.Rol === 'Administrador') {
+                if (resultado.message.Rol === 'Administrador') {
                     window.location.href = "PrincipalAdmin.html"; // Redirigir a la página de admin
-                } else if (resultado.Rol === 'Instructor') {
+                } else if (resultado.message.Rol === 'Instructor') {
                     window.location.href = "Principal.html"; // Página específica para instructores
                 } else {
                     window.location.href = "Principal.html"; // Página específica para estudiantes
