@@ -201,15 +201,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Llamar al método de iniciar sesión
         Usuario::iniciarSesion($correo, $contrasena);
 
-    } elseif (isset($datos['accion']) && $datos['accion'] === 'actualizar') {
+    } elseif (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
         // Comprobar si se está intentando realizar una actualización de usuario
-        $idUsuario = intval($datos['idUsuario']); // Asegúrate de recibir el ID del usuario a actualizar
-        $nombreCompleto = $datos['nombreCompleto'];
-        $sexo = $datos['sexo'];
-        $fechaNacimiento = $datos['fechaNacimiento'];
-        $correo = $datos['correo'];
-        $contrasena = $datos['contrasena'];
-        $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
+        $idUsuario = intval($_POST['idUsuario']); // Asegúrate de recibir el ID del usuario a actualizar
+        $nombreCompleto = $_POST['nombreCompleto'];
+        $sexo = $_POST['sexo'];
+        $fechaNacimiento = $_POST['fechaNacimiento'];
+        $correo = $_POST['correo'];
+        $contrasena = $_POST['contrasena'];
+        $imagenPerfil = isset($_FILES['Avatar']) ? $_FILES['Avatar'] : null;
 
         // Llamar al método para actualizar usuario
         Usuario::actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil);

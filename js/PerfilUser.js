@@ -7,30 +7,85 @@ $(document).ready(function() {
 
 }); 
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Obtener el rol del usuario desde localStorage (o cualquier otra fuente)
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
-    const rol = usuario ? usuario.rol : null;
+function previewImage(event) {
+    const preview = document.getElementById('imagenSeleccionada');
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-    // Mostrar/Ocultar secciones basadas en el rol
-    const seccionCursos = document.getElementById('seccionCursos');
-    const seccionPublicaciones = document.getElementById('seccionPublicaciones');
-    const campoRol = document.querySelectorAll('input[name="opcionesRol"]');
+    reader.onload = function(e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+    };
 
-    if (rol === 'Estudiante') {
-        seccionCursos.style.display = 'block';
-        seccionPublicaciones.style.display = 'none';
-    } else if (rol === 'Instructor') {
-        seccionCursos.style.display = 'none';
-        seccionPublicaciones.style.display = 'block';
+    if (file) {
+        reader.readAsDataURL(file);
+    } else {
+        preview.src = '';
+        preview.style.display = 'none';
     }
+}
 
-    // Remover el campo de selección de rol si es necesario
-    campoRol.forEach(campo => campo.style.display = 'none');
+document.getElementById('foto').addEventListener('change', previewImage);
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+    if (usuario) {
+        localStorage.setItem("ID", usuario.ID_User);
+        document.getElementById('campoNombre').value = usuario.NombreCompleto || '';
+        document.getElementById('campoCorreo').value = usuario.Correo || '';
+        document.getElementById('campoFechaNacimiento').value = usuario.FechaNacimiento || '';
+        document.getElementById('campoContrasena').value = usuario.contrasena || '';
+        
+
+        // Manejar la imagen de perfil
+        const imagenPerfilObtenida = usuario.imagen_Perfil;
+        let imagenSrc;
+
+        
+        if (imagenPerfilObtenida) {
+            if (imagenPerfilObtenida.startsWith('data:image/')) {
+                imagenSrc = imagenPerfilObtenida; // Ya está en formato correcto
+            } else {
+                imagenSrc = `data:image/png;base64,${imagenPerfilObtenida}`; // Asumimos que es PNG por defecto
+            }
+        } else {
+            imagenSrc = 'Recursos/icon_user.png'; // Imagen por defecto
+        }
+
+        $('#imagenSeleccionada').attr('src', imagenSrc);
+
+
+        // Asignar el sexo al combobox
+        const combobox = document.getElementById('campoSexo');
+        combobox.value = usuario.Sexo || 'Otro';
+
+
+        
+        // Mostrar/Ocultar secciones basadas en el rol
+        const seccionCursos = document.getElementById('seccionCursos');
+        const seccionPublicaciones = document.getElementById('seccionPublicaciones');
+
+        if (usuario.Rol === 'Estudiante') {
+            seccionCursos.style.display = 'block';
+            seccionPublicaciones.style.display = 'none';
+        } else if (usuario.Rol === 'Instructor') {
+            seccionCursos.style.display = 'none';
+            seccionPublicaciones.style.display = 'block';
+        }
+    
+    } else {
+        console.log('No hay un usuario en localStorage');
+    }
 
     // Habilitar/Deshabilitar los inputs al alternar el switch de edición
     const toggleEditar = document.getElementById('toggleEditar');
-    const inputs = document.querySelectorAll('#formRegistro input, #formRegistro select');
+    const inputs = document.querySelectorAll('#formActualizar input, #formActualizar select');
     
     toggleEditar.addEventListener('change', function() {
         const isEditable = toggleEditar.checked;
@@ -48,67 +103,37 @@ document.addEventListener('DOMContentLoaded', function() {
             input.disabled = true;
         }
     });
+
 });
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Obtener el usuario desde localStorage
-    const usuario = JSON.parse(localStorage.getItem('usuario'));
+    const toggleEditar = document.getElementById('toggleEditar');
+    const inputs = document.querySelectorAll('#formRegistro input, #formRegistro select');
 
-    // Verificar si el usuario está en el localStorage
-    if (usuario) {
-        // Asignar los valores del localStorage a los campos del perfil
-        localStorage.setItem("ID", usuario.ID_User);
-        document.getElementById('campoNombre').value = usuario.NombreCompleto || '';
-        document.getElementById('campoCorreo').value = usuario.Correo || '';
-        document.getElementById('campoFechaNacimiento').value = usuario.FechaNacimiento || '';
-        document.getElementById('campoContrasena').value = usuario.contrasena || '';
+    // Asegurarse de que el toggleEditar está en el DOM y no es nulo
+    if (toggleEditar) {
+        // Inicialmente deshabilitar los campos (excepto el toggleEditar)
+        inputs.forEach(input => {
+            if (input !== toggleEditar) {
+                input.disabled = true;
+            }
+        });
 
-        //Si la imagen de perfil obtenida es nula, mostrar una imagen por defecto
-        let imagenPerfilObtenida = usuario.imagen_Perfil;
-        if (imagenPerfilObtenida == null)
-            $('#imagenSeleccionada').attr('src', 'Recursos/icon_user.png');
-        else
-            $('#imagenSeleccionada').attr('src', "data:image/png;base64," + imagenPerfilObtenida);
-
-        let opc;
-        let Sexo = usuario.Sexo;
-        if(Sexo === "masculino"){
-
-            opc=1;
-        } else if (Sexo === "femenino"){
-            opc=2;
-        } else {
-            opc=3;
-        }
-
-        let combobox = document.getElementById('campoSexo');
-        combobox.value= opc;
-
+        // Habilitar/Deshabilitar los inputs al alternar el switch de edición
+        toggleEditar.addEventListener('change', function() {
+            const isEditable = toggleEditar.checked;
+            inputs.forEach(input => {
+                if (input !== toggleEditar) {
+                    input.disabled = !isEditable;
+                }
+            });
+        });
     } else {
-        console.log('No hay un usuario en localStorage');
+        console.error('El elemento toggleEditar no se encuentra en el DOM.');
     }
-
-    // Mostrar/Ocultar secciones basadas en el rol
-    const seccionCursos = document.getElementById('seccionCursos');
-    const seccionPublicaciones = document.getElementById('seccionPublicaciones');
-    const campoRol = document.querySelectorAll('input[name="opcionesRol"]');
-
-    if (usuario && usuario.Rol === 'Estudiante') {
-        seccionCursos.style.display = 'block';
-        seccionPublicaciones.style.display = 'none';
-    } else if (usuario && usuario.Rol === 'Instructor') {
-        seccionCursos.style.display = 'none';
-        seccionPublicaciones.style.display = 'block';
-    }
-
-    // Remover el campo de selección de rol si es necesario
-    campoRol.forEach(campo => campo.style.display = 'none');
-
-    
-    // Inicialmente deshabilitar los campos
-    inputs.forEach(input => input.disabled = true);
 });
+
 
 
 document.getElementById('formActualizar').addEventListener('submit', actualizarPerfil);
@@ -131,7 +156,16 @@ function previewImage(event) {
     }
 }
 
-function actualizarPerfil(event) {
+function blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result); // Cuando la lectura termina, se resuelve con el resultado
+        reader.onerror = reject; // Manejo de errores
+        reader.readAsDataURL(blob); // Leer el blob como Data URL
+    });
+}
+
+async function actualizarPerfil(event) {
     event.preventDefault();  // Evita que se envíe el formulario automáticamente
 
     let nombre = document.getElementById('campoNombre').value;
@@ -139,43 +173,53 @@ function actualizarPerfil(event) {
     let fechaNacimiento = document.getElementById('campoFechaNacimiento').value;
     let correo = document.getElementById('campoCorreo').value;
     let contrasena = document.getElementById('campoContrasena').value;
-    let imagen = document.getElementById('foto');  // La nueva imagen de perfi
+    let imagen = document.getElementById('foto').files[0]; // Obtén el archivo de la imagen
     let Id = localStorage.getItem("ID");
 
-    // Verificar si se ha seleccionado una imagen
-    if (imagen.files.length === 0) {
-        alert("Por favor, sube una imagen.");
-        return;
-    }
+    // Crear un objeto FormData para manejar el envío de datos y archivos
+    const formData = new FormData();
+    formData.append('accion', 'actualizar');         // Acción para que el servidor identifique la operación
+    formData.append('nombreCompleto', nombre);
+    formData.append('contrasena', contrasena);
+    formData.append('correo', correo);
+    formData.append('sexo', sexo);
+    formData.append('fechaNacimiento', fechaNacimiento);
+    formData.append('idUsuario', Id);
+    formData.append('Avatar', imagen);      // Adjuntar la imagen seleccionada
 
-    const datos = {
-        accion: 'actualizar', // Tipo de acción
-        nombreCompleto: nombre,
-        contrasena: contrasena,
-        correo: correo,
-        sexo: sexo,
-        fechaNacimiento: fechaNacimiento,
-        idUsuario: Id,
-        imagen: imagen
-    };
-
-    fetch("Models/Usuario.php", {  // Archivo PHP que maneja la actualización
+    // Enviar la petición al servidor
+    fetch("Models/Usuario.php", {
         method: "POST",
-        headers: {
-            'Content-Type': 'application/json' // Especificar que el contenido es JSON
-        },
-        body: JSON.stringify(datos) 
-
+        body: formData
     })
-
-    .then(response => response.text())  // Asumiendo que el servidor devuelve un JSON
-    .then(responseText => {
+    .then(response => response.text())
+    .then(async responseText => {
         try {
             let respuesta = JSON.parse(responseText);
             if (respuesta.success) {
+                // Solo convertir a base64 si hay una nueva imagen
+                let imagenBase64 = null;
+                if (imagen) {
+                    imagenBase64 = await blobToBase64(imagen); // Convierte el blob a base64
+                }
+
+                // Actualizar localStorage con la nueva información
+                const usuarioActualizado = {
+                    ID_User: Id,
+                    NombreCompleto: nombre,
+                    Correo: correo,
+                    FechaNacimiento: fechaNacimiento,
+                    Sexo: sexo,
+                    contrasena: contrasena,
+                    Rol: respuesta.rol || JSON.parse(localStorage.getItem('usuario')).Rol,
+                    imagen_Perfil: imagenBase64, // Almacenar como base64
+                };
+
+                localStorage.setItem('usuario', JSON.stringify(usuarioActualizado)); // Guardar usuario actualizado en localStorage
+
                 alert(respuesta.message);
-                // Puedes redirigir al perfil o actualizar visualmente la información
-                window.location.href = "perfilUsuario.html";
+                window.location.href = "perfilUsuario.html"; // Redirigir a la página de perfil
+                
             } else {
                 let mensajeFinal = "Se han detectado los siguientes errores:\n\n";
                 respuesta.mensaje.forEach(error => {
@@ -193,3 +237,5 @@ function actualizarPerfil(event) {
         console.error("Error:", error);
     });
 }
+
+

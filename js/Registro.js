@@ -43,17 +43,11 @@ function SignUp(event) {
     event.preventDefault();  // Evitar que el formulario se envíe automáticamente
 
     const nombre = document.getElementById('usuario').value;
-    console.log("el nombre es: " + nombre);
     const email = document.getElementById('correo').value;
-    console.log("el nombre es: " + email);
     const password = document.getElementById('contrasena').value;
-    console.log("el nombre es: " + password);
     const genero = document.getElementById('genero').value;
-    console.log("el nombre es: " + genero);
     const fechaNacimiento = document.getElementById('fecha-nacimiento').value;
-    console.log("el nombre es: " + fechaNacimiento);
     const rol = document.querySelector('input[name="rol"]:checked').value;
-    console.log("el nombre es: " + rol);
     const cuentaBancaria = document.getElementById('cuenta-bancaria').value;
     const imagen = document.getElementById('foto'); // Aquí aseguramos que el input exista
 
