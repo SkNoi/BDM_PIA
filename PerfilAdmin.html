@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil Administrador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/StyleAdminPerfil.css">
+    
+</head>
+<body>
+    <div id="sidebar">
+        <h2>Panel de Administración</h2>
+        <a href="block-users.html">Bloquear/Desbloquear Usuarios</a>
+        <a href="moderate-comments.html">Eliminar Comentarios Ofensivos</a>
+        <a href="add-category.html">Registrar Categorías</a>
+        <a href="view-reports.html">Ver Reportes</a>
+        <a href="PerfilAdmin.html">Ver Reportes</a>
+        <a href="index.html?accion=logout">Cerrar Sesión</a>
+    </div>
+
+    <div class="wrapper">
+        <div class="container" id="idContenido">
+            <form id="formActualizar" action="Controllers/UsuarioController.php?accion=actualizar" method="POST" enctype="multipart/form-data" onsubmit="actualizarPerfil(event)">
+                  <!--Toggle de edición de perfil-->
+                  <div class="d-flex justify-content-center align-items-center mb-4">
+                    <div class="form-check form-switch form-switch-lg">
+                      <input class="form-check-input" type="checkbox" id="toggleEditar">
+                      <label class="form-check-label" for="toggleEditar">Editar</label>
+                    </div>
+                </div>  
+                <br>
+                
+                <div class="profile-container">
+                <div class="profile-picture">
+                    <div id="contenedorImagen">
+                        <img id="imagenSeleccionada" class="rounded mx-auto d-block" src="Recursos/icon_user.png">
+                    </div>
+                
+                <div class="form-group mb-3">
+                    <input type="file" class="form-control-file" id="foto" accept="image/*">
+                </div>
+            </div>
+                    
+            <div class="profile-info">
+    
+                    <div class="form-group">
+                        <label for="campoNombre">Nombre(s)</label>
+                        <input type="text" class="form-control" id="campoNombre" name="fnombre" placeholder="Ingresa tu Nombre" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="campoSexo">Sexo</label>
+                        <select class="form-select" id="campoSexo" name="fsexo" required>
+                            <option selected disabled value="">Selecciona tu sexo</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="campoFechaNacimiento">Fecha de Nacimiento</label>
+                        <input type="date" class="form-control" id="campoFechaNacimiento" name="ffechanacimiento" required>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="campoCorreo">Email</label>
+                        <div class="input-group">
+                           </span><input type="email" class="form-control" id="campoCorreo" name="femail" placeholder="Ingresa tu correo electrónico" required>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="campoContrasena">Contraseña</label>
+                        <input type="password" class="form-control" id="campoContrasena" name="fcontra" placeholder="********" required>
+                    </div>
+    
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn-actualizar">Actualizar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </div>
+        
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="js/PerfilUser.js"></script>
+
+</body>
+</html>

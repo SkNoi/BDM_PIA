@@ -137,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 document.getElementById('formActualizar').addEventListener('submit', actualizarPerfil);
+const usuario = JSON.parse(localStorage.getItem('usuario'));
 
 function previewImage(event) {
     const preview = document.getElementById('imagenSeleccionada');
@@ -218,8 +219,12 @@ async function actualizarPerfil(event) {
                 localStorage.setItem('usuario', JSON.stringify(usuarioActualizado)); // Guardar usuario actualizado en localStorage
 
                 alert(respuesta.message);
-                window.location.href = "perfilUsuario.html"; // Redirigir a la página de perfil
-                
+                if (usuario.Rol === 'Administrador') {
+                    window.location.href = "PerfilAdmin.html"; // Redirige a la página de perfil del administrador
+                } else {
+                    window.location.href = "perfilUsuario.html"; // Redirige a la página de perfil del usuario
+                }
+
             } else {
                 let mensajeFinal = "Se han detectado los siguientes errores:\n\n";
                 respuesta.mensaje.forEach(error => {
