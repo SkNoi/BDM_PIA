@@ -87,8 +87,8 @@ class Usuario {
         $preparacion->close();
         $conexion->cerrarConexion();
     }
-    
-    public static function iniciarSesion($correo, $contrasena) {
+
+    public static function verificarEstadoCuenta($correo) {
         // Obtener la conexión
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();
@@ -98,10 +98,8 @@ class Usuario {
             exit();
         }
     
-        header('Content-Type: application/json');
-    
-        // Preparar la llamada al procedure
-        $preparacion = $conexionAbierta->prepare("CALL ObtenerCredenciales(?, ?)");
+        // Preparar la llamada al procedimiento almacenado
+        $preparacion = $conexionAbierta->prepare("CALL VerificarEstadoCuenta(:correo)");
     
         if (!$preparacion) {
             echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
@@ -109,24 +107,90 @@ class Usuario {
             exit();
         }
     
-        // Vincular parámetros
-        $preparacion->bind_param("ss", $correo, $contrasena);
-        $preparacion->execute();
+        // Vincular el parámetro
+        $preparacion->bindParam(':correo', $correo, PDO::PARAM_STR);
     
-        // Obtener resultados
-        $resultado = $preparacion->get_result();
-        if ($resultado->num_rows > 0) {
-            $usuario = $resultado->fetch_assoc();
-
-            echo json_encode(["success" => true, "message" => $usuario]);
-
-        } else {
-            echo json_encode(["success" => false, "message" => "Usuario no encontrado"]);
+        // Intentar ejecutar el procedimiento
+        try {
+            $preparacion->execute();
+        } catch (PDOException $e) {
+            // Capturar errores cuando se ejecuta el procedimiento
+            echo json_encode(["success" => false, "error" => "Error al ejecutar el procedimiento: " . $e->getMessage()]);
+            exit();
         }
     
+        // Si el procedimiento genera una señal (SIGNAL SQLSTATE '45000'), se debe capturar
+        $error = $conexionAbierta->errorInfo();
+        if ($error[0] == '45000') {
+            // Si se recibió un error relacionado con el estado de la cuenta
+            echo json_encode(["success" => false, "error" => "Tu cuenta está deshabilitada."]);
+            exit();
+        }
+    
+        // Si no hubo errores, la cuenta está activa
+        echo json_encode(["success" => true, "message" => "Cuenta verificada y activa."]);
+    
+        // Cerrar la preparación y conexión
+        $preparacion->closeCursor();
+        $conexion->cerrarConexion();
+    }
+    
+    
+    
+    
+    
+    public static function iniciarSesion($correo, $contrasena) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+        
+        if (!$conexionAbierta) {
+            echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
+            exit();
+        }
+        
+        header('Content-Type: application/json');
+        
+        // Preparar la llamada al procedure
+        $preparacion = $conexionAbierta->prepare("CALL ObtenerCredenciales(?, ?)");
+        
+        if (!$preparacion) {
+            echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
+            $conexion->cerrarConexion();
+            exit();
+        }
+        
+        // Vincular parámetros
+        $preparacion->bind_param("ss", $correo, $contrasena);
+    
+        // Intentar ejecutar el procedimiento
+        if ($preparacion->execute()) {
+            // Obtener resultados
+            $resultado = $preparacion->get_result();
+    
+            if ($resultado->num_rows > 0) {
+                $usuario = $resultado->fetch_assoc();
+                echo json_encode(["success" => true, "message" => $usuario]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Credenciales incorrectas"]);
+            }
+        } else {
+            // Capturar errores cuando se ejecuta el procedimiento
+            $error = $conexionAbierta->error;
+            
+            // Verificar si el error proviene del procedimiento (como la cuenta deshabilitada)
+            if (strpos($error, "45000") !== false) {
+                echo json_encode(["success" => false, "error" => "Tu cuenta está deshabilitada o has alcanzado el límite de intentos fallidos."]);
+            } else {
+                echo json_encode(["success" => false, "error" => "Error al ejecutar el procedimiento de inicio de sesión."]);
+            }
+        }
+    
+        // Cerrar la preparación y conexión
         $preparacion->close();
         $conexion->cerrarConexion();
     }
+
     
     public static function actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil) {
         // Obtener la conexión y abrirla

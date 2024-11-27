@@ -51,6 +51,11 @@ function SignUp(event) {
     const cuentaBancaria = document.getElementById('cuenta-bancaria').value;
     const imagen = document.getElementById('foto'); // Aquí aseguramos que el input exista
 
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        alert("La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, un número y un carácter especial.");
+        return;
+    }
     // Verificamos si se ha seleccionado un archivo
     if (imagen.files.length === 0) {
         alert("Por favor, sube una imagen.");

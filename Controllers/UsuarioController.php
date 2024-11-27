@@ -34,18 +34,38 @@ class UsuarioController {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Obtener los datos de login
             $datos = json_decode(file_get_contents("php://input"), true);
-
+    
             if (isset($datos['usuario']) && isset($datos['contrasena'])) {
                 $correo = $datos['usuario'];
                 $contrasena = $datos['contrasena'];
-
-                // Llamar al método de inicio de sesión
-                Usuario::iniciarSesion($correo, $contrasena);
+    
+                // Verificar el estado de la cuenta antes de continuar
+                try {
+                    // Llamamos al procedimiento VerificarEstadoCuenta
+                    $estado = Usuario::verificarEstadoCuenta($correo);
+                    if ($estado === 'deshabilitado') {
+                        throw new Exception('Tu cuenta está deshabilitada.');
+                    }
+    
+                    // Llamamos al procedimiento ObtenerCredenciales para verificar el usuario y contraseña
+                    $usuario = Usuario::iniciarSesion($correo, $contrasena);
+                    if ($usuario) {
+                        // Si las credenciales son correctas, retornamos los datos del usuario
+                        echo json_encode(["success" => true, "usuario" => $usuario]);
+                    } else {
+                        // Si las credenciales no son correctas
+                        echo json_encode(["success" => false, "error" => "Credenciales incorrectas"]);
+                    }
+                } catch (Exception $e) {
+                    // Si hubo un error, lo manejamos aquí (por ejemplo, cuenta deshabilitada)
+                    echo json_encode(["success" => false, "error" => $e->getMessage()]);
+                }
             } else {
                 echo json_encode(["success" => false, "error" => "Faltan datos de login"]);
             }
         }
     }
+    
 
     public function actualizar() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
