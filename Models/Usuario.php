@@ -99,7 +99,7 @@ class Usuario {
         }
     
         // Preparar la llamada al procedimiento almacenado
-        $preparacion = $conexionAbierta->prepare("CALL VerificarEstadoCuenta(:correo)");
+        $preparacion = $conexionAbierta->prepare("CALL VerificarEstadoCuenta(?)");
     
         if (!$preparacion) {
             echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
@@ -108,7 +108,7 @@ class Usuario {
         }
     
         // Vincular el parámetro
-        $preparacion->bindParam(':correo', $correo, PDO::PARAM_STR);
+        $preparacion->bindParam('s', $correo, PDO::PARAM_STR);
     
         // Intentar ejecutar el procedimiento
         try {
@@ -136,60 +136,163 @@ class Usuario {
     }
     
     
+    public static function registrarIntentoFallido($correo) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            throw new Exception("Error de conexión a la base de datos.");
+        }
+    
+        // Preparar la llamada al procedimiento almacenado
+        $preparacion = $conexionAbierta->prepare("CALL RegistrarIntentoFallido(?)");
+        if (!$preparacion) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al preparar la consulta.");
+        }
+    
+        // Vincular parámetros
+        $preparacion->bindParam('s', $correo, PDO::PARAM_STR);
+    
+        // Ejecutar el procedimiento almacenado
+        try {
+            $preparacion->execute();
+        } catch (PDOException $e) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al registrar el intento fallido: " . $e->getMessage());
+        }
+    
+        // Cerrar la preparación y la conexión
+        $preparacion->closeCursor();
+        $conexion->cerrarConexion();
+    }
     
     
+    
+    
+    
+    
+    public static function obtenerIntentos($correo) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            throw new Exception("Error de conexión a la base de datos.");
+        }
+    
+        // Preparar la llamada al procedimiento almacenado para obtener los intentos fallidos
+        $preparacion = $conexionAbierta->prepare("CALL ObtenerIntentosFallidos(:correo)");
+    
+        if (!$preparacion) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al preparar la consulta.");
+        }
+    
+        // Vincular el parámetro
+        $preparacion->bindParam(':correo', $correo, PDO::PARAM_STR);
+    
+        // Ejecutar el procedimiento almacenado
+        try {
+            $preparacion->execute();
+            
+            // Obtener el número de intentos fallidos
+            $resultados = $preparacion->fetch(PDO::FETCH_ASSOC);
+            $intentosFallidos = $resultados ? $resultados['IntentosFallidos'] : 0;
+            
+            return $intentosFallidos;
+        } catch (PDOException $e) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al obtener los intentos fallidos: " . $e->getMessage());
+        }
+    
+        // Cerrar la preparación y la conexión
+        $preparacion->closeCursor();
+        $conexion->cerrarConexion();
+    }
+    
+
+    
+
+    public static function deshabilitarCuenta($correo) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            throw new Exception("Error de conexión a la base de datos.");
+        }
+    
+        // Preparar la llamada al procedimiento almacenado para deshabilitar la cuenta
+        $preparacion = $conexionAbierta->prepare("CALL DeshabilitarCuenta(:correo)");
+    
+        if (!$preparacion) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al preparar la consulta.");
+        }
+    
+        // Vincular el parámetro
+        $preparacion->bindParam(':correo', $correo, PDO::PARAM_STR);
+    
+        // Ejecutar el procedimiento almacenado
+        try {
+            $preparacion->execute();
+        } catch (PDOException $e) {
+            $conexion->cerrarConexion();
+            throw new Exception("Error al deshabilitar la cuenta: " . $e->getMessage());
+        }
+    
+        // Cerrar la preparación y la conexión
+        $preparacion->closeCursor();
+        $conexion->cerrarConexion();
+    }
     
     public static function iniciarSesion($correo, $contrasena) {
         // Obtener la conexión
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();
-        
+    
         if (!$conexionAbierta) {
             echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
             exit();
         }
-        
-        header('Content-Type: application/json');
-        
-        // Preparar la llamada al procedure
-        $preparacion = $conexionAbierta->prepare("CALL ObtenerCredenciales(?, ?)");
-        
-        if (!$preparacion) {
-            echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
-            $conexion->cerrarConexion();
-            exit();
-        }
-        
-        // Vincular parámetros
-        $preparacion->bind_param("ss", $correo, $contrasena);
     
-        // Intentar ejecutar el procedimiento
-        if ($preparacion->execute()) {
+        header('Content-Type: application/json');
+    
+        try {
+            // Preparar la llamada al procedure
+            $preparacion = $conexionAbierta->prepare("CALL ObtenerCredenciales(?, ?)");
+        
+            if (!$preparacion) {
+                echo json_encode(["success" => false, "error" => "Error al preparar la consulta."]);
+                $conexion->cerrarConexion();
+                exit();
+            }
+    
+            // Vincular parámetros
+            $preparacion->bind_param("ss", $correo, $contrasena);
+            $preparacion->execute();
+    
             // Obtener resultados
             $resultado = $preparacion->get_result();
-    
             if ($resultado->num_rows > 0) {
                 $usuario = $resultado->fetch_assoc();
                 echo json_encode(["success" => true, "message" => $usuario]);
             } else {
-                echo json_encode(["success" => false, "message" => "Credenciales incorrectas"]);
+                echo json_encode(["success" => false, "message" => "Usuario no encontrado"]);
             }
-        } else {
-            // Capturar errores cuando se ejecuta el procedimiento
-            $error = $conexionAbierta->error;
-            
-            // Verificar si el error proviene del procedimiento (como la cuenta deshabilitada)
-            if (strpos($error, "45000") !== false) {
-                echo json_encode(["success" => false, "error" => "Tu cuenta está deshabilitada o has alcanzado el límite de intentos fallidos."]);
-            } else {
-                echo json_encode(["success" => false, "error" => "Error al ejecutar el procedimiento de inicio de sesión."]);
-            }
-        }
     
-        // Cerrar la preparación y conexión
-        $preparacion->close();
-        $conexion->cerrarConexion();
+            $preparacion->close();
+        } catch (mysqli_sql_exception $e) {
+            // Capturar errores del procedimiento almacenado
+            echo json_encode(["success" => false, "error" => $e->getMessage()]);
+        } finally {
+            $conexion->cerrarConexion();
+        }
     }
+    
+    
 
     
     public static function actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil) {

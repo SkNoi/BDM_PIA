@@ -27,58 +27,70 @@ function iniciosession(event) {
         if (!response.ok) {
             throw new Error('Error en la comunicación con el servidor.'); // Manejar errores de red
         }
-        return response.json(); // Convertir la respuesta en JSON
+        return response.text(); // Usar text() para obtener la respuesta completa
     })
-    .then(resultado => {
-        console.log("Resultado JSON:", resultado); // Log del resultado JSON
+    .then(text => {
+        console.log("Texto de respuesta:", text); // Log del texto de respuesta
+        try {
+            let resultado = JSON.parse(text); // Intentar convertir el texto a JSON
+            console.log("Resultado JSON:", resultado); // Log del resultado JSON
+            
+            if (resultado.success) {
+                // Guardar todos los datos del usuario en localStorage solo si la cuenta está habilitada
+                if (resultado.message.Estado !== 'Deshabilitado') {
+                    localStorage.setItem('usuario', JSON.stringify({
+                        ID_User: resultado.message.ID_User,
+                        NombreCompleto: resultado.message.NombreCompleto,
+                        Correo: resultado.message.Correo,
+                        Rol: resultado.message.Rol,
+                        Estado: resultado.message.Estado,
+                        FechaNacimiento: resultado.message.FechaNacimiento,
+                        imagen_Perfil: resultado.message.imagen_Perfil,
+                        Sexo: resultado.message.Sexo,
+                        contrasena: resultado.message.Contraseña
+                    }));
 
-        if (resultado.success) {
-            // Verificar si el estado de la cuenta es habilitado
-            if (resultado.message.Estado === 'deshabilitado') {
-                // Si la cuenta está deshabilitada, mostrar mensaje de error y no iniciar sesión
-                const loginErrorElement = document.getElementById('loginError');
-                if (loginErrorElement) {
-                    loginErrorElement.textContent = 'Tu cuenta está deshabilitada. Contacta con un administrador.';
+                    // Redirigir según el rol del usuario
+                    if (resultado.message.Rol === 'Administrador') {
+                        window.location.href = "PrincipalAdmin.html"; // Redirigir a la página de admin
+                    } else if (resultado.message.Rol === 'Instructor') {
+                        window.location.href = "Principal.html"; // Página específica para instructores
+                    } else {
+                        window.location.href = "Principal.html"; // Página específica para estudiantes
+                    }
+                } else {
+                    const loginErrorElement = document.getElementById('loginError');
+                    if (loginErrorElement) {
+                        loginErrorElement.textContent = "Tu cuenta ha sido deshabilitada. Contacta al administrador."; // Mostrar error
+                    } else {
+                        alert("Tu cuenta ha sido deshabilitada. Contacta al administrador.");
+                    }
                 }
-                return; // Detener el proceso de inicio de sesión
-            }
-
-            // Guardar todos los datos del usuario en localStorage
-            localStorage.setItem('usuario', JSON.stringify({
-                ID_User: resultado.message.ID_User,
-                NombreCompleto: resultado.message.NombreCompleto,
-                Correo: resultado.message.Correo,
-                Rol: resultado.message.Rol,
-                Estado: resultado.message.Estado,
-                FechaNacimiento: resultado.message.FechaNacimiento,
-                imagen_Perfil: resultado.message.imagen_Perfil,
-                Sexo: resultado.message.Sexo,
-                contrasena: resultado.message.Contraseña
-            }));
-
-            // Redirigir según el rol del usuario
-            if (resultado.message.Rol === 'Administrador') {
-                window.location.href = "PrincipalAdmin.html"; // Redirigir a la página de admin
-            } else if (resultado.message.Rol === 'Instructor') {
-                window.location.href = "Principal.html"; // Página específica para instructores
             } else {
-                window.location.href = "Principal.html"; // Página específica para estudiantes
+                // Manejo de errores según el tipo de respuesta del servidor
+                const loginErrorElement = document.getElementById('loginError');
+                let mensajeError = resultado.error || resultado.message;
+
+                if (resultado.error === "Credenciales incorrectas.") {
+                    mensajeError = "Correo o contraseña incorrectos. Intenta nuevamente.";
+                }
+
+                if (loginErrorElement) {
+                    loginErrorElement.textContent = mensajeError; // Mostrar mensaje de error
+                } else {
+                    alert(mensajeError);
+                }
             }
-        } else {
-            // Muestra el mensaje de error si las credenciales son incorrectas
+        } catch (error) {
+            console.error('Respuesta inesperada del servidor:', text);
             const loginErrorElement = document.getElementById('loginError');
             if (loginErrorElement) {
-                loginErrorElement.textContent = resultado.message; // Mostrar mensaje de error
-            } else {
-                console.error('Elemento de error no encontrado.');
+                loginErrorElement.textContent = 'Respuesta inesperada del servidor.';
             }
         }
     })
     .catch(error => {
-        console.error('Error al procesar la respuesta:', error);
-        const loginErrorElement = document.getElementById('loginError');
-        if (loginErrorElement) {
-            loginErrorElement.textContent = 'Error al procesar la respuesta del servidor. Intenta nuevamente.';
-        }
+        console.error('Error:', error);
+        alert("Ocurrió un error al comunicarse con el servidor.");
     });
 }

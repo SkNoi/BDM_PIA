@@ -1,6 +1,7 @@
 <?php
 
-require_once 'Models/Usuario.php';
+require_once('../Models/Usuario.php');
+
 
 class UsuarioController {
     public function registrar() {
@@ -39,25 +40,36 @@ class UsuarioController {
                 $correo = $datos['usuario'];
                 $contrasena = $datos['contrasena'];
     
-                // Verificar el estado de la cuenta antes de continuar
                 try {
-                    // Llamamos al procedimiento VerificarEstadoCuenta
+                    // Verificar el estado de la cuenta
                     $estado = Usuario::verificarEstadoCuenta($correo);
+                    echo "Estado de la cuenta: " . $estado . "\n";  // Para depurar
+    
                     if ($estado === 'deshabilitado') {
-                        throw new Exception('Tu cuenta está deshabilitada.');
+                        throw new Exception('Tu cuenta está deshabilitada. Contacta al administrador.');
                     }
     
-                    // Llamamos al procedimiento ObtenerCredenciales para verificar el usuario y contraseña
+                    // Verificar las credenciales
                     $usuario = Usuario::iniciarSesion($correo, $contrasena);
                     if ($usuario) {
-                        // Si las credenciales son correctas, retornamos los datos del usuario
+                        // Si las credenciales son correctas, retorna los datos
                         echo json_encode(["success" => true, "usuario" => $usuario]);
                     } else {
-                        // Si las credenciales no son correctas
-                        echo json_encode(["success" => false, "error" => "Credenciales incorrectas"]);
+                        // Incrementar intentos fallidos al fallar el login
+                        Usuario::registrarIntentoFallido($correo);  // Esto puede estar creando problemas si la conexión se mantiene abierta
+                        $intentos = Usuario::obtenerIntentos($correo);
+                        echo "Intentos fallidos: " . $intentos . "\n";  // Para depurar
+    
+                        // Si llega a 3 intentos fallidos, deshabilitar la cuenta
+                        if ($intentos >= 3) {
+                            Usuario::deshabilitarCuenta($correo);
+                            throw new Exception('Tu cuenta ha sido deshabilitada tras 3 intentos fallidos.');
+                        }
+    
+                        echo json_encode(["success" => false, "error" => "Credenciales incorrectas. Intento $intentos de 3."]);
                     }
                 } catch (Exception $e) {
-                    // Si hubo un error, lo manejamos aquí (por ejemplo, cuenta deshabilitada)
+                    // Manejo de errores
                     echo json_encode(["success" => false, "error" => $e->getMessage()]);
                 }
             } else {
@@ -65,6 +77,11 @@ class UsuarioController {
             }
         }
     }
+    
+    
+    
+    
+    
     
 
     public function actualizar() {
@@ -81,7 +98,16 @@ class UsuarioController {
             Usuario::actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil);
         }
     }
-}
+
+
+    
+    
+    
+    
+        
+    }
+
+
 
 // Instanciar el controlador y manejar las peticiones
 $controller = new UsuarioController();
