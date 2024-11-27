@@ -293,6 +293,7 @@ class Usuario {
     }
     
     
+    
 
     
     public static function actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil) {
@@ -347,6 +348,50 @@ class Usuario {
         $conexion->cerrarConexion();
     }    
 
+    public static function restaurarUsuario($correo, $contrasena) {
+        // Obtener la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            return ["success" => false, "error" => "Error de conexión a la base de datos."];
+        }
+    
+        try {
+            // Preparar la llamada al procedimiento almacenado
+            $sql = "CALL RestaurarUsuario(?, ?)";
+            $preparacion = $conexionAbierta->prepare($sql);
+    
+            if (!$preparacion) {
+                $conexion->cerrarConexion();
+                return ["success" => false, "error" => "Error al preparar la consulta."];
+            }
+    
+            // Vincular los parámetros
+            $preparacion->bind_param("ss", $correo, $contrasena);
+    
+            // Ejecutar la consulta
+            $preparacion->execute();
+    
+            // Comprobar el resultado
+            if ($preparacion->affected_rows > 0) {
+                $resultado = ["success" => true, "message" => "Usuario restaurado correctamente."];
+            } else {
+                $resultado = ["success" => false, "message" => "No se pudo restaurar el usuario, verifica el correo."];
+            }
+    
+            $preparacion->close();
+            return $resultado;
+        } catch (mysqli_sql_exception $e) {
+            // Manejo de errores
+            return ["success" => false, "error" => $e->getMessage()];
+        } finally {
+            // Cerrar la conexión
+            $conexion->cerrarConexion();
+        }
+    }
+    
+    
 
 }
 
@@ -356,52 +401,58 @@ class Usuario {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Intentar obtener datos en formato JSON para el login
+    // Intentar obtener datos en formato JSON
     $datos = json_decode(file_get_contents("php://input"), true);
 
-    // Comprobar si se está intentando realizar un login
+    // Comprobar si es una solicitud JSON y manejar las acciones
     if (isset($datos['accion']) && $datos['accion'] === 'login') {
-        // Obtener datos para login
+        // Login
         $correo = $datos['usuario'];
         $contrasena = $datos['contrasena'];
-
-        // Llamar al método de iniciar sesión
         Usuario::iniciarSesion($correo, $contrasena);
 
     } elseif (isset($_POST['accion']) && $_POST['accion'] === 'actualizar') {
-        // Comprobar si se está intentando realizar una actualización de usuario
-        $idUsuario = intval($_POST['idUsuario']); // Asegúrate de recibir el ID del usuario a actualizar
+        // Actualizar usuario
+        $idUsuario = intval($_POST['idUsuario']);
         $nombreCompleto = $_POST['nombreCompleto'];
         $sexo = $_POST['sexo'];
         $fechaNacimiento = $_POST['fechaNacimiento'];
         $correo = $_POST['correo'];
         $contrasena = $_POST['contrasena'];
         $imagenPerfil = isset($_FILES['Avatar']) ? $_FILES['Avatar'] : null;
-
-        // Llamar al método para actualizar usuario
         Usuario::actualizarUsuario($idUsuario, $nombreCompleto, $sexo, $fechaNacimiento, $correo, $contrasena, $imagenPerfil);
 
+    } elseif (isset($_POST['accion']) && $_POST['accion'] === 'restaurarUsuario') {
+        // Restaurar usuario
+        $correo = $_POST['correo'];
+        $contrasena = $_POST['contrasena'];
+        $resultado = Usuario::restaurarUsuario($correo, $contrasena);
+
+        if ($resultado) {
+            echo json_encode(["success" => true, "message" => "Usuario restaurado correctamente."]);
+        } else {
+            echo json_encode(["success" => false, "error" => "No se pudo restaurar el usuario."]);
+        }
+
     } else {
-        // Obtener los datos del formulario para registro
+        // Registro de usuario
         $imagenPerfil = isset($_FILES['foto']) ? $_FILES['foto'] : null;
         $nombre = $_POST['usuario'];
         $sexo = $_POST['genero'];
         $fechaNacimiento = $_POST['fecha-nacimiento'];
         $email = $_POST['correo'];
         $usuario = $_POST['usuario'];
-        $contrasena = $_POST['contrasena']; // Encriptar la contraseña
+        $contrasena = $_POST['contrasena'];
         $rol = $_POST['rol'];
-        $cuentaBancaria = null; // Por ahora lo dejamos en null
+        $cuentaBancaria = null;
 
-        // Crear el nombre completo a partir de los nombres y apellidos
         $nombreCompleto = $nombre;
-
-        // Registrar al usuario llamando al método registrarUsuario
         Usuario::registrarUsuario($nombreCompleto, $sexo, $fechaNacimiento, $imagenPerfil, $email, $contrasena, $rol, $cuentaBancaria);
     }
 } else {
     echo json_encode(["success" => false, "error" => "Método no permitido."]);
 }
+
 
 
 ?>

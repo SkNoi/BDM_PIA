@@ -23,20 +23,22 @@
     
         <div class="panel">
             <h2>Usuarios Deshabilitados</h2>
-            <table id="usuariosDeshabilitados">
-                <thead>
-                    <tr>
-                        <th>Nombre Completo</th>
-                        <th>Correo</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody id="usuariosDeshabilitadosBody">
-                    <!-- Aquí se agregarán los usuarios deshabilitados dinámicamente -->
-                </tbody>
-            </table>
+            <form id="restaurarUsuarioForm" method="POST" action="Controllers/UsuarioController.php?accion=restaurar">
+                <input type="hidden" name="accion" value="restaurarUsuario">
+                
+                <label for="correo">Correo:</label>
+                <input type="email" name="correo" id="correo" required>
+                
+                <label for="contrasena">Nueva Contraseña:</label>
+                <input type="password" name="contrasena" id="contrasena" required>
+                
+                <button type="submit">Restaurar Usuario</button>
+            </form>
+            
+            
         </div>
-    </div>
+        
+        
 
     <a href="PrincipalAdmin.html">Volver al Panel</a>
 

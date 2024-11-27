@@ -99,13 +99,33 @@ class UsuarioController {
         }
     }
 
-
+    public function restaurarUsuario() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['correo']) && isset($_POST['contrasena'])) {
+                $correo = $_POST['correo'];
+                $contrasena = $_POST['contrasena'];
     
+                // Llamar al modelo para restaurar el usuario
+                $resultado = Usuario::restaurarUsuario($correo, $contrasena);
     
-    
-    
-        
+                // Asegúrate de que solo se envíe una respuesta
+                if ($resultado) {
+                    echo json_encode(["success" => true, "message" => "Usuario restaurado correctamente."]);
+                } else {
+                    echo json_encode(["success" => false, "error" => "No se pudo restaurar el usuario, verifica el correo."]);
+                }
+            } else {
+                echo json_encode(["success" => false, "error" => "Faltan datos para restaurar el usuario."]);
+            }
+        } else {
+            echo json_encode(["success" => false, "error" => "Método no permitido."]);
+        }
     }
+    
+    
+    
+    
+}
 
 
 
@@ -123,6 +143,9 @@ if (isset($_GET['accion'])) {
             break;
         case 'actualizar':
             $controller->actualizar();
+            break;
+        case 'restaurar':  // Nuevo caso para restaurar usuario
+            $controller->RestaurarUsuario();
             break;
         default:
             echo json_encode(["success" => false, "error" => "Acción no válida"]);
