@@ -1,0 +1,191 @@
+DELIMITER //
+
+CREATE PROCEDURE ActualizarUsuario(
+    IN p_ID_User INT,
+    IN p_NombreCompleto VARCHAR(100),
+    IN p_Sexo VARCHAR(30),
+    IN p_FechaNacimiento DATE,
+    IN p_Correo VARCHAR(100),
+    IN p_Contraseña VARCHAR(255),
+    IN p_ImagenPerfil MEDIUMBLOB
+)
+BEGIN
+    -- Actualizar los datos del usuario en la tabla Usuario
+    UPDATE Usuario
+    SET 
+        NombreCompleto = p_NombreCompleto,
+        Sexo = p_Sexo,
+        FechaNacimiento = p_FechaNacimiento,
+        Correo = p_Correo,
+        Contraseña = p_Contraseña,
+        imagen_Perfil = p_ImagenPerfil,
+        UltimaActualizacion = CURRENT_TIMESTAMP
+    WHERE 
+        ID_User = p_ID_User;
+END //
+
+DELIMITER ;
+
+DELIMITER $$
+ 
+CREATE PROCEDURE RegistrarUsuario (
+    IN p_NombreCompleto VARCHAR(100),
+    IN p_Sexo VARCHAR (30),
+    IN p_FechaNacimiento DATE,
+    IN p_imagen_Perfil MEDIUMBLOB,
+    IN p_Correo VARCHAR(100),
+    IN p_Contraseña VARCHAR(255),
+    IN p_Rol VARCHAR (50),
+    IN p_Cuenta_Bancaria VARCHAR(30)
+)
+BEGIN
+    -- Verifica si el correo ya está registrado
+    IF EXISTS (SELECT 1 FROM Usuario WHERE Correo = p_Correo) THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'El correo ya está registrado';
+    ELSE
+        -- Inserta el nuevo usuario
+        INSERT INTO Usuario (
+            NombreCompleto, Sexo, FechaNacimiento, imagen_Perfil, Correo, Contraseña, Rol, Cuenta_Bancaria
+        ) 
+        VALUES (
+            p_NombreCompleto, p_Sexo, p_FechaNacimiento, p_imagen_Perfil, p_Correo, p_Contraseña, p_Rol, p_Cuenta_Bancaria
+        );
+    END IF;
+END$$
+ 
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE VerificarEstadoCuenta(IN p_Correo VARCHAR(100))
+BEGIN
+    DECLARE estado VARCHAR(50);
+
+    -- Obtener el estado de la cuenta
+    SELECT Estado
+    INTO estado
+    FROM Usuario
+    WHERE Correo = p_Correo;
+
+    -- Verificar si la cuenta está deshabilitada
+    IF estado = 'deshabilitado' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tu cuenta está deshabilitada.';
+    END IF;
+END //
+
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE ObtenerCredenciales(
+    IN correoInput VARCHAR(255), 
+    IN contrasenaInput VARCHAR(255)
+)
+BEGIN
+    DECLARE intentos INT;
+
+    -- Obtener datos del usuario
+    SELECT IntentosFallidos, Estado, Contraseña 
+    INTO intentos, @estado, @contraseña 
+    FROM Usuario
+    WHERE Correo = correoInput;
+
+    -- Verificar si la cuenta está deshabilitada
+    IF @estado = 'deshabilitado' THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tu cuenta está deshabilitada.';
+    END IF;
+
+    -- Verificar la contraseña
+    IF contrasenaInput = @contraseña THEN
+        -- Restablecer intentos fallidos
+        UPDATE Usuario SET IntentosFallidos = 0 WHERE Correo = correoInput;
+        SELECT * FROM Usuario WHERE Correo = correoInput;
+    ELSE
+        -- Incrementar intentos fallidos
+        SET intentos = intentos + 1;
+        UPDATE Usuario SET IntentosFallidos = intentos WHERE Correo = correoInput;
+
+        -- Deshabilitar la cuenta si los intentos fallidos llegan a 3
+        IF intentos >= 3 THEN
+            UPDATE Usuario SET Estado = 'deshabilitado' WHERE Correo = correoInput;
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Tu cuenta ha sido deshabilitada después de 3 intentos fallidos.';
+        END IF;
+
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Credenciales incorrectas.';
+    END IF;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE DeshabilitarCuenta(IN p_correo VARCHAR(255))
+BEGIN
+    -- Actualizar el estado del usuario a 'Deshabilitado'
+    UPDATE Usuario
+    SET Estado = 'deshabilitado'
+    WHERE Correo = p_correo;
+END//
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE CrearCategoria(IN tituloCate VARCHAR(255), IN descripcion TEXT, IN idCreador INT)
+BEGIN
+    INSERT INTO Categoría (TituloCate, Descripcion, Creador)
+    VALUES (tituloCate, descripcion, idCreador);
+END $$
+
+DELIMITER ;
+
+
+CREATE VIEW vista_login AS
+SELECT
+    ID_User,
+    NombreCompleto,
+    Correo,
+    Contraseña,
+    Rol,
+    Estado,
+    FechaNacimiento,
+    imagen_Perfil,
+    Sexo
+FROM
+    Usuario;
+
+
+DELIMITER $$
+ 
+CREATE PROCEDURE crearCurso (
+    IN p_Titulo VARCHAR(255),
+    IN p_Descripcion VARCHAR(255),
+    IN p_Categoria INT(11),
+    IN p_Costo DECIMAL (10,2),
+    IN p_Instructor INT(11),
+    IN p_Duracion INT (10),
+    IN p_ImagenCurso MEDIUMBLOB
+)
+BEGIN
+    IF P_Costo <= 0 THEN 
+        -- Inserta el nuevo curso
+        INSERT INTO Curso (
+            Titulo, Descripcion, ID_CATEGORIA, Costo, Duracion, ID_Instructor, ImagenCurso, RegistroGratis
+        ) 
+        VALUES (
+            p_Titulo, p_Descripcion, p_Categoria, p_Costo, p_Duracion, p_Instructor, p_ImagenCurso, CURRENT_DATE
+        );
+    ELSE
+        -- Inserta el nuevo curso
+        INSERT INTO Curso (
+            Titulo, Descripcion, ID_CATEGORIA, Costo, Duracion, ID_Instructor, ImagenCurso, RegistroPago
+        ) 
+        VALUES (
+            p_Titulo, p_Descripcion, p_Categoria, p_Costo, p_Duracion, p_Instructor, p_ImagenCurso, CURRENT_DATE
+        );
+    END IF;
+END$$
+
+        -- Añadi Duracion(INT) y ImagenCurso(MEDIUMBLOB)
+ 
+DELIMITER ;
