@@ -189,3 +189,62 @@ END$$
         -- Añadi Duracion(INT) y ImagenCurso(MEDIUMBLOB)
  
 DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE EliminarCategoria(IN idCategoria INT)
+BEGIN
+    DELETE FROM Categoria 
+    WHERE id_Categoria = idCategoria;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ModificarCategoria(
+    IN p_idCategoria INT,
+    IN p_TituloCate VARCHAR(255),
+    IN p_Descripcion TEXT
+)
+BEGIN
+    -- Actualiza la categoría con el ID correspondiente
+    UPDATE Categoria
+    SET 
+        TituloCate = p_TituloCate,
+        Descripcion = p_Descripcion
+    WHERE id_Categoria = p_idCategoria;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE ObtenerIntentosFallidos(
+    IN p_correo VARCHAR(255)
+)
+BEGIN
+    -- Seleccionar el número de intentos fallidos
+    SELECT IntentosFallidos
+    FROM Usuario
+    WHERE Correo = p_correo;
+END$$
+
+DELIMITER ;
+
+DELIMITER $$
+
+CREATE PROCEDURE RestaurarUsuario(
+    IN correoUsuario VARCHAR(255),
+    IN nuevaContrasena VARCHAR(255)
+)
+BEGIN
+    UPDATE Usuario
+    SET 
+        Contraseña = nuevaContrasena, 
+        Estado = 'Activo', 
+        IntentosFallidos = 0
+    WHERE Correo = correoUsuario;
+END$$
+
+DELIMITER ;
