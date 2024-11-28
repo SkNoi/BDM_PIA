@@ -81,47 +81,51 @@ form button:hover {
     background-color: #A073E0; /* Tono más oscuro al pasar el mouse */
 }
 
-table {
-    width: 100%; /* Ancho completo de la tabla */
-    border-collapse: collapse;
-    margin: 20px auto; /* Centra la tabla y añade margen */
-}
-
-table, th, td {
-    border: 1px solid #CCCCCC; /* Bordes ligeros */
-}
-
-th, td {
-    padding: 10px;
-    text-align: left;
-}
-
-th {
-    background-color: #B699FF; /* Encabezados de tabla */
-    color: white;
-}
-
+/* Contenedor de la lista de categorías */
 ul {
-    padding-left: 20px;
+    list-style-type: none;  /* Elimina los puntos de la lista */
+    padding: 0;  /* Elimina el espacio interno */
+    display: flex;
+    flex-wrap: wrap;  /* Permite que los elementos se ajusten en múltiples filas */
+    gap: 20px;  /* Espacio entre los elementos */
 }
 
-ul li {
-    margin-bottom: 10px;
-    background-color: #F4F4F4;
-    padding: 10px;
-    border-left: 5px solid #B699FF; /* Barra izquierda */
-    border-radius: 5px;
+/* Cada elemento de la lista */
+li {
+    background-color: #f9f9f9;  /* Color de fondo suave */
+    border: 1px solid #ddd;  /* Borde sutil */
+    border-radius: 8px;  /* Bordes redondeados */
+    padding: 15px;  /* Espaciado interno */
+    width: calc(33% - 20px);  /* Ancho de cada categoría, 3 por fila */
+    box-sizing: border-box;  /* Incluye el padding y el border en el cálculo del ancho */
+    text-align: center;  /* Centra el texto */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);  /* Sombra suave */
+    transition: transform 0.2s ease-in-out;  /* Transición al hacer hover */
 }
 
-ul li button {
-    background-color: #FF6B6B; /* Botón para eliminar comentarios */
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 5px;
+/* Efecto al pasar el ratón sobre un elemento de la lista */
+li:hover {
+    transform: translateY(-5px);  /* Desplazamiento al pasar el ratón */
+    background-color: #f1f1f1;  /* Cambio de color al hacer hover */
 }
 
-ul li button:hover {
-    background-color: #E05858; /* Color de fondo al pasar el mouse */
+/* Botones dentro de cada elemento */
+li button {
+    margin: 5px;  /* Espacio entre los botones */
+    padding: 8px 15px;  /* Tamaño de los botones */
+    background-color: #9c27b0;;  /* Color de fondo verde */
+    color: white;  /* Texto blanco */
+    border: none;  /* Sin borde */
+    border-radius: 5px;  /* Bordes redondeados */
+    cursor: pointer;  /* Cambia el cursor a mano */
+    transition: background-color 0.3s;  /* Transición al cambiar color */
 }
+
+/* Efecto al pasar el ratón sobre los botones */
+li button:hover {
+    background-color: #8e24aa;  /* Color verde más oscuro */
+}
+
+
+
+

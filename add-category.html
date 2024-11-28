@@ -18,17 +18,55 @@
 
     <div id="main-content">
         <h1>Añadir Categoría</h1>
-        <form>
+        <form id="add-category-form" action="../Controllers/CategoriaController.php" method="post">
             <label for="category-name">Nombre de la Categoría:</label>
-            <input type="text" id="category-name" placeholder="Introduce el nombre de la categoría" required>
+            <input type="text" id="category-name" name="tituloCate" placeholder="Introduce el nombre de la categoría" required>
+            
+            <label for="category-description">Descripción de la Categoría:</label>
+            <textarea id="category-description" name="descripcion" placeholder="Introduce la descripción de la categoría"></textarea>
+            
+            <!-- Campo oculto para especificar la acción -->
+            <input type="hidden" name="accion" value="crearCategoria">
+            
             <button type="submit">Añadir Categoría</button>
         </form>
+        
+        
         <h2>Categorías Existentes</h2>
         <ul>
-            <li>Categoría 1 <button>Eliminar</button></li>
-            <li>Categoría 2 <button>Eliminar</button></li>
+            <li id="categoria-1">Categoría 1 
+                <button onclick="mostrarFormularioModificar(1, 'Nuevo Título', 'Nueva Descripción')">Modificar</button>
+                <button onclick="eliminarCategoria(1)">Eliminar</button>
+            </li>
+            <li id="categoria-2">Categoría 2 
+                <button onclick="mostrarFormularioModificar(2, 'Nuevo Título', 'Nueva Descripción')">Modificar</button>
+                <button onclick="eliminarCategoria(2)">Eliminar</button>
+            </li>
         </ul>
+        
+        <!-- Formulario para modificar -->
+        <div id="form-modificar-categoria" style="display:none;">
+            <h3>Modificar Categoría</h3>
+            <form id="form-modificar" onsubmit="return modificarCategoria()">
+                <input type="hidden" id="idCategoriaModificar">
+                <label for="tituloCate">Título:</label>
+                <input type="text" id="tituloCate" required><br>
+                
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" required></textarea><br>
+                
+                <button type="submit">Modificar</button>
+                <button type="button" onclick="cancelarModificacion()">Cancelar</button>
+            </form>
+        </div>
+    
+        
     </div>
+    
     <a href="PrincipalAdmin.html">Volver al Panel</a>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/Categoria.js"></script>
 </body>
 </html>
