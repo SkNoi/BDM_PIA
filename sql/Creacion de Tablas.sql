@@ -33,14 +33,12 @@ CREATE TABLE Curso (
     Costo DECIMAL(10, 2),
     Descripcion TEXT,
     PromedioCal DECIMAL(3, 2),
-    RegistroPago DATETIME,
-    RegistroGratis DATETIME,
-    Estatus ENUM('activo', 'inactivo'),
-    FechaCreacion DATETIME,
+    Estatus VARCHAR (50) DEFAULT 'Activo',
+    FechaCreacion DATETIME DEFAULT current_timestamp,
     ID_Instructor INT,
     ID_CATEGORIA INT,
     FOREIGN KEY (ID_Instructor) REFERENCES Usuario(ID_User),
-    FOREIGN KEY (ID_CATEGORIA) REFERENCES Categoría(ID_Categoria)
+    FOREIGN KEY (ID_CATEGORIA) REFERENCES Categoría(id_Categoria)
 );
 
 CREATE TABLE Nivel (
@@ -48,9 +46,9 @@ CREATE TABLE Nivel (
     ID_Curso INT,
     Video VARCHAR(255),
     Descripcion TEXT,
-    FechaCreacion DATETIME,
+    FechaCreacion DATETIME DEFAULT current_timestamp,
     CreadorNivel VARCHAR(100), 
-    Nivel ENUM ('Basico', 'Intermedio', 'Avanzado'),
+    Nivel VARCHAR(50),
     
     FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
 );
