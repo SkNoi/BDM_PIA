@@ -131,23 +131,13 @@
             <!-- Categoría del Curso -->
             <div class="form-group">
                 <label for="categoria">Categoría</label>
-                <select id="categoria" name="categoria" class="form-control" required>
+                <select id="categoria" name="categorias" class="form-control" required>
                     <option value="">Seleccionar Categoría</option>
-                    <option value="programacion">Programación</option>
-                    <option value="diseño">Diseño</option>
-                    <option value="idioma">Idiomas</option>
+                    <option value="1">Programación</option>
+                    <option value="2">Diseño</option>
+                    <option value="3">Idiomas</option>
                 </select>
-            </div>
-
-            <!-- Nivel del Curso -->
-            <div class="form-group">
-                <label for="nivel">Nivel</label>
-                <select id="nivel" name="nivel" class="form-control" required>
-                    <option value="">Seleccionar Nivel</option>
-                    <option value="principiante">Principiante</option>
-                    <option value="intermedio">Intermedio</option>
-                    <option value="avanzado">Avanzado</option>
-                </select>
+                
             </div>
 
             <!-- Duración del Curso -->
@@ -176,42 +166,90 @@
         </form>
     </div>
 
+    <br>
+
     <div class="container">
-        <h1 class="my-4">Agregar Niveles al Curso</h1>
+       <!-- Agregar Niveles al Curso -->
+    <h1 class="my-4">Agregar Niveles al Curso</h1>
+    <form id="formAgregarNivel" action="../Controllers/NivelController.php" method="post">
 
-        <!-- Formulario para agregar niveles -->
-        <form id="formAgregarNivel">
-            <div class="form-group">
-                <label for="cursoId">ID del Curso</label>
-                <input type="text" id="cursoId" name="cursoId" class="form-control" placeholder="ID del curso" required>
-            </div>
-
-            <div class="form-group">
-                <label for="nivel">Nivel:</label>
-                <select id="nivel" name="nivel" class="form-control">
-                    <option value="basico">Básico</option>
-                    <option value="intermedio">Intermedio</option>
-                    <option value="avanzado">Avanzado</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="contenido">Contenido:</label>
-                <textarea id="contenido" name="contenido" class="form-control" rows="4" placeholder="Contenido del nivel" required></textarea>
-            </div>
-
-            <button type="button" class="btn btn-primary" onclick="agregarNivel()">Agregar Nivel</button>
-        </form>
-
-        <!-- Sección para mostrar niveles del curso -->
-        <div id="cursoContenido">
-            <h2 class="my-4">Contenido del Curso</h2>
-            <div id="nivelesCurso">
-                <!-- Aquí se mostrarán los niveles del curso -->
-            </div>
+        <div class="form-group">
+            <label for="cursoId">Seleccionar Curso</label>
+            <select id="cursoId" name="cursosId" class="form-control" required>
+                <option value="">Seleccionar Curso</option>
+            </select>
         </div>
-    </div>
+        
+
+        <div class="form-group">
+            <label for="nivel">Nivel:</label>
+            <select id="Nivel" name="Nivel" class="form-control">
+                <option value="Básico">Básico</option>
+                <option value="Intermedio">Intermedio</option>
+                <option value="Avanzado">Avanzado</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="contenido">Contenido:</label>
+            <textarea id="contenido" name="contenido" class="form-control" rows="4" placeholder="Contenido del nivel" required></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="video">Video del Nivel</label>
+            <input type="file" id="video" name="video" class="form-control-file" accept="video/*" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Agregar Nivel</button>
+    </form>
+
+    
+
 </div>
+
+    <div class="container">
+    <!-- Agregar Temario -->
+    <h1 class="my-4">Agregar Temario</h1>
+    <form id="formAgregarTemario" action="../Controllers/CursoController.php" method="post">
+        
+        <div class="form-group">
+            <label for="cursoId2">Seleccionar Curso</label>
+            <select id="cursoId2" name="cursosId2" class="form-control" required>
+                <option value="">Seleccionar Curso</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="nivelId">Seleccionar Nivel</label>
+            <select id="nivelId" name="nivelId" class="form-control" required>
+                <option value="">Seleccionar Nivel</option>
+            
+            </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tema">Tema:</label>
+                <input type="text" id="tema" name="tema" class="form-control" placeholder="Tema del temario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Descripción del temario" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="recurso">Recurso (Link o PDF):</label>
+                <input type="text" id="recurso" name="recurso" class="form-control" placeholder="Link o PDF del recurso" required>
+            </div>
+
+            <div class="form-group">
+                <label for="video">Video (opcional):</label>
+                <input type="text" id="video" name="video" class="form-control" placeholder="Video del temario" optional>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Agregar Temario</button>
+        </form>
+    </div>
 
     <footer id="idFin">
         <h5>LMAD - BDM</h5>
@@ -221,12 +259,12 @@
         <p>2034232 Carlos Alejandro Segovia Romero</p>    
     </footer>
 
-    <script src="app.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     <script src="https://www.paypal.com/sdk/js?client-id=AbzVKAU35LH6PZd7bsCMWJkB6M1ea_utScWyXhfli8HtarE0CX0RoR6MHeRlhbenBaYWlem_T1qkvnd8&currency=USD"></script>
     <script src="js/Curso.js"></script>
+    
     <script>
     // Configuración del botón de PayPal
     paypal.Buttons({

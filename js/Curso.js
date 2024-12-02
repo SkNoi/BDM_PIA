@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+    obtenerCategorias();
+    obtenerCursos();
+    
+});
+
 document.getElementById("crearCurso").addEventListener("submit", function(e) {
     e.preventDefault();
 
@@ -5,15 +11,20 @@ document.getElementById("crearCurso").addEventListener("submit", function(e) {
     const cursoName = document.getElementById("titulo").value;
     const cursoCost = document.getElementById("precio").value;
     const cursoDescription = document.getElementById("descripcion").value;
-    const cursoCategory = document.getElementById("categoria").value;
+    const cursoCategory = document.getElementById("categoria").value; // Corrección aquí
     const cursoDuration = document.getElementById("duracion").value;
-    const cursoImage = document.getElementById("imagen").value;
-    
+    const cursoImage = document.getElementById("imagen");
+
     let Id = localStorage.getItem("ID"); // Obtener el ID del usuario
 
-    // Verificar si el ID está presente
+    // Validar que los campos requeridos no estén vacíos
     if (!Id) {
         alert("No se ha encontrado el ID del usuario.");
+        return;
+    }
+
+    if (!cursoCategory) {
+        alert("Por favor selecciona una categoría válida.");
         return;
     }
 
@@ -23,36 +34,203 @@ document.getElementById("crearCurso").addEventListener("submit", function(e) {
     formData.append("Titulo", cursoName);
     formData.append("Costo", cursoCost);
     formData.append("Descripcion", cursoDescription);
-    formData.append("ID_CATEGORIA", cursoCategory);
-    formData.append("ID_Instructor", Id);  // Asegurarse de que este valor esté siendo correctamente enviado
+    formData.append("ID_CATEGORIA", cursoCategory); // Corrección aquí
+    formData.append("ID_Instructor", Id);
     formData.append("Duracion", cursoDuration);
-    formData.append("ImagenCurso", cursoImage);
+    formData.append("ImagenCurso", cursoImage.files[0]);
 
+    // Depuración
+    console.log({
+        Titulo: cursoName,
+        Costo: cursoCost,
+        Descripcion: cursoDescription,
+        ID_CATEGORIA: cursoCategory,
+        ID_Instructor: Id,
+        Duracion: cursoDuration,
+        ImagenCurso: cursoImage.files[0]
+    });
 
     // Hacer la solicitud AJAX usando fetch
     fetch("Controllers/CursoController.php", {
         method: "POST",
         body: formData
     })
-    .then(response => response.json())  // Parseamos la respuesta JSON
+    .then(response => response.json())
     .then(data => {
         if (data.success) {
-            // Mostrar mensaje de éxito
             alert(data.message);
-            // Opcional: limpiar los campos del formulario
-            document.getElementById("titulo").value = '';
-            document.getElementById("descripcion").value = '';
-            document.getElementById("precio").value = '';
-            document.getElementById("categoria").value = '';
-            document.getElementById("duracion").value = '';
-            document.getElementById("imagen").value = '';
+            document.getElementById("crearCurso").reset(); // Limpia el formulario
         } else {
-            // Mostrar mensaje de error
             alert(data.error || "Hubo un error al crear el curso.");
         }
     })
     .catch(error => {
-        // Manejo de errores de la solicitud
         alert("Error de comunicación con el servidor: " + error);
     });
 });
+
+
+function mostrarCategorias(categorias) {
+    // Selecciona el elemento <select> del DOM
+    const selectCategoria = document.getElementById('categoria');
+    
+    console.log("Antes de limpiar:", selectCategoria.innerHTML);
+    selectCategoria.innerHTML = '<option value="">Seleccionar Categoría</option>';
+    console.log("Después de limpiar:", selectCategoria.innerHTML);
+    
+    // Itera sobre las categorías y crea nuevas opciones
+    categorias.forEach(categoria => {
+        console.log("Categoría procesada:", categoria);
+        const option = document.createElement('option');
+        option.value = categoria.idCategoria; // Debe existir un campo "id"
+        option.textContent = categoria.TituloCate;; // Debe existir un campo "nombre"
+        selectCategoria.appendChild(option);
+    });
+    }
+
+function obtenerCategorias() {
+    fetch('Controllers/CategoriaController.php', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && Array.isArray(data)) {
+            mostrarCategorias(data);
+        } else {
+            alert('No se pudieron obtener las categorías.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener las categorías:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+
+function mostrarCursos(cursos) {
+    // Selecciona el elemento <select> del DOM
+    const selectCursos = document.getElementById('cursoId');
+    
+    // Limpia las opciones existentes
+    console.log("Antes de limpiar:", selectCursos.innerHTML);
+    selectCursos.innerHTML = '<option value="">Seleccionar Curso</option>';
+    console.log("Después de limpiar:", selectCursos.innerHTML);
+    
+    // Itera sobre los cursos y crea nuevas opciones
+    cursos.forEach(curso => {
+        console.log("Curso procesado:", curso);
+        
+        const option = document.createElement('option');
+        option.value = curso.id_curso; // Asegúrate de usar el nombre correcto del campo
+        option.textContent = curso.titulo; // Usa el campo 'titulo' de cada curso
+        selectCursos.appendChild(option);
+    });
+}
+
+function mostrarCursos2(cursos2) {
+    // Selecciona el elemento <select> del DOM
+    const selectCursos = document.getElementById('cursoId2');
+    
+    // Limpia las opciones existentes
+    console.log("Antes de limpiar:", selectCursos.innerHTML);
+    selectCursos.innerHTML = '<option value="">Seleccionar Curso</option>';
+    console.log("Después de limpiar:", selectCursos.innerHTML);
+    
+    // Itera sobre los cursos y crea nuevas opciones
+    cursos2.forEach(curso => {
+        console.log("Curso procesado:", curso);
+        
+        const option = document.createElement('option');
+        option.value = curso.id_curso; // Asegúrate de usar el nombre correcto del campo
+        option.textContent = curso.titulo; // Usa el campo 'titulo' de cada curso
+        selectCursos.appendChild(option);
+    });
+}
+
+function obtenerCursos() {
+    // Obtener el id del instructor desde el localStorage
+    let Id = localStorage.getItem("ID");
+    
+    // Si no hay id del instructor en el localStorage, no hacer la solicitud
+    if (!Id) {
+        alert('No se encontró el ID del instructor.');
+        return;
+    }
+
+    // Realizamos la solicitud fetch enviando el id del instructor como parámetro
+    fetch('Controllers/CursoController.php?id_instructor=' + Id, {
+        method: 'GET'
+    })
+    .then(response => response.text())  // Usamos text() para leer la respuesta como texto
+    .then(responseText => {
+        console.log('Respuesta del servidor:', responseText);  // Imprime la respuesta
+
+        try {
+            // Intentar convertir a JSON
+            const data = JSON.parse(responseText);
+            // Verifica que la respuesta sea exitosa y que 'cursos' sea un array
+            if (data.success && Array.isArray(data.cursos)) {  // Verifica que 'cursos' sea un array
+                mostrarCursos(data.cursos);  // Accede directamente a los cursos
+                mostrarCursos2(data.cursos);
+            } else {
+                alert('No se pudieron obtener los cursos.');
+            }
+        } catch (error) {
+            console.error('Error al analizar la respuesta como JSON:', error);
+            alert('El servidor no envió una respuesta válida.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener los cursos:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+
+
+document.getElementById("formAgregarNivel").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Obtener los valores del formulario
+    const nivelCurso = document.getElementById("cursoId").value; // Corrección aquí
+    const Nivel = document.getElementById("Nivel").value;
+    const nivelContenido = document.getElementById("contenido").value;
+    const cursoVideo = document.getElementById("video");
+
+
+    // Crear un objeto FormData para enviar al servidor
+    const formData = new FormData();
+    formData.append("accion", "crearNivel");
+    formData.append("ID_Curso", nivelCurso);
+    formData.append("Video", cursoVideo.files[0]);
+    formData.append("Descripcion", nivelContenido);
+    formData.append("Nivel", Nivel);
+
+    // Depuración
+    console.log({
+        ID_Curso: nivelCurso,
+        Descripcion: nivelContenido,
+        Nivel: Nivel,
+        Video: cursoVideo.files[0]
+    });
+
+
+    // Hacer la solicitud AJAX usando fetch
+    fetch("Controllers/NivelController.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            document.getElementById("formAgregarNivel").reset(); // Limpia el formulario
+        } else {
+            alert(data.error || "Hubo un error al crear el curso.");
+        }
+    })
+    .catch(error => {
+        alert("Error de comunicación con el servidor: " + error);
+    });
+});
+
