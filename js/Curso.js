@@ -234,3 +234,101 @@ document.getElementById("formAgregarNivel").addEventListener("submit", function(
     });
 });
 
+document.getElementById('cursoId2').addEventListener('change', function() {
+    const cursoId = this.value; // Obtener el ID del curso seleccionado
+
+    if (cursoId) {
+        obtenerNiveles(cursoId); // Llamar a la función para obtener niveles
+    } else {
+        alert("Por favor, selecciona un curso.");
+    }
+});
+
+
+function obtenerNiveles(cursoId) {
+    fetch('Controllers/NivelController.php?id_curso=' + cursoId, {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success && Array.isArray(data.niveles)) {
+            mostrarNiveles(data.niveles); // Llama a la función para mostrar los niveles
+        } else {
+            alert('No se encontraron niveles para este curso.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener los niveles:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+function mostrarNiveles(niveles) {
+    const nivelesSelect = document.getElementById('niveles');
+    nivelesSelect.innerHTML = '<option value="">Selecciona un nivel</option>'; // Limpiar opciones anteriores
+
+    niveles.forEach(nivel => {
+        const option = document.createElement('option');
+        option.value = nivel.ID_Nivel; // Usamos el ID_Nivel como el valor
+        option.textContent = nivel.Nivel; // Usamos la columna Nivel como el texto visible
+        nivelesSelect.appendChild(option);
+    });
+}
+
+document.getElementById("formAgregarTemario").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    // Obtener los valores del formulario
+    const temarioNivel = document.getElementById("niveles").value; // Corrección aquí
+    const temarioTema = document.getElementById("tema").value;
+    const temarioContenido = document.getElementById("Content").value;
+    const temarioLink = document.getElementById("Link").value;
+    const temarioPDF = document.getElementById("PDF");
+    const temarioVideo = document.getElementById("Video");
+    
+    if (temarioVideo.files.length > 0 && !temarioVideo.files[0].type.includes("video")) {
+        alert("El archivo seleccionado no es un video válido.");
+        return;
+    }
+
+    // Crear un objeto FormData para enviar al servidor
+    const formData = new FormData();
+    formData.append("accion", "crearTemario");
+    formData.append("ID_Nivel", temarioNivel);
+    formData.append("Tema", temarioTema);
+    formData.append("Descripcion", temarioContenido);
+    formData.append("LinkRecurso", temarioLink);
+    formData.append("PDF_Recurso", temarioPDF.files[0]);
+    if (temarioVideo.files.length > 0) {
+        formData.append("Video", temarioVideo.files[0]);
+    }
+
+    // Depuración
+    console.log({
+        ID_Nivel: temarioNivel,
+        Tema: temarioTema,
+        Descripcion: temarioContenido,
+        LinkRecurso: temarioLink,
+        PDF_Recurso: temarioPDF.files[0],
+        Video: temarioVideo.files[0]
+    });
+
+
+    // Hacer la solicitud AJAX usando fetch
+    fetch("Controllers/TemarioController.php", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message);
+            document.getElementById("formAgregarTemario").reset(); // Limpia el formulario
+        } else {
+            alert(data.error || "Hubo un error al crear el curso.");
+        }
+    })
+    .catch(error => {
+        alert("Error de comunicación con el servidor: " + error);
+    });
+});

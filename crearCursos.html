@@ -210,7 +210,7 @@
     <div class="container">
     <!-- Agregar Temario -->
     <h1 class="my-4">Agregar Temario</h1>
-    <form id="formAgregarTemario" action="../Controllers/CursoController.php" method="post">
+    <form id="formAgregarTemario" action="../Controllers/TemarioController.php" method="post">
         
         <div class="form-group">
             <label for="cursoId2">Seleccionar Curso</label>
@@ -219,13 +219,12 @@
             </select>
         </div>
 
-        <div class="form-group">
-            <label for="nivelId">Seleccionar Nivel</label>
-            <select id="nivelId" name="nivelId" class="form-control" required>
-                <option value="">Seleccionar Nivel</option>
-            
+        <div id="nivelesContainer">
+            <label for="niveles">Niveles del Curso:</label>
+            <select id="niveles" class="form-control">
+                <option value="">Selecciona un nivel</option>
             </select>
-            </div>
+        </div>
 
             <div class="form-group">
                 <label for="tema">Tema:</label>
@@ -234,18 +233,20 @@
 
             <div class="form-group">
                 <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" name="descripcion" class="form-control" rows="4" placeholder="Descripción del temario" required></textarea>
+                <textarea id="Content" name="Content" class="form-control" rows="4" placeholder="Descripción del temario" required></textarea>
             </div>
 
             <div class="form-group">
                 <label for="recurso">Recurso (Link o PDF):</label>
-                <input type="text" id="recurso" name="recurso" class="form-control" placeholder="Link o PDF del recurso" required>
+                <input type="text" id="Link" name="Link" class="form-control" placeholder="Link del tema">
+                <input type="file" id="PDF" name="PDF" accept=".pdf">
             </div>
 
             <div class="form-group">
-                <label for="video">Video (opcional):</label>
-                <input type="text" id="video" name="video" class="form-control" placeholder="Video del temario" optional>
+                <label for="video">Video del Temario</label>
+                <input type="file" id="Video" name="Video" class="form-control-file" accept="video/*" required>
             </div>
+            
 
             <button type="submit" class="btn btn-primary">Agregar Temario</button>
         </form>

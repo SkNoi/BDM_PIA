@@ -1,3 +1,5 @@
+
+//TABLA USUARIO//
 DELIMITER //
 
 CREATE PROCEDURE ActualizarUsuario(
@@ -117,6 +119,7 @@ END //
 DELIMITER ;
 
 
+
 DELIMITER //
 
 CREATE PROCEDURE DeshabilitarCuenta(IN p_correo VARCHAR(255))
@@ -128,17 +131,6 @@ BEGIN
 END//
 
 DELIMITER ;
-
-DELIMITER $$
-
-CREATE PROCEDURE CrearCategoria(IN tituloCate VARCHAR(255), IN descripcion TEXT, IN idCreador INT)
-BEGIN
-    INSERT INTO Categoría (TituloCate, Descripcion, Creador)
-    VALUES (tituloCate, descripcion, idCreador);
-END $$
-
-DELIMITER ;
-
 
 CREATE VIEW vista_login AS
 SELECT
@@ -154,97 +146,124 @@ SELECT
 FROM
     Usuario;
 
+//TABLA CATEGORIA//
 
 DELIMITER $$
- 
-CREATE PROCEDURE crearCurso (
+
+CREATE PROCEDURE CrearCategoria(IN tituloCate VARCHAR(255), IN descripcion TEXT, IN idCreador INT)
+BEGIN
+    INSERT INTO Categoría (TituloCate, Descripcion, Creador)
+    VALUES (tituloCate, descripcion, idCreador);
+END $$
+
+DELIMITER ;
+
+//TABLA CURSO//
+
+DELIMITER $$
+
+CREATE PROCEDURE CrearCurso(
     IN p_Titulo VARCHAR(255),
-    IN p_Descripcion VARCHAR(255),
-    IN p_Categoria INT(11),
-    IN p_Costo DECIMAL (10,2),
-    IN p_Instructor INT(11),
-    IN p_Duracion INT (10),
+    IN p_Costo DECIMAL(10, 2),
+    IN p_Descripcion TEXT,
+    IN p_ID_Categoria INT,
+    IN p_ID_Instructor INT,
+    IN p_Duracion INT,
     IN p_ImagenCurso MEDIUMBLOB
 )
 BEGIN
-    IF P_Costo <= 0 THEN 
-        -- Inserta el nuevo curso
-        INSERT INTO Curso (
-            Titulo, Descripcion, ID_CATEGORIA, Costo, Duracion, ID_Instructor, ImagenCurso, RegistroGratis
-        ) 
-        VALUES (
-            p_Titulo, p_Descripcion, p_Categoria, p_Costo, p_Duracion, p_Instructor, p_ImagenCurso, CURRENT_DATE
-        );
-    ELSE
-        -- Inserta el nuevo curso
-        INSERT INTO Curso (
-            Titulo, Descripcion, ID_CATEGORIA, Costo, Duracion, ID_Instructor, ImagenCurso, RegistroPago
-        ) 
-        VALUES (
-            p_Titulo, p_Descripcion, p_Categoria, p_Costo, p_Duracion, p_Instructor, p_ImagenCurso, CURRENT_DATE
-        );
+    -- Verifica que el instructor especificado exista
+    IF (SELECT COUNT(*) FROM Usuario WHERE ID_User = p_ID_Instructor) = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El instructor especificado no existe.';
     END IF;
+
+    -- Verifica que la categoría especificada exista
+    IF (SELECT COUNT(*) FROM Categoria WHERE ID_Categoria = p_ID_Categoria) = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'La categoría especificada no existe.';
+    END IF;
+
+    INSERT INTO Curso (
+        Titulo, 
+        Costo, 
+        Descripcion,
+        ID_Instructor, 
+        ID_CATEGORIA, 
+        Duracion, 
+        ImagenCurso
+    ) VALUES (
+        p_Titulo, 
+        p_Costo, 
+        p_Descripcion,
+        p_ID_Instructor, 
+        p_ID_Categoria, 
+        p_Duracion, 
+        p_ImagenCurso
+    );
 END$$
 
-        -- Añadi Duracion(INT) y ImagenCurso(MEDIUMBLOB)
- 
 DELIMITER ;
 
-DELIMITER $$
 
-CREATE PROCEDURE EliminarCategoria(IN idCategoria INT)
-BEGIN
-    DELETE FROM Categoria 
-    WHERE id_Categoria = idCategoria;
-END$$
+CREATE VIEW vista_cursos AS
+SELECT 
+    ID_Curso,
+    Titulo,
+    Costo,
+    Descripcion,
+    PromedioCal,
+    FechaCreacion,
+    ID_Instructor,
+    ID_CATEGORIA,
+    Duracion,
+    ImagenCurso
+FROM 
+    curso;
 
-DELIMITER ;
+//TABLA NIVEL//
+DELIMITER //
 
-DELIMITER $$
-
-CREATE PROCEDURE ModificarCategoria(
-    IN p_idCategoria INT,
-    IN p_TituloCate VARCHAR(255),
-    IN p_Descripcion TEXT
+CREATE PROCEDURE CrearNivel(
+    IN p_ID_Curso INT,
+    IN p_VideoPath VARCHAR(255),
+    IN p_Descripcion TEXT,
+    IN p_Nivel INT
 )
 BEGIN
-    -- Actualiza la categoría con el ID correspondiente
-    UPDATE Categoria
-    SET 
-        TituloCate = p_TituloCate,
-        Descripcion = p_Descripcion
-    WHERE id_Categoria = p_idCategoria;
-END$$
+    INSERT INTO nivel (ID_Curso, Video, Descripcion, Nivel)
+    VALUES (p_ID_Curso, p_VideoPath, p_Descripcion, p_Nivel);
+END//
 
 DELIMITER ;
 
-DELIMITER $$
+CREATE VIEW VistaNiveles AS
+SELECT 
+    n.ID_Nivel,
+    n.Descripcion,
+    n.Nivel,
+    c.Titulo AS Curso
+FROM 
+    Niveles n
+INNER JOIN 
+    Cursos c ON n.ID_Curso = c.ID_Curso;
 
-CREATE PROCEDURE ObtenerIntentosFallidos(
-    IN p_correo VARCHAR(255)
+//TABLA TEMARIO//
+DELIMITER //
+
+CREATE PROCEDURE InsertarTemario(
+    IN p_ID_Nivel INT,
+    IN p_Tema VARCHAR(255),
+    IN p_Descripcion TEXT,
+    IN p_LinkRecurso VARCHAR(255),
+    IN p_PDF_Recurso VARCHAR(255),
+    IN p_Video VARCHAR(255)
 )
 BEGIN
-    -- Seleccionar el número de intentos fallidos
-    SELECT IntentosFallidos
-    FROM Usuario
-    WHERE Correo = p_correo;
-END$$
+    INSERT INTO temario (ID_Nivel, Tema, Descripcion, LinkRecurso, PDF_Recurso, Video)
+    VALUES (p_ID_Nivel, p_Tema, p_Descripcion, p_LinkRecurso, p_PDF_Recurso, p_Video);
+END //
 
 DELIMITER ;
 
-DELIMITER $$
 
-CREATE PROCEDURE RestaurarUsuario(
-    IN correoUsuario VARCHAR(255),
-    IN nuevaContrasena VARCHAR(255)
-)
-BEGIN
-    UPDATE Usuario
-    SET 
-        Contraseña = nuevaContrasena, 
-        Estado = 'Activo', 
-        IntentosFallidos = 0
-    WHERE Correo = correoUsuario;
-END$$
-
-DELIMITER ;

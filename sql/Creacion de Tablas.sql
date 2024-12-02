@@ -17,6 +17,16 @@ CREATE TABLE Usuario (
     
 );
 
+CREATE TABLE Categoría (
+    id_Categoria INT AUTO_INCREMENT PRIMARY KEY,
+    TituloCate VARCHAR(255) NOT NULL,
+    Descripcion TEXT,
+    Creador INT NOT NULL,
+    FechaCreacion DATETIME DEFAULT current_timestamp,
+  
+  FOREIGN KEY (Creador) REFERENCES Usuario(ID_User)
+);
+
 CREATE TABLE Curso (
     ID_Curso INT AUTO_INCREMENT PRIMARY KEY,
     Titulo VARCHAR(255),
@@ -57,15 +67,6 @@ CREATE TABLE Temario (
     FOREIGN KEY (ID_Nivel) REFERENCES Nivel(ID_Nivel)
 );
 
-CREATE TABLE Categoría (
-    id_Categoria INT AUTO_INCREMENT PRIMARY KEY,
-    TituloCate VARCHAR(255) NOT NULL,
-    Descripcion TEXT,
-    Creador INT NOT NULL,
-    FechaCreacion DATETIME DEFAULT current_timestamp,
-  
-  FOREIGN KEY (Creador) REFERENCES Usuario(ID_User)
-);
 
 CREATE TABLE Kardex (
     ID_Kardex INT AUTO_INCREMENT PRIMARY KEY,

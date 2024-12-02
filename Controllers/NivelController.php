@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $Video = $_FILES['Video'] ?? null;
             $Descripcion = $_POST['Descripcion'] ?? null;
             $Nivel = $_POST['Nivel'] ?? null;
-            
+
             // Validar los datos
             if (!$ID_Curso || !$Video || !$Descripcion || !$Nivel) {
                 echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios.']);
@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
             }
 
-            
             // Llamar al método para crear el nivel
             $resultado = Nivel::crearNivel($ID_Curso, $Video, $Descripcion, $Nivel);
 
@@ -51,8 +50,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         default:
             echo json_encode(['success' => false, 'error' => 'Acción no válida o no definida.']);
     }
+} elseif ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Manejar solicitudes GET
+    if (isset($_GET['id_curso'])) {
+        $idCurso = $_GET['id_curso'];
+        
+        // Llamar al método para obtener los niveles
+        $niveles = Nivel::obtenerNivelesPorCurso($idCurso);
+
+        if ($niveles) {
+            echo json_encode(['success' => true, 'niveles' => $niveles]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'No se encontraron niveles para este curso.']);
+        }
+    } else {
+        echo json_encode(['success' => false, 'error' => 'No se proporcionó un ID de curso.']);
+    }
 } else {
     echo json_encode(['success' => false, 'error' => 'Método no permitido.']);
 }
+
 
 ?>

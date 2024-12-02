@@ -65,6 +65,53 @@ class Nivel {
         }
     }
     
+    public static function obtenerNivelesPorCurso($idCurso) {
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+
+        if (!$conexionAbierta) {
+            error_log('No se pudo abrir la conexión a la base de datos.');
+            return false;
+        }
+
+        try {
+            // Preparar la consulta para obtener los niveles por ID_Curso
+            $sql = "SELECT ID_Nivel, Nivel FROM nivel WHERE ID_Curso = ?";
+            $stmt = $conexionAbierta->prepare($sql);
+
+            if (!$stmt) {
+                error_log('Error al preparar la consulta: ' . $conexionAbierta->error);
+                return false;
+            }
+
+            // Enlazar parámetros
+            $stmt->bind_param('i', $idCurso);
+
+            // Ejecutar la consulta
+            if (!$stmt->execute()) {
+                error_log('Error al ejecutar la consulta: ' . $stmt->error);
+                return false;
+            }
+
+            // Obtener los resultados
+            $result = $stmt->get_result();
+
+            // Convertir los resultados a un array asociativo
+            $niveles = [];
+            while ($row = $result->fetch_assoc()) {
+                $niveles[] = $row;
+            }
+
+            return $niveles;
+
+        } catch (Exception $e) {
+            error_log('Excepción al obtener niveles: ' . $e->getMessage());
+            return false;
+        } finally {
+            $conexion->cerrarConexion();
+        }
+    }
+    
     
 }
 
