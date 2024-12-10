@@ -64,7 +64,7 @@ function obtenerCursos() {
         try {
             const data = JSON.parse(responseText);
             if (data.success && Array.isArray(data.cursos)) {
-                mostrarCursos2(data.cursos); // Mostrar los cursos filtrados
+                mostrarCursos(data.cursos); // Mostrar los cursos filtrados
             } else {
                 console.error('Respuesta inesperada del servidor:', data);
                 alert('No se pudieron obtener los cursos.');
