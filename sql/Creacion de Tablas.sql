@@ -23,8 +23,8 @@ CREATE TABLE Categoría (
     Descripcion TEXT,
     Creador INT NOT NULL,
     FechaCreacion DATETIME DEFAULT current_timestamp,
-  
-  FOREIGN KEY (Creador) REFERENCES Usuario(ID_User)
+
+    FOREIGN KEY (Creador) REFERENCES Usuario(ID_User)
 );
 
 CREATE TABLE Curso (
