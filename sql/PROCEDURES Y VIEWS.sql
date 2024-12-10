@@ -29,7 +29,7 @@ END //
 DELIMITER ;
 
 DELIMITER $$
- 
+
 CREATE PROCEDURE RegistrarUsuario (
     IN p_NombreCompleto VARCHAR(100),
     IN p_Sexo VARCHAR (30),
@@ -54,7 +54,7 @@ BEGIN
         );
     END IF;
 END$$
- 
+
 DELIMITER ;
 
 
