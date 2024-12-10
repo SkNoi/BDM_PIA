@@ -54,6 +54,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         case 'eliminarCurso':
             // Lógica para eliminar un curso
+              $id_curso = $_POST['id_curso'] ?? 0;
+
+              // Verificar que el ID de la categoría sea válido
+              if (empty($id_curso)) {
+                  echo json_encode(["success" => false, "error" => "El ID de curso es obligatorio."]);
+                  exit;
+              }
+      
+              // Llamar al método del modelo para eliminar la categoría
+              $resultado = Curso::eliminarCurso($id_curso);
+      
+              // Responder con el resultado de la operación
+              if ($resultado) {
+                  echo json_encode(["success" => true, "message" => "Curso eliminado correctamente."]);
+              } else {
+                  echo json_encode(["success" => false, "error" => "No se pudo eliminar el curso."]);
+              }
             break;
     
         default:
@@ -74,7 +91,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(['success' => false, 'error' => 'No se encontraron cursos para este instructor.']);
             }
         } else {
-            echo json_encode(['success' => false, 'error' => 'ID del instructor no proporcionado.']);
+            //echo json_encode(['success' => false, 'error' => 'ID del instructor no proporcionado.']);
+            $cursos = Curso::obtenerTodosLosCursos();
+    
+            if ($cursos) {
+                echo json_encode(['success' => true, 'cursos' => $cursos]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se encontraron cursos para este instructor.']);
+            }
         }
     }
 

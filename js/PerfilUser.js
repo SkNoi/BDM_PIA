@@ -30,8 +30,6 @@ document.getElementById('foto').addEventListener('change', previewImage);
 
 
 
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const usuario = JSON.parse(localStorage.getItem('usuario'));
 
@@ -243,4 +241,109 @@ async function actualizarPerfil(event) {
     });
 }
 
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    obtenerCursos();
+    
+});
+
+
+
+function obtenerCursos() {
+    let Id = localStorage.getItem("ID");
+    if (!Id) {
+        alert('No se encontró el ID del instructor.');
+        return;
+    }
+
+    fetch('Controllers/CursoController.php?id_instructor=' + Id, {
+        method: 'GET'
+    })
+    .then(response => response.text())
+    .then(responseText => {
+        console.log('Respuesta del servidor:', responseText);
+        try {
+            const data = JSON.parse(responseText);
+            if (data.success && Array.isArray(data.cursos)) {
+                mostrarCursosCreados(data.cursos);
+            } else {
+                console.error('Respuesta inesperada del servidor:', data);
+                alert('No se pudieron obtener los cursos.');
+            }
+        } catch (error) {
+            console.error('Error al analizar la respuesta como JSON:', error);
+            alert('El servidor no envió una respuesta válida.');
+        }
+    })
+    .catch(error => {
+        console.error('Error de comunicación con el servidor:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+
+function mostrarCursosCreados(cursos) {
+    const listaCursos = document.querySelector('#listaCursos'); // Selecciona el contenedor de los cursos
+    listaCursos.innerHTML = ''; // Limpiar la lista actual
+
+    // Asegúrate de que el contenedor tenga una clase adecuada para el diseño
+    listaCursos.classList.add('cursos-en-fila');
+
+    // Recorre los cursos y crea una tarjeta para cada uno
+    cursos.forEach(curso => {
+        const li = document.createElement('li');
+        li.id = `curso-${curso.id_curso}`;
+        li.className = 'curso-item';
+
+        const imagenSrc = `data:image/png;base64,${curso.imagencurso}`;
+
+        li.innerHTML = `
+            <div class="curso-card">
+                <img src="${imagenSrc}" alt="Imagen del curso ${curso.titulo}" class="curso-imagen">
+                <div class="curso-detalles">
+                    <h3>${curso.titulo}</h3>
+                    <p><strong>Precio:</strong> $${curso.costo}</p>
+                    <button class="btn-eliminar" onclick="eliminarCurso(${curso.id_curso})">Eliminar</button>
+                </div>
+            </div>
+        `;
+        listaCursos.appendChild(li);
+    });
+}
+
+
+
+
+
+function eliminarCurso(id_curso) {
+    if (confirm('¿Estás seguro de que deseas eliminar este curso?')) {
+        // Enviar solicitud POST al servidor
+        fetch('../Controllers/CursoController.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+                accion: 'eliminarCurso',
+                id_curso: id_curso
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Verificar la respuesta del servidor
+            if (data.success) {
+                // Eliminar la categoría de la lista en la UI
+                document.getElementById('curso-' + id_curso).remove();
+                alert(data.message); // Mostrar mensaje de éxito
+            } else {
+                alert(data.error); // Mostrar mensaje de error
+            }
+        })
+        .catch(error => {
+            console.error('Error al eliminar el curso:', error);
+            alert('Hubo un error al intentar eliminar el curso.');
+        });
+    }
+}
 

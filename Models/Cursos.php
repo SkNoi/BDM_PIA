@@ -194,7 +194,49 @@ class Curso{
         }
     }
     
+    public static function obtenerTodosLosCursos() {
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
     
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+    
+            // Construir la consulta SQL dinámicamente
+            $sql = "SELECT ID_Curso, Titulo, Costo, Descripcion, PromedioCal, FechaCreacion, ID_Instructor, ID_CATEGORIA, ImagenCurso, Duracion
+                    FROM vista_cursos";
+            $stmt = $conexionAbierta->prepare($sql);
+    
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+    
+            $cursos = [];
+            while ($fila = $resultado->fetch_assoc()) {
+                $cursos[] = new Curso(
+                    $fila['ID_Curso'],
+                    $fila['Titulo'],
+                    $fila['Costo'],
+                    $fila['Descripcion'],
+                    $fila['PromedioCal'],
+                    $fila['FechaCreacion'],
+                    $fila['ID_Instructor'],
+                    $fila['ID_CATEGORIA'],
+                    $fila['ImagenCurso'],
+                    $fila['Duracion']
+                );
+            }
+    
+            return $cursos;
+    
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return [];
+        } finally {
+            $conexion->cerrarConexion();
+        }
+    }
+      
     
 }
 
