@@ -237,6 +237,7 @@ document.getElementById("formAgregarNivel").addEventListener("submit", function(
 document.getElementById('cursoId2').addEventListener('change', function() {
     const cursoId = this.value; // Obtener el ID del curso seleccionado
 
+    console.log('El ID es: ' + cursoId);
     if (cursoId) {
         obtenerNiveles(cursoId); // Llamar a la función para obtener niveles
     } else {

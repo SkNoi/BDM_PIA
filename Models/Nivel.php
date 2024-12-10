@@ -76,7 +76,7 @@ class Nivel {
 
         try {
             // Preparar la consulta para obtener los niveles por ID_Curso
-            $sql = "SELECT ID_Nivel, Nivel FROM nivel WHERE ID_Curso = ?";
+            $sql = "SELECT ID_Nivel, Nivel FROM Nivel WHERE ID_Curso = ?";
             $stmt = $conexionAbierta->prepare($sql);
 
             if (!$stmt) {
