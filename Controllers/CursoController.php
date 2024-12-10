@@ -78,11 +78,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
         
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        // Obtener el id del instructor de los parámetros GET
+        // Obtener parámetros
+        $id_curso = isset($_GET['id_curso']) ? $_GET['id_curso'] : null;
         $id_instructor = isset($_GET['id_instructor']) ? $_GET['id_instructor'] : null;
     
-        if ($id_instructor) {
-            // Llamar al método de la clase Curso para obtener los cursos de ese instructor
+        if ($id_curso) {
+            // Obtener detalles de un curso específico
+            $curso = Curso::obtenerCursoPorId($id_curso);
+    
+            if ($curso) {
+                echo json_encode(['success' => true, 'curso' => $curso]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'No se encontró el curso especificado.']);
+            }
+        } else if ($id_instructor) {
+            // Obtener cursos de un instructor
             $cursos = Curso::obtenerCursosPorInstructor($id_instructor);
     
             if ($cursos) {
@@ -91,15 +101,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo json_encode(['success' => false, 'error' => 'No se encontraron cursos para este instructor.']);
             }
         } else {
-            //echo json_encode(['success' => false, 'error' => 'ID del instructor no proporcionado.']);
+            // Obtener todos los cursos
             $cursos = Curso::obtenerTodosLosCursos();
     
             if ($cursos) {
                 echo json_encode(['success' => true, 'cursos' => $cursos]);
             } else {
-                echo json_encode(['success' => false, 'error' => 'No se encontraron cursos para este instructor.']);
+                echo json_encode(['success' => false, 'error' => 'No se encontraron cursos.']);
             }
         }
     }
+    
+    
 
 ?>
