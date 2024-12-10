@@ -236,6 +236,51 @@ class Curso{
             $conexion->cerrarConexion();
         }
     }
+
+    public static function obtenerCursoPorId($id_curso) {
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+    
+            // Consulta SQL para obtener los detalles del curso específico
+            $sql = "SELECT ID_Curso, Titulo, Costo, Descripcion, PromedioCal, FechaCreacion, Id_Instructor, Id_Categoria, ImagenCurso, Duracion
+                    FROM vista_cursos
+                    WHERE ID_Curso = ?";
+    
+            $stmt = $conexionAbierta->prepare($sql);
+            $stmt->bind_param('i', $id_curso); // El 'i' indica que es un entero
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+    
+            if ($fila = $resultado->fetch_assoc()) {
+                return new Curso(
+                    $fila['ID_Curso'],
+                    $fila['Titulo'],
+                    $fila['Costo'],
+                    $fila['Descripcion'],
+                    $fila['PromedioCal'],
+                    $fila['FechaCreacion'],
+                    $fila['ID_Instructor'],
+                    $fila['ID_CATEGORIA'],
+                    $fila['ImagenCurso'],
+                    $fila['Duracion']
+                );
+            } else {
+                return null; // No se encontró el curso
+            }
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return null;
+        } finally {
+            $conexion->cerrarConexion();
+        }
+    }
+    
+    
       
     
 }
