@@ -44,20 +44,19 @@ function obtenerCursos() {
     const categoria = urlParams.get('categoria') || '';
     const calificacion = urlParams.get('calificacion') || '';
 
-    // Construir el cuerpo de la solicitud con los filtros
-    const filtros = {
-        termino,
-        categoria,
-        calificacion
-    };
+    // Construir la URL con los filtros como query parameters
+    let url = 'Controllers/CursoController.php?';
+    if (termino) url += `termino=${encodeURIComponent(termino)}&`;
+    if (categoria) url += `categoria=${encodeURIComponent(categoria)}&`;
+    if (calificacion) url += `calificacion=${encodeURIComponent(calificacion)}&`;
+    url = url.slice(0, -1); // Eliminar el último '&' si existe
 
-    fetch('Controllers/CursoController.php', {
+    // Hacer la solicitud GET al servidor
+    fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        // Pasar los filtros como parámetros en la URL
-        body: JSON.stringify(filtros)
+        }
     })
     .then(response => response.text())
     .then(responseText => {
@@ -80,6 +79,7 @@ function obtenerCursos() {
         alert('Error de comunicación con el servidor.');
     });
 }
+
 
 
 
