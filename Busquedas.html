@@ -21,38 +21,38 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <div class="mx-auto d-flex flex-grow-1 justify-content-center">
-                        <form class="d-flex" id="formularioBusqueda">
-                            <input class="form-control me-2" id="inputBuscador" type="search" placeholder="Buscar cursos..." aria-label="Search" required>
-                            <div class="dropdown me-2">
-                                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filtroBusqueda" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Filtro de búsqueda
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="filtroBusqueda">
-                                    <li>
-                                        <select class="form-select" id="campoCategoria" aria-label="Categoría">
-                                            <option selected disabled value="">Categorías</option>
-                                            <option value="programacion">Programación</option>
-                                            <option value="diseño">Diseño</option>
-                                            <option value="negocios">Negocios</option>
-                                        </select>
-                                    </li>
-                                    <br>
-                                    <li>
-                                        <select class="form-select" id="campoEstrellas" aria-label="Calificación">
-                                            <option value="">Calificación</option>
-                                            <option value="1">1 Estrella</option>
-                                            <option value="2">2 Estrellas</option>
-                                            <option value="3">3 Estrellas</option>
-                                            <option value="4">4 Estrellas</option>
-                                            <option value="5">5 Estrellas</option>
-                                        </select>
-                                    </li>
-                                </ul>
-                            </div>
-                            <button id="btnBuscar" type="button" class="btn btn-primary" onclick="window.location.href='Busquedas.html'">Buscar</button>
-                        </form>
-                    </div>
+                  <div class="mx-auto d-flex flex-grow-1 justify-content-center">
+                    <form class="d-flex" id="formularioBusqueda" onsubmit="realizarBusqueda(event)">
+            <input class="form-control me-2" id="inputBuscador" type="search" placeholder="Buscar cursos..." aria-label="Search" required>
+            <div class="dropdown me-2">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filtroBusqueda" data-bs-toggle="dropdown" aria-expanded="false">
+                    Filtro de búsqueda
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="filtroBusqueda">
+                    <li>
+                        <select class="form-select" id="campoCategoria" aria-label="Categoría">
+                            <option selected disabled value="">Categorías</option>
+                            <option value="programacion">Programación</option>
+                            <option value="diseno">Diseño</option>
+                            <option value="negocios">Negocios</option>
+                        </select>
+                    </li>
+                    <br>
+                    <li>
+                        <select class="form-select" id="campoEstrellas" aria-label="Calificación">
+                            <option value="">Calificación</option>
+                            <option value="1">1 Estrella</option>
+                            <option value="2">2 Estrellas</option>
+                            <option value="3">3 Estrellas</option>
+                            <option value="4">4 Estrellas</option>
+                            <option value="5">5 Estrellas</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        <button id="btnBuscar" type="submit" class="btn btn-primary">Buscar</button>
+    </form>
+</div>
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link active" href="kardex.html">Kardex</a>
@@ -111,19 +111,20 @@
     </div>
     
     <div class="wrapper">
+        <section class="cursos">
         <div class="container" id="contenedorPrincipal">
             <h1>Resultados de búsqueda</h1>
-            <div class="card-container" id="card-container">
+            <div class="cursos-grid" id="cursosGrid">
+                <!-- Los cursos se generarán dinámicamente aquí -->
+            </div>
+            <div id="button-container" class="navegacion-container">
+                <button id="btnAtras" class="navegacion-boton">Atrás</button>
+                <button id="btnSiguiente" class="navegacion-boton">Siguiente</button>
+            </div>
+            <div id="no-results" style="display: none;" class="mensaje-no-resultados">
                 No se encontraron resultados.
             </div>
-            <div id="button-container">
-                <button id="btnAtras">Atrás</button>
-                <button id="btnSiguiente">Siguiente</button>
-            </div>
-            <div id="no-results" style="display: none;">
-                No se encontraron resultados.
-            </div>
-        </div>
+    </section>
     </div>
 
     <br>

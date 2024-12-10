@@ -21,7 +21,7 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <div class="mx-auto d-flex flex-grow-1 justify-content-center">
-                        <form class="d-flex" id="formularioBusqueda">
+                        <form class="d-flex" id="formularioBusqueda" onsubmit="realizarBusqueda(event)">
                             <input class="form-control me-2" id="inputBuscador" type="search" placeholder="Buscar cursos..." aria-label="Search" required>
                             <div class="dropdown me-2">
                                 <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filtroBusqueda" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,10 +30,10 @@
                                 <ul class="dropdown-menu" aria-labelledby="filtroBusqueda">
                                     <li>
                                         <select class="form-select" id="campoCategoria" aria-label="Categoría">
-                                            <option selected disabled value="">Categorías</option>
-                                            <option value="programacion">Programación</option>
-                                            <option value="diseño">Diseño</option>
-                                            <option value="negocios">Negocios</option>
+                                            <option value="">Seleccionar Categoría</option>
+                                            <option value="1">Programación</option>
+                                            <option value="2">Diseño</option>
+                                            <option value="3">Negocios</option>
                                         </select>
                                     </li>
                                     <br>
