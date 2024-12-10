@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 function mostrarCategorias(categorias) {
     // Selecciona el elemento <select> del DOM
-    const selectCategoria = document.getElementById('campoCategoria');
+    const selectCategoria = document.getElementById('categoria');
     
     console.log("Antes de limpiar:", selectCategoria.innerHTML);
     selectCategoria.innerHTML = '<option value="">Seleccionar Categoría</option>';
