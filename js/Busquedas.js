@@ -13,7 +13,7 @@ function realizarBusqueda(event) {
 
     // Obtén los valores del formulario
     const termino = document.getElementById('inputBuscador').value.trim();
-    const categoria = document.getElementById('campoCategoria').value;
+    const categoria = document.getElementById('categoria').value;
     const calificacion = document.getElementById('campoEstrellas').value;
 
     // Construye la URL con los parámetros de búsqueda
