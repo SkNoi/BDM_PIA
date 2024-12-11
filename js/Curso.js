@@ -400,3 +400,72 @@ function realizarBusqueda(event) {
     // Redirige a la página de resultados con los parámetros de búsqueda
     window.location.href = url;
 }
+
+// Función para actualizar el carrito en el navbar
+function actualizarCarrito() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const carritoBody = document.getElementById('carrito-body');
+    const totalElement = document.getElementById('total');
+
+    // Verificar si los elementos existen antes de continuar
+    if (!carritoBody || !totalElement) {
+        console.error('Elemento carrito-body o total no encontrado.');
+        return;
+    }
+
+    // Limpiar el carrito actual
+    carritoBody.innerHTML = '';
+
+    if (carrito.length > 0) {
+        let total = 0;
+        carrito.forEach((producto, index) => {
+            // Asegurarnos de que producto.costo sea un número válido
+            const costo = parseFloat(producto.costo); // Convertimos a número
+            if (isNaN(costo)) {
+                console.warn(`El costo del producto "${producto.titulo}" no es un número válido.`);
+                return; // Si no es un número válido, continuamos con el siguiente producto
+            }
+
+            const subtotal = costo;
+            total += subtotal;
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${producto.titulo}</td>
+                <td>$${costo.toFixed(2)}</td>
+                <td>$${subtotal.toFixed(2)}</td>
+                <td><button class="btn-eliminar" data-index="${index}">X</button></td>
+            `;
+            carritoBody.appendChild(row);
+        });
+
+        // Mostrar el total de forma segura
+        totalElement.textContent = `$${total.toFixed(2)}`;
+
+        // Agregar evento de eliminación a los botones de eliminar
+        const btnEliminar = document.querySelectorAll('.btn-eliminar');
+        btnEliminar.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index');
+                eliminarProductoDelCarrito(index);
+            });
+        });
+    } else {
+        carritoBody.innerHTML = '<tr><td colspan="4" class="text-center">El carrito está vacío.</td></tr>';
+        totalElement.textContent = '$0.00';
+    }
+}
+
+// Función para eliminar un producto del carrito
+function eliminarProductoDelCarrito(index) {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+
+    // Eliminar el producto en el índice dado
+    carrito.splice(index, 1); // Elimina el producto con el índice correspondiente
+
+    // Actualizar el carrito en localStorage
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    // Actualizar la vista del carrito
+    actualizarCarrito();
+}
