@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    background-color: #ff4c4c;
+    background-color: #B39DDB;
     color: white;
     text-align: center;
     padding: 1em 0;
@@ -45,7 +45,7 @@ header {
 #curso-precio {
     font-size: 1.2em;
     margin: 10px 0;
-    color: #ff4c4c;
+    color: #55a5e7;
 }
 
 .temarios {
@@ -71,7 +71,7 @@ header {
 .btn-comprar {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #ff4c4c;
+    background-color: #715AFF;
     color: white;
     text-decoration: none;
     border-radius: 4px;
@@ -80,7 +80,7 @@ header {
 }
 
 .btn-comprar:hover {
-    background-color: #e04444;
+    background-color: #311B92;
 }
 
 .btn {
