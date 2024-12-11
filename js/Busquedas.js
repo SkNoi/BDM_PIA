@@ -127,3 +127,7 @@ function mostrarCursos(cursos) {
     });
 }
 
+function mostrarMensajeSinResultados() {
+    const cursosGrid = document.querySelector('.cursos-grid');
+    cursosGrid.innerHTML = '<p>No se encontraron resultados.</p>';
+}
