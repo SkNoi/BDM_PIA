@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     obtenerCategorias();
     obtenerCategorias2()
     obtenerCursos();
+    actualizarCarrito();
     
 });
 

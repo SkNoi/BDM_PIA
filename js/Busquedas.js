@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Usa estos valores para filtrar y mostrar los cursos
     obtenerCursos(termino, categoria, calificacion);
+    actualizarCarrito();
 });
 
 function realizarBusqueda(event) {
