@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const reportes = document.getElementById("kardex-table");
+    const reportes = document.getElementById("reportes");
 
     // Obtén el usuario desde localStorage
     const usuarioStorage = JSON.parse(localStorage.getItem('usuario'));
