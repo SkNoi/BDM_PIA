@@ -141,7 +141,7 @@ function aplicarFiltros() {
 
     filas.forEach(fila => {
         const estadoFila = fila.getAttribute("data-estado");
-        if (estado === "" || estado === estadoFila) {
+        if (Estado === "" || Estado === estadoFila) {
             fila.style.display = "table-row";
         } else {
             fila.style.display = "none";
