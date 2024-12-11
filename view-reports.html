@@ -105,49 +105,60 @@
             </table>
         </div>
 
-
         <script>
-            function cambiarTipoUsuario() {
-                const tipoUsuario = document.getElementById('tipoUsuario').value;
-                const reportesInstructores = document.getElementById('reportesInstructores');
-                const reportesEstudiantes = document.getElementById('reportesEstudiantes');
-    
-                if (tipoUsuario === 'instructor') {
-                    reportesInstructores.classList.remove('oculto');
-                    reportesEstudiantes.classList.add('oculto');
-                } else if (tipoUsuario === 'estudiante') {
-                    reportesInstructores.classList.add('oculto');
-                    reportesEstudiantes.classList.remove('oculto');
-                } else {
-                    reportesInstructores.classList.add('oculto');
-                    reportesEstudiantes.classList.add('oculto');
-                }
-            }
-    
-            function aplicarFiltros() {
-                const estado = document.getElementById('estado').value;
-                const tipoUsuario = document.getElementById('tipoUsuario').value;
-                let tabla;
-    
-                if (tipoUsuario === 'instructor') {
-                    tabla = document.getElementById('tablaInstructores');
-                } else if (tipoUsuario === 'estudiante') {
-                    tabla = document.getElementById('tablaEstudiantes');
-                } else {
-                    alert('Selecciona un tipo de usuario para aplicar filtros.');
-                    return;
-                }
-    
-                for (const row of tabla.reportes) {
-                    const estadoUsuario = row.dataset.estado; // Agregar un atributo data-estado en las filas si es necesario.
-                    if (estado === '' || estadoUsuario === estado) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                }
-            }
+         // Función para cambiar la visibilidad según el tipo de usuario
+function cambiarTipoUsuario() {
+    const tipoUsuario = document.getElementById("tipoUsuario").value;
+    const reportesInstructores = document.getElementById("reportes");
+    const reportesEstudiantes = document.getElementById("tablaReportes");
+
+    if (tipoUsuario === "instructor") {
+        reportesInstructores.parentElement.style.display = "block";
+        reportesEstudiantes.parentElement.style.display = "none";
+    } else if (tipoUsuario === "estudiante") {
+        reportesInstructores.parentElement.style.display = "none";
+        reportesEstudiantes.parentElement.style.display = "block";
+    } else {
+        reportesInstructores.parentElement.style.display = "none";
+        reportesEstudiantes.parentElement.style.display = "none";
+    }
+}
+
+// Función para aplicar los filtros de estado
+function aplicarFiltros() {
+    const tipoUsuario = document.getElementById("tipoUsuario").value;
+    const estado = document.getElementById("estado").value;
+
+    let filas;
+    if (tipoUsuario === "instructor") {
+        filas = document.querySelectorAll("#reportes tr");
+    } else if (tipoUsuario === "estudiante") {
+        filas = document.querySelectorAll("#tablaReportes tr");
+    } else {
+        alert("Selecciona un tipo de usuario.");
+        return;
+    }
+
+    filas.forEach(fila => {
+        const estadoFila = fila.getAttribute("data-estado");
+        if (estado === "" || estado === estadoFila) {
+            fila.style.display = "table-row";
+        } else {
+            fila.style.display = "none";
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
         </script>
+
         
     <a href="PrincipalAdmin.html">Volver al Panel</a>
     <script src="js/view-reports.js"></script>
