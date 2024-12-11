@@ -12,9 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success && data.detallesCurso) {
-                mostrarDetallesCurso(data.detallesCurso);
-                console.log('Esto es el curso:' + detallesCurso);
+            if (data.success && data.curso) {
+                mostrarDetallesCurso(data.curso);
             } else {
                 alert('No se encontraron detalles del curso.');
             }
@@ -27,13 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
 });
 
-function mostrarDetallesCurso(detallesCurso) {
-    
+function mostrarDetallesCurso(curso) {
+    console.log(curso.nivel)
     // Llena los elementos del HTML con la información del curso
-    document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
-    document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.ImagenCurso}`;
-    document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.ImagenCurso}`;
-    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.Costo}`;
-    document.getElementById('curso-descripcion').textContent = detallesCurso.Descripcion;
-    document.getElementById('temario-basico').textContent = detallesCurso.Nivel;
+    document.getElementById('curso-titulo').textContent = curso.titulo;
+    document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
+    document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.imagencurso}`;
+    document.getElementById('curso-precio').textContent = `Precio: $${curso.costo}`;
+    document.getElementById('curso-descripcion').textContent = curso.descripcion;
+    document.getElementById('temario-basico').textContent = curso.nivel;
 }
