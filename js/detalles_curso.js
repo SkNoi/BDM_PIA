@@ -33,4 +33,5 @@ function mostrarDetallesCurso(detallesCurso) {
     document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
     document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.costo}`;
     document.getElementById('curso-descripcion').textContent = detallesCurso.descripcion;
+    document.getElementById('temario-basico').textContent = detallesCurso.nivel;
 }
