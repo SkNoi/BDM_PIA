@@ -95,19 +95,27 @@ function actualizarCarrito() {
     if (carrito.length > 0) {
         let total = 0;
         carrito.forEach((producto, index) => {
-            const subtotal = producto.costo;
+            // Asegurarnos de que producto.costo sea un número válido
+            const costo = parseFloat(producto.costo); // Convertimos a número
+            if (isNaN(costo)) {
+                console.warn(`El costo del producto "${producto.titulo}" no es un número válido.`);
+                return; // Si no es un número válido, continuamos con el siguiente producto
+            }
+
+            const subtotal = costo;
             total += subtotal;
 
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td>${producto.titulo}</td>
-                <td>$${producto.costo}</td>
-                <td>$${subtotal}</td>
+                <td>$${costo.toFixed(2)}</td>
+                <td>$${subtotal.toFixed(2)}</td>
                 <td><button class="btn-eliminar" data-index="${index}">X</button></td>
             `;
             carritoBody.appendChild(row);
         });
 
+        // Mostrar el total de forma segura
         totalElement.textContent = `$${total.toFixed(2)}`;
 
         // Agregar evento de eliminación a los botones de eliminar
@@ -124,7 +132,6 @@ function actualizarCarrito() {
     }
 }
 
-
 // Función para eliminar un producto del carrito
 function eliminarProductoDelCarrito(index) {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -138,6 +145,7 @@ function eliminarProductoDelCarrito(index) {
     // Actualizar la vista del carrito
     actualizarCarrito();
 }
+
 
 
 
