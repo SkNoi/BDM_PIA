@@ -125,7 +125,9 @@ function actualizarCarrito() {
 // Función para eliminar un producto del carrito
 function eliminarProductoDelCarrito(index) {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    carrito.splice(index, 1); // Eliminar el producto en el índice dado
+
+    // Eliminar el producto en el índice dado
+    carrito.splice(index, 1); // Elimina el producto con el índice correspondiente
 
     // Actualizar el carrito en localStorage
     localStorage.setItem('carrito', JSON.stringify(carrito));
@@ -138,5 +140,6 @@ function eliminarProductoDelCarrito(index) {
 document.addEventListener('DOMContentLoaded', () => {
     actualizarCarrito();
 });
+
 
 
