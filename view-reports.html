@@ -140,7 +140,7 @@
                 return;
             }
 
-            for (const row of tabla.rows) {
+            for (const row of tabla.reportes) {
                 const estadoUsuario = row.dataset.estado; // Agregar un atributo data-estado en las filas si es necesario.
                 if (estado === '' || estadoUsuario === estado) {
                     row.style.display = '';
