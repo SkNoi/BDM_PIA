@@ -74,62 +74,69 @@ function realizarBusqueda(event) {
 }
 
 
+
 // Función para actualizar el carrito en el navbar
 function actualizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const carritoBody = document.getElementById('carrito-body');
     const totalElement = document.getElementById('total');
-    
+
+    // Verificar si el elemento carrito-body existe antes de continuar
+    if (!carritoBody) {
+        console.error('Elemento carrito-body no encontrado.');
+        return;
+    }
+
     // Limpiar el carrito actual
     carritoBody.innerHTML = '';
-    
+
     if (carrito.length > 0) {
-        // Recorrer los productos en el carrito
         let total = 0;
         carrito.forEach((producto, index) => {
-            const subtotal = producto.Costo; // Usando el precio del producto como subtotal
+            const subtotal = producto.Costo;
             total += subtotal;
 
-            // Crear una fila en la tabla
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${producto.titulo}</td>
-                <td>$${producto.costo}</td>
-                <td>1</td> <!-- Suponiendo que es una sola cantidad -->
+                <td>${producto.Titulo}</td>
+                <td>$${producto.Costo}</td>
                 <td>$${subtotal}</td>
-                <td><button class="btn-eliminar" data-index="${index}">X</button></td> <!-- Botón de eliminar -->
+                <td><button class="btn-eliminar" data-index="${index}">X</button></td>
             `;
             carritoBody.appendChild(row);
         });
 
-        // Mostrar el total
         totalElement.textContent = `$${total.toFixed(2)}`;
 
-        // Agregar el listener de eliminar para cada botón
+        // Agregar evento de eliminación a los botones de eliminar
         const btnEliminar = document.querySelectorAll('.btn-eliminar');
         btnEliminar.forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const index = e.target.getAttribute('data-index'); // Obtener el índice del producto
+                const index = e.target.getAttribute('data-index');
                 eliminarProductoDelCarrito(index);
             });
         });
     } else {
-        // Si no hay productos en el carrito
-        carritoBody.innerHTML = '<tr><td colspan="5" class="text-center">El carrito está vacío.</td></tr>';
+        carritoBody.innerHTML = '<tr><td colspan="4" class="text-center">El carrito está vacío.</td></tr>';
         totalElement.textContent = '$0.00';
     }
 }
 
 // Función para eliminar un producto del carrito
 function eliminarProductoDelCarrito(index) {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    carrito.splice(index, 1); // Eliminar el producto por índice
-    localStorage.setItem('carrito', JSON.stringify(carrito)); // Actualizar el carrito en el localStorage
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito.splice(index, 1); // Eliminar el producto en el índice dado
 
-    // Volver a actualizar el carrito en la vista
+    // Actualizar el carrito en localStorage
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+
+    // Actualizar la vista del carrito
     actualizarCarrito();
 }
 
 // Llamar a la función de actualización del carrito al cargar la página
-document.addEventListener('DOMContentLoaded', actualizarCarrito);
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarCarrito();
+});
+
 
