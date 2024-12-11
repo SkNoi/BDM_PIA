@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             if (data.success && data.detallesCurso) {
                 mostrarDetallesCurso(data.detallesCurso);
+                console.log('Esto es el curso:' + detallesCurso);
             } else {
                 alert('No se encontraron detalles del curso.');
             }
@@ -27,7 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarDetallesCurso(detallesCurso) {
-    console.log(detallesCurso.Nivel)
     
     // Llena los elementos del HTML con la información del curso
     document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
