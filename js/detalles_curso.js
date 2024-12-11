@@ -73,10 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Actualizar el carrito en el navbar
                         actualizarCarrito();
+
+                        // Redirigir a la página Cursos.html después de agregar el curso al carrito
+                        window.location.href = 'Cursos.html'; // Cambiar la ubicación a Cursos.html
                     });
                 }
             })
             .catch(error => console.error('Error al obtener el curso:', error));
     }
 });
+
 
