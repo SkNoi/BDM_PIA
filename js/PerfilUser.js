@@ -415,6 +415,7 @@ function realizarBusqueda(event) {
     window.location.href = url;
 }
 
+
 // Función para actualizar el carrito en el navbar
 function actualizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
