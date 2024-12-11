@@ -86,28 +86,50 @@ function actualizarCarrito() {
     if (carrito.length > 0) {
         // Recorrer los productos en el carrito
         let total = 0;
-        carrito.forEach(producto => {
+        carrito.forEach((producto, index) => {
             const subtotal = producto.Costo; // Usando el precio del producto como subtotal
             total += subtotal;
 
             // Crear una fila en la tabla
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${producto.Titulo}</td>
-                <td>$${producto.Costo}</td>
+                <td>${producto.titulo}</td>
+                <td>$${producto.costo}</td>
+                <td>1</td> <!-- Suponiendo que es una sola cantidad -->
                 <td>$${subtotal}</td>
+                <td><button class="btn-eliminar" data-index="${index}">X</button></td> <!-- Botón de eliminar -->
             `;
             carritoBody.appendChild(row);
         });
 
         // Mostrar el total
         totalElement.textContent = `$${total.toFixed(2)}`;
+
+        // Agregar el listener de eliminar para cada botón
+        const btnEliminar = document.querySelectorAll('.btn-eliminar');
+        btnEliminar.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const index = e.target.getAttribute('data-index'); // Obtener el índice del producto
+                eliminarProductoDelCarrito(index);
+            });
+        });
     } else {
         // Si no hay productos en el carrito
-        carritoBody.innerHTML = '<tr><td colspan="4" class="text-center">El carrito está vacío.</td></tr>';
+        carritoBody.innerHTML = '<tr><td colspan="5" class="text-center">El carrito está vacío.</td></tr>';
         totalElement.textContent = '$0.00';
     }
 }
 
+// Función para eliminar un producto del carrito
+function eliminarProductoDelCarrito(index) {
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    carrito.splice(index, 1); // Eliminar el producto por índice
+    localStorage.setItem('carrito', JSON.stringify(carrito)); // Actualizar el carrito en el localStorage
+
+    // Volver a actualizar el carrito en la vista
+    actualizarCarrito();
+}
+
 // Llamar a la función de actualización del carrito al cargar la página
 document.addEventListener('DOMContentLoaded', actualizarCarrito);
+
