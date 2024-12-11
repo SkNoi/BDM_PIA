@@ -146,6 +146,7 @@ function mostrarMensajeDeError(mensaje) {
 }
 
 
+
 // Función para actualizar el carrito en el navbar
 function actualizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
