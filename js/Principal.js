@@ -73,3 +73,41 @@ function realizarBusqueda(event) {
     window.location.href = url;
 }
 
+
+// Función para actualizar el carrito en el navbar
+function actualizarCarrito() {
+    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const carritoBody = document.getElementById('carrito-body');
+    const totalElement = document.getElementById('total');
+    
+    // Limpiar el carrito actual
+    carritoBody.innerHTML = '';
+    
+    if (carrito.length > 0) {
+        // Recorrer los productos en el carrito
+        let total = 0;
+        carrito.forEach(producto => {
+            const subtotal = producto.Costo; // Usando el precio del producto como subtotal
+            total += subtotal;
+
+            // Crear una fila en la tabla
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${producto.Titulo}</td>
+                <td>$${producto.Costo}</td>
+                <td>$${subtotal}</td>
+            `;
+            carritoBody.appendChild(row);
+        });
+
+        // Mostrar el total
+        totalElement.textContent = `$${total.toFixed(2)}`;
+    } else {
+        // Si no hay productos en el carrito
+        carritoBody.innerHTML = '<tr><td colspan="4" class="text-center">El carrito está vacío.</td></tr>';
+        totalElement.textContent = '$0.00';
+    }
+}
+
+// Llamar a la función de actualización del carrito al cargar la página
+document.addEventListener('DOMContentLoaded', actualizarCarrito);
