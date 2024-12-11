@@ -113,5 +113,5 @@ a[href="PrincipalAdmin.html"]:hover {
     background-color: #E3E3E3; /* Color de fondo al pasar el mouse */
 }
 #reportes, #tablaReportes {
-    display: none;
+    display: show;
 }
