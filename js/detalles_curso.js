@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarDetallesCurso(detallesCurso) {
+    console.log(detallesCurso.nivel)
     // Llena los elementos del HTML con la información del curso
     document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
     document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
