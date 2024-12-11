@@ -3,7 +3,10 @@ $(document).ready(function() {
 
     
     obtenerCategorias();
-
+    actualizarCarrito();
+    console.log(carritoBody); // Verifica si el elemento está disponible
+    console.log(totalElement); // Verifica si el elemento está disponible
+    
 
 });
 
@@ -74,16 +77,15 @@ function realizarBusqueda(event) {
 }
 
 
-
 // Función para actualizar el carrito en el navbar
 function actualizarCarrito() {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const carritoBody = document.getElementById('carrito-body');
     const totalElement = document.getElementById('total');
 
-    // Verificar si el elemento carrito-body existe antes de continuar
-    if (!carritoBody) {
-        console.error('Elemento carrito-body no encontrado.');
+    // Verificar si los elementos existen antes de continuar
+    if (!carritoBody || !totalElement) {
+        console.error('Elemento carrito-body o total no encontrado.');
         return;
     }
 
@@ -122,6 +124,7 @@ function actualizarCarrito() {
     }
 }
 
+
 // Función para eliminar un producto del carrito
 function eliminarProductoDelCarrito(index) {
     const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
@@ -136,10 +139,6 @@ function eliminarProductoDelCarrito(index) {
     actualizarCarrito();
 }
 
-// Llamar a la función de actualización del carrito al cargar la página
-document.addEventListener('DOMContentLoaded', () => {
-    actualizarCarrito();
-});
 
 
 
