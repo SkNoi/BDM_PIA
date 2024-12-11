@@ -74,7 +74,7 @@
             <h1>Reportes de Instructores</h1>
             <table>
                 <thead>
-                    <tr>
+                    <tr data-estado="activo">
                         <th>Usuario</th>
                         <th>Nombre</th>
                         <th>Fecha de Ingreso</th>
@@ -91,7 +91,7 @@
             <h1>Reportes de Estudiantes</h1>
             <table>
                 <thead>
-                    <tr>
+                    <tr data-estado="activo">
                         <th>Usuario</th>
                         <th>Nombre</th>
                         <th>Fecha de Ingreso</th>
@@ -108,6 +108,47 @@
     <a href="PrincipalAdmin.html">Volver al Panel</a>
     <script src="js/view-reports.js"></script>
     <script src="js/view-reportsE.js"></script>
+    <script>
+        function cambiarTipoUsuario() {
+            const tipoUsuario = document.getElementById('tipoUsuario').value;
+            const reportesInstructores = document.getElementById('reportesInstructores');
+            const reportesEstudiantes = document.getElementById('reportesEstudiantes');
 
+            if (tipoUsuario === 'instructor') {
+                reportesInstructores.classList.remove('oculto');
+                reportesEstudiantes.classList.add('oculto');
+            } else if (tipoUsuario === 'estudiante') {
+                reportesInstructores.classList.add('oculto');
+                reportesEstudiantes.classList.remove('oculto');
+            } else {
+                reportesInstructores.classList.add('oculto');
+                reportesEstudiantes.classList.add('oculto');
+            }
+        }
+
+        function aplicarFiltros() {
+            const estado = document.getElementById('estado').value;
+            const tipoUsuario = document.getElementById('tipoUsuario').value;
+            let tabla;
+
+            if (tipoUsuario === 'instructor') {
+                tabla = document.getElementById('tablaInstructores');
+            } else if (tipoUsuario === 'estudiante') {
+                tabla = document.getElementById('tablaEstudiantes');
+            } else {
+                alert('Selecciona un tipo de usuario para aplicar filtros.');
+                return;
+            }
+
+            for (const row of tabla.rows) {
+                const estadoUsuario = row.dataset.estado; // Agregar un atributo data-estado en las filas si es necesario.
+                if (estado === '' || estadoUsuario === estado) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+        }
+    </script>
 </body>
 </html>
