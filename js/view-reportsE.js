@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const reportes = document.getElementById("reportes");
+    const tablaReportes = document.getElementById("tablaReportes");
 
     // Obtén el usuario desde localStorage
     const usuarioStorage = JSON.parse(localStorage.getItem('usuario'));
@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const usuario = usuarioStorage.ID_User;
-
+     
     // Datos a enviar
     const datos = {
         accion: 'login', // Tipo de acción
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Realiza la solicitud al backend
-    fetch("../Models/view-reports.php", {
+    fetch("../Models/view-reportsE.php", {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json' // Especificar que el contenido es JSON
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Itera sobre los datos y crea filas
             data.forEach(item => {
                 const fila = document.createElement("tr");
-
+                    
                 // Crea las celdas
                 const celdaUsuario = document.createElement("td");
                 celdaUsuario.textContent = item.Id_User;
@@ -41,23 +41,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 const celdaFechaRegistro = document.createElement("td");
                 celdaFechaRegistro.textContent = item.FechaRegistro;
 
-                const celdaNumeroCursos = document.createElement("td");
-                celdaNumeroCursos.textContent = item.NumeroCursos;
+                const celdaNumeroVentas = document.createElement("td");
+                celdaNumeroVentas.textContent = item.NumeroVentas;
 
-                const celdaTotalCostoVentas= document.createElement("td");
-                celdaTotalCostoVentas.textContent = item.TotalCostoVentas;
-
+                const celdaPorcentajeTrue= document.createElement("td");
+                var porcentaje = item.PorcentajeTrue + "%" 
+                celdaPorcentajeTrue.textContent = porcentaje;
+                
 
                 // Agrega las celdas a la fila
                 fila.appendChild(celdaUsuario);
                 fila.appendChild(celdaNombre);
                 fila.appendChild(celdaFechaRegistro);
-                fila.appendChild(celdaNumeroCursos);
-                fila.appendChild(celdaTotalCostoVentas);
+                fila.appendChild(celdaNumeroVentas);
+                fila.appendChild(celdaPorcentajeTrue);
              
                   
                 // Agrega la fila a la tabla
-                reportes.appendChild(fila);
+                tablaReportes.appendChild(fila);
             });
         })
         .catch(error => console.error("Error al obtener los datos:", error));
