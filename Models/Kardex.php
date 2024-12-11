@@ -36,11 +36,7 @@ if ($usuario === 0) {
  
 // Consulta los datos
 
-$sql = "SELECT ID_Curso, FechaInscripcion, UltimaFecha_Acceso, Fecha_Terminado, Estatus, Califacion, Creditos 
-
-        FROM Kardex 
-
-        WHERE ID_User = ?";
+$sql = "SELECT ID_Curso, FechaInscripción, UltimaFecha_Acceso, Fecha_Terminado, Estatus, Calificacion, Creditos FROM Kardex WHERE ID_User = ?";
 
 $stmt = $conn->prepare($sql);
 

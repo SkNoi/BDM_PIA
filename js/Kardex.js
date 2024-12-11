@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
         .then(response => response.json())
         .then(data => {
+            console.log("Respuesta del servidor:", data);
             // Itera sobre los datos y crea filas
             data.forEach(item => {
                 const fila = document.createElement("tr");
