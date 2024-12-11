@@ -85,16 +85,22 @@ function obtenerCursos() {
 
 
 function mostrarCursos(cursos) {
-    const cursosGrid = document.querySelector('.cursos-grid');
+    const cursosGrid = document.getElementById('cursosGrid');
+    const noResults = document.getElementById('no-results');
 
     // Limpia cualquier contenido previo en el contenedor
     cursosGrid.innerHTML = '';
 
     if (cursos.length === 0) {
-        mostrarMensajeSinResultados();
+        // Muestra el mensaje "No se encontraron resultados"
+        noResults.style.display = 'block';
         return;
     }
 
+    // Oculta el mensaje "No se encontraron resultados" si hay cursos
+    noResults.style.display = 'none';
+
+    // Genera dinámicamente los cursos
     cursos.forEach(curso => {   
         const cursoDiv = document.createElement('div');
         cursoDiv.classList.add('curso');
@@ -128,14 +134,13 @@ function mostrarCursos(cursos) {
 }
 
 function mostrarMensajeDeError(mensaje) {
-    const cursosGrid = document.querySelector('.cursos-grid');
+    const cursosGrid = document.getElementById('cursosGrid');
+    const noResults = document.getElementById('no-results');
 
     // Limpia cualquier contenido previo
     cursosGrid.innerHTML = '';
 
-    // Crea un elemento de párrafo para mostrar el mensaje de error
-    const errorMsg = document.createElement('p');
-    errorMsg.textContent = mensaje;
-    errorMsg.classList.add('mensaje-error'); // Agrega una clase para personalización (opcional)
-    cursosGrid.appendChild(errorMsg);
+    // Muestra el mensaje de error
+    noResults.style.display = 'block';
+    noResults.textContent = mensaje;
 }

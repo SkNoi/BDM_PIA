@@ -146,9 +146,15 @@ h1 {
 }
 
 /* Estilo para cuando no se encuentran resultados */
-#no-results {
-    font-size: 1.25rem;
-    color: #6c757d;
+.mensaje-no-resultados {
+    color: #555;
+    font-size: 18px;
     text-align: center;
     margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
+
+
