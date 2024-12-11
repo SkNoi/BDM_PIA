@@ -334,6 +334,42 @@ document.getElementById("formAgregarTemario").addEventListener("submit", functio
     });
 });
 
+function mostrarCategorias2(categoria2) {
+    // Selecciona el elemento <select> del DOM
+    const selectCategoria = document.getElementById('categoria2');
+    
+    console.log("Antes de limpiar:", selectCategoria.innerHTML);
+    selectCategoria.innerHTML = '<option value="">Seleccionar Categoría</option>';
+    console.log("Después de limpiar:", selectCategoria.innerHTML);
+    
+    // Itera sobre las categorías y crea nuevas opciones
+    categoria2.forEach(categoria2 => {
+        console.log("Categoría procesada:", categoria2);
+        const option = document.createElement('option');
+        option.value = categoria2.idCategoria; // Debe existir un campo "id"
+        option.textContent = categoria2.TituloCate;; // Debe existir un campo "nombre"
+        selectCategoria.appendChild(option);
+    });
+    }
+
+function obtenerCategorias2() {
+    fetch('Controllers/CategoriaController.php', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && Array.isArray(data)) {
+            mostrarCategorias2(data);
+        } else {
+            alert('No se pudieron obtener las categorías.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener las categorías:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
 
 function realizarBusqueda(event) {
     event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
