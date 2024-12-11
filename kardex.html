@@ -87,39 +87,38 @@
                                 <a class="nav-link" href="Mensajes.html">Mensajes</a>
                             </li>
         
-                            <!-- Dropdown Carrito de Compras -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="carritoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Carrito
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="carritoDropdown" style="width: 400px; max-height: 400px; overflow-y: auto;">
-                                    <li>
-                                        <form id="payment-form">        
-                                            <h5>Pago del Carrito</h5>
-                                            <table class="table table-sm">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Producto</th>
-                                                        <th>Precio</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Subtotal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="carrito-body">
-                                                    <!-- Aquí se agregarán los productos -->
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td colspan="3" class="text-end">Total:</td>
-                                                        <td id="total">$0.00</td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
-                                            <div id="paypal-button-container"></div>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
+                             <!-- Dropdown Carrito de Compras -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="carritoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Carrito
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="carritoDropdown" style="width: 400px; max-height: 400px; overflow-y: auto;">
+                                <li>
+                                    <form id="payment-form">        
+                                        <h5>Pago del Carrito</h5>
+                                        <table class="table table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Curso</th>
+                                                    <th>Precio</th>
+                                                    <th>Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="carrito-body">
+                                                <!-- Aquí se agregarán los productos -->
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Total:</td>
+                                                    <td id="total">$0.00</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                        <div id="paypal-button-container"></div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
         
                             <li class="nav-item">
                                 <a class="nav-link" href="index.html?accion=logout" tabindex="-1" aria-disabled="true">Cerrar Sesión</a>
