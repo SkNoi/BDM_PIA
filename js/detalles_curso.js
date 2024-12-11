@@ -47,3 +47,36 @@ function mostrarDetallesCurso(curso, detallesCurso) {
     });
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    // Verificar si el usuario está en la página de un curso
+    const params = new URLSearchParams(window.location.search);
+    const cursoId = params.get('id');
+
+    if (cursoId) {
+        // Obtener los detalles del curso (puedes usar el código que ya tienes para obtener los detalles del curso)
+        fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.curso) {
+                    // El curso está disponible, puedes mostrarlo y agregarlo al carrito
+                    const curso = data.curso;
+                    
+                    // Cuando el usuario hace clic en "Comprar"
+                    const btnComprar = document.querySelector('.btn-comprar');
+                    btnComprar.addEventListener('click', (e) => {
+                        e.preventDefault(); // Prevenir el comportamiento predeterminado (navegar a la otra página)
+
+                        // Guardar en el carrito (localStorage)
+                        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                        carrito.push(curso); // Agregar el curso al carrito
+                        localStorage.setItem('carrito', JSON.stringify(carrito));
+
+                        // Actualizar el carrito en el navbar
+                        actualizarCarrito();
+                    });
+                }
+            })
+            .catch(error => console.error('Error al obtener el curso:', error));
+    }
+});
+
