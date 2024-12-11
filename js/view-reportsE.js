@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const celdaFechaRegistro = document.createElement("td");
                 celdaFechaRegistro.textContent = item.FechaRegistro;
 
+                const celdaEstado= document.createElement("td");
+                celdaEstado.textContent = item.Estado;
+
                 const celdaNumeroVentas = document.createElement("td");
                 celdaNumeroVentas.textContent = item.NumeroVentas;
 
@@ -53,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 fila.appendChild(celdaUsuario);
                 fila.appendChild(celdaNombre);
                 fila.appendChild(celdaFechaRegistro);
+                fila.appendChild(celdaEstado);
                 fila.appendChild(celdaNumeroVentas);
                 fila.appendChild(celdaPorcentajeTrue);
              
