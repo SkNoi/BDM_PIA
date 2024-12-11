@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     obtenerCategorias();
+    obtenerCategorias2()
     obtenerCursos();
     
 });
@@ -333,3 +334,69 @@ document.getElementById("formAgregarTemario").addEventListener("submit", functio
         alert("Error de comunicación con el servidor: " + error);
     });
 });
+
+function mostrarCategorias2(categoria2) {
+    // Selecciona el elemento <select> del DOM
+    const selectCategoria = document.getElementById('categoria2');
+    
+    console.log("Antes de limpiar:", selectCategoria.innerHTML);
+    selectCategoria.innerHTML = '<option value="">Seleccionar Categoría</option>';
+    console.log("Después de limpiar:", selectCategoria.innerHTML);
+    
+    // Itera sobre las categorías y crea nuevas opciones
+    categoria2.forEach(categoria2 => {
+        console.log("Categoría procesada:", categoria2);
+        const option = document.createElement('option');
+        option.value = categoria2.idCategoria; // Debe existir un campo "id"
+        option.textContent = categoria2.TituloCate;; // Debe existir un campo "nombre"
+        selectCategoria.appendChild(option);
+    });
+    }
+
+function obtenerCategorias2() {
+    fetch('Controllers/CategoriaController.php', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && Array.isArray(data)) {
+            mostrarCategorias2(data);
+        } else {
+            alert('No se pudieron obtener las categorías.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener las categorías:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+
+function realizarBusqueda(event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+    // Obtén los valores del formulario
+    const termino = document.getElementById('inputBuscador').value.trim();
+    const categoria = document.getElementById('categoria').value;
+    const calificacion = document.getElementById('campoEstrellas').value;
+
+    // Construye la URL con los parámetros de búsqueda
+    let url = 'Busquedas.html?'; // Suponiendo que esta es la página de resultados
+
+    // Añadir los parámetros a la URL
+    if (termino) {
+        url += `termino=${encodeURIComponent(termino)}&`;
+    }
+    if (categoria) {
+        url += `categoria=${encodeURIComponent(categoria)}&`;
+    }
+    if (calificacion) {
+        url += `calificacion=${encodeURIComponent(calificacion)}&`;
+    }
+
+    // Eliminar el último '&' si hay alguno al final de la URL
+    url = url.endsWith('&') ? url.slice(0, -1) : url;
+
+    // Redirige a la página de resultados con los parámetros de búsqueda
+    window.location.href = url;
+}

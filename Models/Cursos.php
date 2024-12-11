@@ -237,6 +237,54 @@ class Curso{
         }
     }
 
+    public static function obtenerDetallesCursoPorID($id_curso){
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+
+            $sql = "SELECT * 
+                    FROM DetallesCursos
+                    WHERE ID_Curso = ?";
+
+            $stmt = $conexionAbierta->prepare($sql);
+            $stmt->bind_param('i', $id_curso); // El 'i' indica que es un entero
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $detallesCurso = []; // Array para almacenar los resultados
+
+            while ($fila = $resultado->fetch_assoc()) {
+                // Agregamos cada fila al array
+                $detallesCurso[] = [
+                    'ID_Curso' => $fila['ID_Curso'],
+                    'Titulo' => $fila['Titulo'],
+                    'Costo' => $fila['Costo'],
+                    'Descripcion' => $fila['Descripcion'],
+                    'Duracion' => $fila['Duracion'],
+                    'ImagenCurso' => $fila['ImagenCurso'],
+                    'ID_Nivel' => $fila['ID_Nivel'],
+                    'Nivel' => $fila['Nivel'],
+                    'Tema' => $fila['Tema']
+                ];
+            }
+    
+            return $detallesCurso; // Retornamos el array con los datos
+    
+
+
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return null;
+        }finally {
+            $conexion->cerrarConexion();
+        }
+        
+    }
+
     public static function obtenerCursoPorId($id_curso) {
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();
@@ -275,6 +323,93 @@ class Curso{
         } catch (Exception $e) {
             echo "Error en la base de datos: " . $e->getMessage();
             return null;
+        } finally {
+            $conexion->cerrarConexion();
+        }
+    }
+    
+    public static function obtenerCursosConFiltros($termino = '', $categoria = '', $calificacion = '') {
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+    
+            // Construir la consulta SQL con filtros dinámicos
+            $sql = "SELECT ID_Curso, Titulo, Costo, Descripcion, PromedioCal, FechaCreacion, ID_Instructor, ID_CATEGORIA, ImagenCurso, Duracion
+                    FROM vista_cursos WHERE 1=1"; // Añadimos un WHERE general para agregar condiciones dinámicas
+    
+            // Filtro por término de búsqueda (puede ser parte del título o descripción)
+            if ($termino) {
+                $sql .= " AND (Titulo LIKE ? OR Descripcion LIKE ?)";
+            }
+    
+            // Filtro por categoría
+            if ($categoria) {
+                $sql .= " AND ID_CATEGORIA = ?";
+            }
+    
+            // Filtro por calificación
+            if ($calificacion) {
+                $sql .= " AND PromedioCal >= ?";
+            }
+    
+            // Preparamos la consulta
+            $stmt = $conexionAbierta->prepare($sql);
+    
+            // Enlazamos los parámetros de búsqueda
+            $types = '';
+            $params = [];
+    
+            if ($termino) {
+                $types .= 'ss'; // 'ss' para dos cadenas (Título y Descripción)
+                $params[] = '%' . $termino . '%'; // Búsqueda parcial
+                $params[] = '%' . $termino . '%';
+            }
+    
+            if ($categoria) {
+                $types .= 'i'; // 'i' para un entero (ID_CATEGORIA)
+                $params[] = $categoria;
+            }
+    
+            if ($calificacion) {
+                $types .= 'i'; // 'i' para un entero (calificación mínima)
+                $params[] = $calificacion;
+            }
+    
+            // Enlazamos los parámetros
+            if ($types) {
+                $stmt->bind_param($types, ...$params);
+            }
+    
+            // Ejecutamos la consulta
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+    
+            // Procesamos los resultados
+            $cursos = [];
+            while ($fila = $resultado->fetch_assoc()) {
+                $cursos[] = new Curso(
+                    $fila['ID_Curso'],
+                    $fila['Titulo'],
+                    $fila['Costo'],
+                    $fila['Descripcion'],
+                    $fila['PromedioCal'],
+                    $fila['FechaCreacion'],
+                    $fila['ID_Instructor'],
+                    $fila['ID_CATEGORIA'],
+                    $fila['ImagenCurso'],
+                    $fila['Duracion']
+                );
+            }
+    
+            return $cursos;
+    
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return [];
         } finally {
             $conexion->cerrarConexion();
         }

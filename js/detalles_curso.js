@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success && data.curso) {
-                mostrarDetallesCurso(data.curso);
+            if (data.success && data.curso && data.detallesCurso) {
+                mostrarDetallesCurso(data.curso, data.detallesCurso);
             } else {
                 alert('No se encontraron detalles del curso.');
             }
@@ -22,16 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al obtener los detalles del curso:', error);
             alert('Error al cargar los detalles del curso.');
         });
-
-        
 });
 
-function mostrarDetallesCurso(curso) {
-    console.log('El curso es: ' + curso.costo)
-    // Llena los elementos del HTML con la información del curso
+function mostrarDetallesCurso(curso, detallesCurso) {
+    // Mostrar el título del curso
     document.getElementById('curso-titulo').textContent = curso.titulo;
-    document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
-    document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.titulo}`;
+
+    // Mostrar la imagen del curso (asumiendo que es base64)
+    if (curso.imagencurso) {
+        document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
+        document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.titulo}`;
+    }
+
+    // Mostrar precio y descripción del curso
     document.getElementById('curso-precio').textContent = `Precio: $${curso.costo}`;
     document.getElementById('curso-descripcion').textContent = curso.descripcion;
+
+    // Mostrar los detalles del temario por nivel
+    const temarioList = document.getElementById('temario-lista');
+    detallesCurso.forEach(detalle => {
+        const nivelElemento = document.createElement('li');
+        nivelElemento.textContent = `Nivel: ${detalle.Nivel} - Tema: ${detalle.Tema}`;
+        temarioList.appendChild(nivelElemento);
+    });
 }
+
