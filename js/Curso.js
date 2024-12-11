@@ -333,3 +333,33 @@ document.getElementById("formAgregarTemario").addEventListener("submit", functio
         alert("Error de comunicación con el servidor: " + error);
     });
 });
+
+
+function realizarBusqueda(event) {
+    event.preventDefault(); // Evita que el formulario se envíe de forma tradicional
+
+    // Obtén los valores del formulario
+    const termino = document.getElementById('inputBuscador').value.trim();
+    const categoria = document.getElementById('categoria').value;
+    const calificacion = document.getElementById('campoEstrellas').value;
+
+    // Construye la URL con los parámetros de búsqueda
+    let url = 'Busquedas.html?'; // Suponiendo que esta es la página de resultados
+
+    // Añadir los parámetros a la URL
+    if (termino) {
+        url += `termino=${encodeURIComponent(termino)}&`;
+    }
+    if (categoria) {
+        url += `categoria=${encodeURIComponent(categoria)}&`;
+    }
+    if (calificacion) {
+        url += `calificacion=${encodeURIComponent(calificacion)}&`;
+    }
+
+    // Eliminar el último '&' si hay alguno al final de la URL
+    url = url.endsWith('&') ? url.slice(0, -1) : url;
+
+    // Redirige a la página de resultados con los parámetros de búsqueda
+    window.location.href = url;
+}
