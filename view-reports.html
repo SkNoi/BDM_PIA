@@ -5,6 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ver Reportes</title>
     <link rel="stylesheet" href="css/StyleReporte.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        #report-form {
+            margin-bottom: 20px;
+        }
+        #report-form label {
+            display: block;
+            margin-top: 10px;
+        }
+    </style>
+
+
+
+
 </head>
 <body>
 
@@ -40,17 +70,35 @@
         </div>
 
         <div class="container my-4">
-            <h2>Reporte de Usuarios</h2>
-            <table class="table">
-                <thead id="tabla-encabezados">
-                    <tr>
-                        <!-- Las columnas se llenarán dinámicamente -->
-                    </tr>
-                </thead>
+            <h1>Reportes de Instructores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre</th>
+                <th>Fecha de Ingreso</th>
+                <th>Cantidad de Cursos Ofrecidos</th>
+                <th>Total de Ganancias</th>
+            </tr>
+        </thead>
+        <tbody id="reportes">
+        </tbody>
+    </table>
                 <tbody id="tabla-usuarios">
-                    <!-- Filas generadas dinámicamente -->
-                </tbody>
-            </table>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuario</th>
+                                <th>Nombre</th>
+                                <th>Fecha de Ingreso</th>
+                                <th>Cantidad de Cursos Inscritos</th>
+                                <th>Cantidad de Cursos Terminados</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaReportes">
+                            <!-- Filas dinámicas -->
+                        </tbody>
+                    </table>
         </div>
     </div>
 
