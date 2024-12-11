@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarDetallesCurso(detallesCurso) {
     console.log(detallesCurso.nivel)
     // Llena los elementos del HTML con la información del curso
-    document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
-    document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
-    document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
-    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.costo}`;
-    document.getElementById('curso-descripcion').textContent = detallesCurso.descripcion;
-    document.getElementById('temario-basico').textContent = detallesCurso.nivel;
+    document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
+    document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.ImagenCurso}`;
+    document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.ImagenCurso}`;
+    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.Costo}`;
+    document.getElementById('curso-descripcion').textContent = detallesCurso.Descripcion;
+    document.getElementById('temario-basico').textContent = detallesCurso.Nivel;
 }
