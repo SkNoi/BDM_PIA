@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     const tablaCuerpo = document.getElementById("kardex-table");
 
+    
     // Obtén el usuario desde localStorage
     const usuarioStorage = JSON.parse(localStorage.getItem('usuario'));
     if (!usuarioStorage || !usuarioStorage.ID_User) {
@@ -74,7 +75,7 @@ $(document).ready(function() {
 
     
     obtenerCategorias();
-
+    actualizarCarrito();
 
 });
 

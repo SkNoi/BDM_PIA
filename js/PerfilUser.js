@@ -4,6 +4,7 @@ $(document).ready(function() {
     let user = localStorage.getItem("usuario");
 
     console.log("EL NOMBRE DEL USUAIO ES: " + user);
+    actualizarCarrito();
 
 }); 
 
