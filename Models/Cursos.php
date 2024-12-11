@@ -237,6 +237,54 @@ class Curso{
         }
     }
 
+    public static function obtenerDetallesCursoPorID($id_curso){
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+
+            $sql = "SELECT * 
+                    FROM DetallesCursos
+                    WHERE ID_Curso = ?";
+
+            $stmt = $conexionAbierta->prepare($sql);
+            $stmt->bind_param('i', $id_curso); // El 'i' indica que es un entero
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+
+            $detallesCurso = []; // Array para almacenar los resultados
+
+            while ($fila = $resultado->fetch_assoc()) {
+                // Agregamos cada fila al array
+                $detallesCurso[] = [
+                    'ID_Curso' => $fila['ID_Curso'],
+                    'Titulo' => $fila['Titulo'],
+                    'Costo' => $fila['Costo'],
+                    'Descripcion' => $fila['Descripcion'],
+                    'Duracion' => $fila['Duracion'],
+                    'ImagenCurso' => $fila['ImagenCurso'],
+                    'ID_Nivel' => $fila['ID_Nivel'],
+                    'Nivel' => $fila['Nivel'],
+                    'Tema' => $fila['Tema']
+                ];
+            }
+    
+            return $detallesCurso; // Retornamos el array con los datos
+    
+
+
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return null;
+        }finally {
+            $conexion->cerrarConexion();
+        }
+        
+    }
+
     public static function obtenerCursoPorId($id_curso) {
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();

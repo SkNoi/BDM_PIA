@@ -88,9 +88,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($id_curso) {
             // Obtener detalles de un curso específico por id_curso
             $curso = Curso::obtenerCursoPorId($id_curso);
+            $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
     
-            if ($curso) {
-                echo json_encode(['success' => true, 'curso' => $curso]);
+            if ($curso && $detallesCurso) {
+                echo json_encode([
+                    'success' => true, 
+                    'curso' => $curso, 
+                    'detallesCurso' => $detallesCurso
+                ]);
             } else {
                 echo json_encode(['success' => false, 'error' => 'No se encontró el curso especificado.']);
             }

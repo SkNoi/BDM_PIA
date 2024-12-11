@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
         .then(response => response.json())
         .then(data => {
-            if (data.success && data.curso) {
-                mostrarDetallesCurso(data.curso);
+            if (data.success && data.detallesCurso) {
+                mostrarDetallesCurso(data.detallesCurso);
             } else {
                 alert('No se encontraron detalles del curso.');
             }
@@ -26,12 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
 });
 
-function mostrarDetallesCurso(curso) {
-    console.log('El curso es: ' + curso.costo)
+function mostrarDetallesCurso(detallesCurso) {
     // Llena los elementos del HTML con la información del curso
-    document.getElementById('curso-titulo').textContent = curso.titulo;
-    document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
-    document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.titulo}`;
-    document.getElementById('curso-precio').textContent = `Precio: $${curso.costo}`;
-    document.getElementById('curso-descripcion').textContent = curso.descripcion;
+    document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
+    document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
+    document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
+    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.costo}`;
+    document.getElementById('curso-descripcion').textContent = detallesCurso.descripcion;
 }
