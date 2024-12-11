@@ -93,13 +93,13 @@ function actualizarCarrito() {
     if (carrito.length > 0) {
         let total = 0;
         carrito.forEach((producto, index) => {
-            const subtotal = producto.Costo;
+            const subtotal = producto.costo;
             total += subtotal;
 
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${producto.Titulo}</td>
-                <td>$${producto.Costo}</td>
+                <td>${producto.titulo}</td>
+                <td>$${producto.costo}</td>
                 <td>$${subtotal}</td>
                 <td><button class="btn-eliminar" data-index="${index}">X</button></td>
             `;
