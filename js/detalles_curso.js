@@ -22,17 +22,28 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error al obtener los detalles del curso:', error);
             alert('Error al cargar los detalles del curso.');
         });
-
-        
 });
 
 function mostrarDetallesCurso(curso, detallesCurso) {
-    console.log(detallesCurso.nivel)
-    // Llena los elementos del HTML con la información del curso
-    document.getElementById('curso-titulo').textContent = curso.titulo;
-    document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
-    document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.imagencurso}`;
-    document.getElementById('curso-precio').textContent = `Precio: $${curso.costo}`;
-    document.getElementById('curso-descripcion').textContent = curso.descripcion;
-    document.getElementById('temario-basico').textContent = detallesCurso.nivel;
+    // Mostrar el título del curso
+    document.getElementById('curso-titulo').textContent = curso.Titulo;
+
+    // Mostrar la imagen del curso (asumiendo que es base64)
+    if (curso.ImagenCurso) {
+        document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.ImagenCurso}`;
+        document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.Titulo}`;
+    }
+
+    // Mostrar precio y descripción del curso
+    document.getElementById('curso-precio').textContent = `Precio: $${curso.Costo}`;
+    document.getElementById('curso-descripcion').textContent = curso.Descripcion;
+
+    // Mostrar los detalles del temario por nivel
+    const temarioList = document.getElementById('temario-lista');
+    detallesCurso.forEach(detalle => {
+        const nivelElemento = document.createElement('li');
+        nivelElemento.textContent = `Nivel: ${detalle.Nivel} - Tema: ${detalle.Tema}`;
+        temarioList.appendChild(nivelElemento);
+    });
 }
+
