@@ -29,7 +29,7 @@ function mostrarDetallesCurso(curso, detallesCurso) {
     document.getElementById('curso-titulo').textContent = curso.titulo;
 
     // Mostrar la imagen del curso (asumiendo que es base64)
-    if (curso.ImagenCurso) {
+    if (curso.imagencurso) {
         document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
         document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.titulo}`;
     }
