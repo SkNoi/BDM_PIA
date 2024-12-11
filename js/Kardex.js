@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 celdaCurso.textContent = item.ID_Curso;
 
                 const celdaFechaInscripcion = document.createElement("td");
-                celdaFechaInscripcion.textContent = item.FechaInscripcion;
+                celdaFechaInscripcion.textContent = item.FechaInscripción;
 
                 const celdaUltimaFechaAcceso = document.createElement("td");
                 celdaUltimaFechaAcceso.textContent = item.UltimaFecha_Acceso;
