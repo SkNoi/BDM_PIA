@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // Realiza la solicitud al backend
-    fetch("Kardex.php", {
+    fetch("../Models/Kardex.php", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' // Especificar que el contenido es JSON
