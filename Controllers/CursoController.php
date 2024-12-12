@@ -78,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } 
         
     } else if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        header('Content-Type: application/json');  // Indicar que la respuesta será JSON
         // Obtener parámetros de búsqueda
         $id_curso = isset($_GET['id_curso']) ? $_GET['id_curso'] : null;
         $id_instructor = isset($_GET['id_instructor']) ? $_GET['id_instructor'] : null;
@@ -91,7 +92,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
             $cursoCompleto = Curso::obtenerCursoCompletoporID($id_curso);
 
-            var_dump($curso, $detallesCurso, $cursoCompleto);
+            // Elimina o reemplaza var_dump con error_log para depuración
+                error_log(print_r($curso, true));
+                error_log(print_r($detallesCurso, true));
+                error_log(print_r($cursoCompleto, true));
+
             
             if ($curso && $detallesCurso && $cursoCompleto) {
                 echo json_encode([
