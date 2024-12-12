@@ -12,12 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("El ID del usuario es:", ID_User);
 
-    // Datos a enviar
-    const datos = {
-        accion: 'login', // Tipo de acción
-        usuario: ID_User
-    };
-
     // Realiza la solicitud al backend
     fetch("../Models/VentasI.php", {
         method: 'POST',
