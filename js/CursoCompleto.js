@@ -135,7 +135,7 @@ function mostrarTemario(temario) {
         console.log("Video base64:", videoBase64);
 
         // Si el video está en base64, lo asignamos a la fuente
-        videoElement.src = 'data:video/mp4;base64,' + videoBase64;
+        videoElement.src = `data:video/mp4;base64, ${temario.Video}` ;
 
         // Muestra la sección de video
         videoSection.style.display = 'block';
