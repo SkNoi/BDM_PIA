@@ -1,14 +1,11 @@
-function guardarUsuario(){
-    // Suponiendo que tienes un dato en localStorage llamado "usuario"
-    const usuario = localStorage.getItem('usuario') || 'valor_por_defecto';
-    var id=usuario.ID_User;
+function guardarUsuario(usuario){
     // Enviar el dato al servidor mediante fetch
     fetch('../Models/guardar_sesion.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id })
+        body: JSON.stringify({ usuario })
     })
     .then(response => response.json())
     .then(data => {
@@ -70,7 +67,7 @@ function iniciosession(event) {
                         contrasena: resultado.message.Contraseña
                     }));
 
-                    guardarUsuario();                    
+                    guardarUsuario(resultado.message.ID_User);                    
 
                     // Redirigir según el rol del usuario
                     if (resultado.message.Rol === 'Administrador') {
