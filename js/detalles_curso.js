@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const params = new URLSearchParams(window.location.search);
     const cursoId = params.get('id');
 
+    console.log('el id del curso es:' + cursoId);
     if (!cursoId) {
         alert('No se especificó un curso.');
         return;
