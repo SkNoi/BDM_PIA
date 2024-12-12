@@ -148,9 +148,12 @@ function aplicarFiltros() {
         } else {
             fila.style.display = "none";
         }
-    });
+    });    
 }
 
+function mostrarInstructores(datos) { const tbody = document.getElementById('reportes').getElementsByTagName('tbody')[0]; tbody.innerHTML = ''; 
+ datos.forEach(instructor => { const tr = document.createElement('tr'); Object.values(instructor).forEach(valor => { const td = document.createElement('td'); td.textContent = valor; tr.appendChild(td); }); tbody.appendChild(tr); }); } function aplicarFiltros() { const estadoSeleccionado = document.getElementById('Estado').value; const instructoresFiltrados = instructores.filter(instructor => { if (estadoSeleccionado === "") { return true; 
+  } else { return instructor.Estado === estadoSeleccionado; } }); mostrarInstructores(instructoresFiltrados); } 
         </script>
 
         
