@@ -90,7 +90,7 @@ function mostrarTemario(temario) {
     // Mostrar el video
     const videoSection = document.querySelector('.video-section video');
     if (temario.Video) {
-        videoSection.src = baseUrl + temario.Video;  // Concatenar la ruta base con el video
+        videoSection.src = temario.Video;  // Concatenar la ruta base con el video
     } else {
         videoSection.src = ''; // Limpiar video si no hay
     }
@@ -109,7 +109,7 @@ function mostrarTemario(temario) {
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
         const link = document.createElement('a');
-        link.href = baseUrl + temario.PDF_Recurso;  // Concatenar la ruta base con el PDF
+        link.href = temario.PDF_Recurso;  // Concatenar la ruta base con el PDF
         link.textContent = 'PDF Recurso';
         pdfItem.appendChild(link);
         resourcesSection.appendChild(pdfItem);
