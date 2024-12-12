@@ -15,7 +15,7 @@ if (!isset($_SESSION['ID_User'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat en Línea - Estudiante y Instructor</title>
-    <link rel="stylesheet" href=".css/chat.css">
+    <link rel="stylesheet" href="../css/chat.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
@@ -46,7 +46,7 @@ if (!isset($_SESSION['ID_User'])) {
 
         // Obtener mensajes cada 1 segundo
         function fetchMessages() {
-            $.get("fetch.php", function (data) {
+            $.get("./fetch.php", function (data) {
                 $("#chat-box").html(data);
                 $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
             });
@@ -56,7 +56,7 @@ if (!isset($_SESSION['ID_User'])) {
         $("#send-button").click(function () {
             const mensaje = $("#message").val().trim();
             if (mensaje) {
-                $.post("send.php", { usuario_id: usuarioId, mensaje: mensaje }, function () {
+                $.post("./send.php", { usuario_id: usuarioId, mensaje: mensaje }, function () {
                     $("#message").val("");
                     fetchMessages();
                 });
