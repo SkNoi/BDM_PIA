@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarDetallesCurso(cursoCompleto) {
     console.log(cursoCompleto); 
 
-    document.title = cursoCompleto.titulo;
+    document.title = cursoCompleto.curso.Titulo;
 
     // Obtener el contenedor de los contenidos del curso
     const contenidosCurso = document.querySelector('.course-contents');
