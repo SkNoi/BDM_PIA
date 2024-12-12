@@ -46,7 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 celdaMetodoPago.textContent = item.MetodoPago || "N/A";
     
                 const celdaPorcentajeEstatus = document.createElement("td");
-                celdaPorcentajeEstatus.textContent = item.PorcentajeEstatus;
+                var porcentaje = item.PorcentajeEstatus + "%"
+                celdaPorcentajeEstatus.textContent = porcentaje;
     
                 fila.appendChild(celdaTitulo);
                 fila.appendChild(celdaCursoEstatus);
