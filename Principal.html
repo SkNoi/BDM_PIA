@@ -207,7 +207,6 @@
             return actions.order.capture().then(function(details) {
                 alert('Pago completado por ' + details.payer.name.given_name);
 
-                console.log(carrito.idCurso);
                 
 
                 const usuarioId = localStorage.getItem("usuario");
@@ -231,7 +230,8 @@
                     ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
                     Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
                 })); */
-
+                console.log(carrito.idCurso);
+                
                 // Datos para enviar al servidor
                 const data = {
                     accion: 'registrarVenta',
