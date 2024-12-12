@@ -46,7 +46,7 @@ if (!isset($_SESSION['ID_User'])) {
 
         // Obtener mensajes cada 1 segundo
         function fetchMessages() {
-            $.get("fetch.php", function (data) {
+            $.get("./fetch.php", function (data) {
                 $("#chat-box").html(data);
                 $("#chat-box").scrollTop($("#chat-box")[0].scrollHeight);
             });
@@ -56,7 +56,7 @@ if (!isset($_SESSION['ID_User'])) {
         $("#send-button").click(function () {
             const mensaje = $("#message").val().trim();
             if (mensaje) {
-                $.post("send.php", { usuario_id: usuarioId, mensaje: mensaje }, function () {
+                $.post("./send.php", { usuario_id: usuarioId, mensaje: mensaje }, function () {
                     $("#message").val("");
                     fetchMessages();
                 });
