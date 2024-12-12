@@ -87,28 +87,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $calificacion = isset($_GET['calificacion']) ? $_GET['calificacion'] : '';
         
         if ($id_curso) {
-            // Obtener detalles de un curso específico por id_curso
-            $curso = Curso::obtenerCursoPorId($id_curso);
-            $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
-            $cursoCompleto = Curso::obtenerCursoCompletoporID($id_curso);
-
-            // Elimina o reemplaza var_dump con error_log para depuración
-                error_log(print_r($curso, true));
-                error_log(print_r($detallesCurso, true));
-                error_log(print_r($cursoCompleto, true));
-
-            
-            if ($curso && $detallesCurso && $cursoCompleto) {
-                echo json_encode([
-                    'success' => true, 
-                    'curso' => $curso, 
-                    'detallesCurso' => $detallesCurso,
-                    'cursoCompleto' => $cursoCompleto // Aquí se devuelve la información completa del curso
-                ]);
-            } else {
-                echo json_encode(['success' => false, 'error' => 'No se encontró el curso especificado.']);
+            // Verificar si hay un tipo de detalle a solicitar
+            $tipo = isset($_GET['tipo']) ? $_GET['tipo'] : 'completo'; // Por defecto, curso completo
+    
+            switch ($tipo) {
+                case 'curso':
+                    // Obtener sólo el curso
+                    $curso = Curso::obtenerCursoPorId($id_curso);
+                    if ($curso) {
+                        echo json_encode(['success' => true, 'curso' => $curso]);
+                    } else {
+                        echo json_encode(['success' => false, 'error' => 'No se encontró el curso especificado.']);
+                    }
+                    break;
+    
+                case 'detalles':
+                    // Obtener los detalles del curso
+                    $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
+                    if ($detallesCurso) {
+                        echo json_encode(['success' => true, 'detallesCurso' => $detallesCurso]);
+                    } else {
+                        echo json_encode(['success' => false, 'error' => 'No se encontraron detalles para el curso especificado.']);
+                    }
+                    break;
+    
+                case 'completo':
+                    // Obtener el curso completo
+                    $cursoCompleto = Curso::obtenerCursoCompletoporID($id_curso);
+                    if ($cursoCompleto) {
+                        echo json_encode(['success' => true, 'cursoCompleto' => $cursoCompleto]);
+                    } else {
+                        echo json_encode(['success' => false, 'error' => 'No se pudo obtener el curso completo.']);
+                    }
+                    break;
+    
+                default:
+                    echo json_encode(['success' => false, 'error' => 'Tipo de consulta no válida.']);
+                    break;
             }
-        } else if ($id_instructor) {
+        }  else if ($id_instructor) {
             // Obtener cursos de un instructor específico
             $cursos = Curso::obtenerCursosPorInstructor($id_instructor);
         

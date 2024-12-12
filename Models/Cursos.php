@@ -246,8 +246,8 @@ class Curso{
                 throw new Exception("Error al conectar con la base de datos.");
             }
 
-            $sql = "SELECT  ID_Curso, Titulo, Costo, Descripcion, Duracion, ImagenCurso, ID_Nivel, Nivel, Tema 
-                    FROM DetallesCursos
+            $sql = "SELECT * 
+                    FROM DetallesCursos 
                     WHERE ID_Curso = ?";
 
             $stmt = $conexionAbierta->prepare($sql);

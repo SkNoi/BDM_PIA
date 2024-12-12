@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Realiza una solicitud para obtener los detalles del curso
-    fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
+    fetch(`Controllers/CursoController.php?id_curso=${cursoId}&tipo=completo`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.cursoCompleto) {
@@ -25,7 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarDetallesCurso(cursoCompleto) {
-    console.log(cursoCompleto.niveles); // Verifica los niveles
+    console.log(cursoCompleto); 
+    console.log(cursoCompleto.niveles.Temarios.Video);
+
+    document.title = cursoCompleto.curso.Titulo;
 
     // Obtener el contenedor de los contenidos del curso
     const contenidosCurso = document.querySelector('.course-contents');
@@ -84,13 +87,17 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-
-    // Mostrar el video
     const videoSection = document.querySelector('.video-section video');
-    if (temario.Video) {
-        videoSection.src = temario.Video;  // Concatenar la ruta base con el video
+    
+   // Verifica si hay un video en base64
+   if (temario.Video) {
+        // Si el video está en base64, asigna la cadena base64 al src
+        videoSection.src = 'data:video/mp4;base64,' + temario.Video;
+        videoSection.style.display = 'block';  // Mostrar el video si existe
     } else {
-        videoSection.src = ''; // Limpiar video si no hay
+        // Si no hay video en base64, puedes asignar un video local (por ejemplo, un archivo en tu carpeta "Recursos")
+        videoSection.src = 'Recursos/videotuto.mp4';  // Reemplaza con tu ruta de archivo
+        videoSection.style.display = 'block';  // Mostrar el video si existe
     }
 
     // Mostrar los recursos adicionales
@@ -124,6 +131,8 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 }
+
+
 
 
 
