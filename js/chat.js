@@ -2,11 +2,35 @@ let isVendedor = true; // Cambia a false para probar como comprador
 let cotizado = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+    usuario();
     if (isVendedor) {
         document.getElementById("quantity").disabled = false;
         document.getElementById("price").disabled = false;
-    }
+    } 
+
+
 });
+
+function usuario(){
+ // Suponiendo que tienes un dato en localStorage llamado "usuario"
+ const usuario = localStorage.getItem('usuario') || 'valor_por_defecto';
+var id=usuario.ID_User;
+ // Enviar el dato al servidor mediante fetch
+ fetch('guardar_sesion.php', {
+     method: 'POST',
+     headers: {
+         'Content-Type': 'application/json'
+     },
+     body: JSON.stringify({ id })
+ })
+ .then(response => response.json())
+ .then(data => {
+     console.log(data.message); // Confirmación desde el servidor
+ })
+ .catch(error => console.error('Error:', error));
+
+}
+
 
 function sendMessage() {
     const userInput = document.getElementById("user-input");
@@ -22,21 +46,4 @@ function sendMessage() {
     }
 }
 
-function cotizar() {
-    if (isVendedor) {
-        const quantity = document.getElementById("quantity").value;
-        const price = document.getElementById("price").value;
 
-        if (quantity && price) {
-            cotizado = true;
-            alert("Cotización enviada al comprador.");
-            document.getElementById("quantity").disabled = true;
-            document.getElementById("price").disabled = true;
-        } else {
-            alert("Por favor, llena los campos de cantidad y precio.");
-        }
-    } else if (cotizado) {
-        alert("Chat finalizado. Redirigiendo...");
-        window.location.href = "index.html";
-    }
-}

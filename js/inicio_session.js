@@ -49,6 +49,7 @@ function iniciosession(event) {
                         Sexo: resultado.message.Sexo,
                         contrasena: resultado.message.Contraseña
                     }));
+                    
 
                     // Redirigir según el rol del usuario
                     if (resultado.message.Rol === 'Administrador') {
