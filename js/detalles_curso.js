@@ -42,6 +42,16 @@ function mostrarDetallesCurso(detallesCursoArray) {
     // Solo usamos el primer elemento del array (asumiendo que hay uno por curso)
     const detallesCurso = detallesCursoArray[0];
 
+     // Mostrar los detalles del temario por nivel
+     const temarioList = document.getElementById('temario-lista');
+     if (!temarioList) {
+         console.error('Elemento temario-lista no encontrado en el DOM.');
+         return;
+     }
+
+     console.log('Temarios recibidos:', detallesCurso.Temarios);
+     
+
     // Mostrar el título del curso
     document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
 
@@ -55,12 +65,24 @@ function mostrarDetallesCurso(detallesCursoArray) {
     document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.Costo}`;
     document.getElementById('curso-descripcion').textContent = detallesCurso.Descripcion;
 
-    const temarioList = document.getElementById('temario-lista');
-    detallesCurso.forEach(detalle => {
-        const nivelElemento = document.createElement('li');
-        nivelElemento.textContent = `Nivel: ${detalle.Nivel} - Tema: ${detalle.Tema}`;
-        temarioList.appendChild(nivelElemento);
-    });
+    if (detallesCurso.Temarios && Array.isArray(detallesCurso.Temarios) && detallesCurso.Temarios.length > 0) {
+        detallesCurso.Temarios.forEach((temario, index) => {
+            console.log(`Procesando temario ${index + 1}:`, temario);
+
+            if (temario.Nivel && temario.Tema) {
+                const nivelElemento = document.createElement('li');
+                nivelElemento.textContent = `Nivel: ${temario.Nivel} - Tema: ${temario.Tema}`;
+                temarioList.appendChild(nivelElemento);
+            } else {
+                console.warn(`El temario ${index + 1} no tiene la estructura esperada:`, temario);
+            }
+        });
+    } else {
+        console.warn('No hay temarios disponibles o la estructura no es válida.');
+        const noTemarioElemento = document.createElement('li');
+        noTemarioElemento.textContent = 'No hay temarios disponibles para este curso.';
+        temarioList.appendChild(noTemarioElemento);
+    }
 }
 
 
