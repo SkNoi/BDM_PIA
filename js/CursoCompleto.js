@@ -50,7 +50,8 @@ function mostrarDetallesCurso(cursoCompleto) {
         const temarioList = document.createElement('ul');
         nivel.Temarios.forEach(temario => {
             const listItem = document.createElement('li');
-            listItem.innerHTML = `${temario.Tema} <br> <small>${temario.Descripcion}</small>`;
+            listItem.textContent = temario.Tema;
+            listItem.addEventListener('click', () => mostrarTemario(temario)); // Al hacer clic, mostrar detalles del temario
             temarioList.appendChild(listItem);
         });
 
@@ -78,21 +79,50 @@ function mostrarDetallesCurso(cursoCompleto) {
         videoSection.src = cursoCompleto.curso.Video;
     }
 
+    // Mostrar los detalles del curso (puedes agregar más campos según lo necesites)
+    document.querySelector('.main-content .video-section h3').textContent = cursoCompleto.curso.Titulo;
+}
+
+// Función para mostrar detalles de un temario específico
+function mostrarTemario(temario) {
+    // Mostrar el video
+    const videoSection = document.querySelector('.video-section video');
+    if (temario.Video) {
+        videoSection.src = temario.Video;
+    } else {
+        videoSection.src = ''; // Limpiar video si no hay
+    }
+
     // Mostrar los recursos adicionales
     const resourcesSection = document.querySelector('.additional-resources ul');
     resourcesSection.innerHTML = ''; // Limpiar recursos previos
-    cursoCompleto.curso.Recursos.forEach(recurso => {
-        const recursoItem = document.createElement('li');
+    if (temario.LinkRecurso) {
+        const linkItem = document.createElement('li');
         const link = document.createElement('a');
-        link.href = recurso.Link;
-        link.textContent = recurso.Nombre;
-        recursoItem.appendChild(link);
-        resourcesSection.appendChild(recursoItem);
-    });
+        link.href = temario.LinkRecurso;
+        link.textContent = 'Recurso adicional';
+        linkItem.appendChild(link);
+        resourcesSection.appendChild(linkItem);
+    }
+    if (temario.PDF_Recurso) {
+        const pdfItem = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = temario.PDF_Recurso;
+        link.textContent = 'PDF Recurso';
+        pdfItem.appendChild(link);
+        resourcesSection.appendChild(pdfItem);
+    }
 
-    // Mostrar los detalles del curso (puedes agregar más campos según lo necesites)
-    document.querySelector('.main-content .video-section h3').textContent = cursoCompleto.curso.Titulo;
-    document.querySelector('.rating-section input').value = cursoCompleto.curso.Calificacion || 0;
+    // Si no hay recursos, mostrar mensaje
+    if (!temario.LinkRecurso && !temario.PDF_Recurso) {
+        const noResourcesMessage = document.createElement('li');
+        noResourcesMessage.textContent = 'No hay recursos disponibles para este tema.';
+        resourcesSection.appendChild(noResourcesMessage);
+    }
+
+    // Mostrar descripción del temario
+    const descriptionSection = document.querySelector('.additional-resources h3');
+    descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 }
 
 
