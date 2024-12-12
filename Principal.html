@@ -193,6 +193,7 @@
     <script> 
         document.addEventListener('DOMContentLoaded', function () {
     paypal.Buttons({
+        
         createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
@@ -206,13 +207,14 @@
             return actions.order.capture().then(function(details) {
                 alert('Pago completado por ' + details.payer.name.given_name);
 
+                const usuarioId = localStorage.getItem("usuario");
+
                 // Obtener datos del usuario y del carrito
-                const usuarioId = localStorage.setItem("ID", usuario.ID_User);
+                const id = usuarioId.ID_User;
                 const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
                 const total = document.getElementById('total').textContent.replace('$', '');
                 const metodoPago = 'PayPal';
-                const estatus = 'Completado';
-                const fechaVenta = new Date().toISOString();
+                const estatus = 'False';
 
                 if (!usuarioId) {
                     console.error('Error: Usuario no identificado.');
@@ -220,27 +222,29 @@
                     return;
                 }
 
-                // Crear un arreglo de los cursos comprados
+                /* Crear un arreglo de los cursos comprados
                 const cursosComprados = carrito.map(curso => ({
-                    ID_Curso: curso.id,  // Suponiendo que el curso tiene un campo 'id'
-                    Precio: curso.precio  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
-                }));
+                    
+                    ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
+                    Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
+                })); */
 
                 // Datos para enviar al servidor
                 const data = {
-                    ID_Estudiante: usuarioId,
+                    accion: 'registrarVenta',
+                    ID_Estudiante: id,
                     Total: total,
-                    FechaVenta: fechaVenta,
                     MetodoPago: metodoPago,
                     Estatus: estatus,
-                    Cursos: cursosComprados  // Enviamos el carrito de cursos
+                    ID_Curso: carrito.id_curso // Enviamos el carrito de cursos
                 };
 
                 // Enviar datos al servidor
                 fetch('Controllers/VentaController.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    
                 })
                 .then(response => response.json())
                 .then(result => {

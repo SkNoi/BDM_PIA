@@ -1,3 +1,20 @@
+function guardarUsuario(usuario){
+    // Enviar el dato al servidor mediante fetch
+    fetch('../Models/guardar_sesion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ usuario })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // Confirmación desde el servidor
+    })
+    .catch(error => console.error('Error:', error));
+
+}
+
 function iniciosession(event) {
     event.preventDefault(); // Evita que se envíe el formulario de la manera tradicional
 
@@ -49,7 +66,8 @@ function iniciosession(event) {
                         Sexo: resultado.message.Sexo,
                         contrasena: resultado.message.Contraseña
                     }));
-                    
+
+                    guardarUsuario(resultado.message.ID_User);                    
 
                     // Redirigir según el rol del usuario
                     if (resultado.message.Rol === 'Administrador') {
