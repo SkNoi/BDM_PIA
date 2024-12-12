@@ -230,7 +230,6 @@
 
                 // Datos para enviar al servidor
                 const data = {
-                    accion: 'registrarVenta',
                     ID_Estudiante: id,
                     Total: total,
                     MetodoPago: metodoPago,
@@ -242,7 +241,8 @@
                 fetch('Controllers/VentaController.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    accion: 'registrarVenta'
                 })
                 .then(response => response.json())
                 .then(result => {
