@@ -207,13 +207,14 @@
             return actions.order.capture().then(function(details) {
                 alert('Pago completado por ' + details.payer.name.given_name);
 
-                const usuarioId = localStorage.getItem("ID_User");
+                const usuarioId = localStorage.getItem("usuario");
 
                 // Obtener datos del usuario y del carrito
+                const id = usuarioId.ID_User;
                 const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
                 const total = document.getElementById('total').textContent.replace('$', '');
                 const metodoPago = 'PayPal';
-                const estatus = 'Completado';
+                const estatus = 'False';
                 const fechaVenta = new Date().toISOString();
 
                 if (!usuarioId) {
@@ -230,7 +231,7 @@
 
                 // Datos para enviar al servidor
                 const data = {
-                    ID_Estudiante: usuarioId,
+                    ID_Estudiante: id,
                     Total: total,
                     FechaVenta: fechaVenta,
                     MetodoPago: metodoPago,
