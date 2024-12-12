@@ -25,11 +25,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarDetallesCurso(cursoCompleto) {
+    console.log(cursoCompleto.niveles); // Verifica los niveles
+
     // Obtener el contenedor de los contenidos del curso
     const contenidosCurso = document.querySelector('.course-contents');
     
     // Limpiar el contenido existente
     contenidosCurso.innerHTML = '';
+
+    if (!cursoCompleto.niveles || cursoCompleto.niveles.length === 0) {
+        alert('No se encontraron niveles para este curso.');
+        return;
+    }
 
     // Iterar sobre los niveles del curso
     cursoCompleto.niveles.forEach(nivel => {
@@ -72,16 +79,8 @@ function mostrarDetallesCurso(cursoCompleto) {
             panel.style.display = panel.style.display === "block" ? "none" : "block";
         });
     });
-
-    // Mostrar el video correspondiente (si existe)
-    const videoSection = document.querySelector('.video-section video');
-    if (cursoCompleto.curso.Video) {
-        videoSection.src = cursoCompleto.curso.Video;
-    }
-
-    // Mostrar los detalles del curso (puedes agregar más campos según lo necesites)
-    document.querySelector('.main-content .video-section h3').textContent = cursoCompleto.curso.Titulo;
 }
+
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
