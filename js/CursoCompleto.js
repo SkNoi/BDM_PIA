@@ -27,8 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarDetallesCurso(cursoCompleto) {
     console.log(cursoCompleto); 
     
-    const videoBase64 = cursoCompleto.niveles[0].Temarios[1].Video;
-    console.log(videoBase64); 
 
     document.title = cursoCompleto.curso.Titulo;
 
@@ -135,18 +133,19 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 
+    // Mostrar el video si existe
     const videoSection = document.querySelector('.video-section');
     const videoElement = videoSection.querySelector('video'); // Asumiendo que ya tienes un <video> dentro de .video-section
-    
+
     // Verifica si el temario tiene un video
     if (temario.Video) {
         // Asegúrate de que el video está en base64 y se está configurando correctamente
         const videoBase64 = temario.Video;
         console.log("Video base64:", videoBase64);
-    
+
         // Si el video está en base64, lo asignamos a la fuente
-        videoElement.src = `data:video/mp4;base64,${videoBase64.trim()}`;  // .trim() para eliminar cualquier espacio extra
-    
+        videoElement.src = `data:video/mp4;base64, ${temario.Video}` ;
+
         // Muestra la sección de video
         videoSection.style.display = 'block';
     } else {
