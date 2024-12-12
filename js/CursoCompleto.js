@@ -103,24 +103,26 @@ function mostrarTemario(temario) {
 
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
-        const pdfObject = document.createElement('object');
-        
-        // Si el PDF está en base64
-        if (typeof temario.PDF_Recurso === 'string') {
-            pdfObject.data = `data:application/pdf;base64,${temario.PDF_Recurso}`;
-            pdfObject.type = 'application/pdf';
-            pdfObject.width = '100%';
-            pdfObject.height = '500px';  // Puedes ajustar el tamaño
-        } else {
-            // Si no es base64, usa la URL directamente
-            pdfObject.data = temario.PDF_Recurso;
-        }
+        const link = document.createElement('a');
     
-        pdfItem.appendChild(pdfObject);
+        // Si el PDF es base64
+        if (typeof temario.PDF_Recurso === 'string') {
+            // Convertir base64 a Blob
+            const pdfBlob = base64ToBlob(temario.PDF_Recurso, 'application/pdf');
+            
+            // Crear una URL del Blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            link.href = pdfUrl;  // Establecer el enlace al Blob URL
+            link.textContent = 'Ver PDF Recurso';
+            link.target = "_blank";  // Abrir en una nueva pestaña
+        } else {
+            // Si no es base64, usar la ruta directamente
+            link.href = temario.PDF_Recurso;
+        }
+        
+        pdfItem.appendChild(link);
         resourcesSection.appendChild(pdfItem);
     }
-    
-    
     
 
 
@@ -156,7 +158,28 @@ function mostrarTemario(temario) {
     }
 }
 
-
+function base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64);  // Decodificar base64
+    const byteArrays = [];
+    
+    // Dividir en bloques de 1024 bytes (para evitar problemas con tamaños grandes)
+    for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+        const slice = byteCharacters.slice(offset, offset + 1024);
+        const byteNumbers = new Array(slice.length);
+        
+        // Convertir cada carácter a un valor de byte
+        for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+        }
+        
+        // Crear un Uint8Array con los bytes
+        const byteArray = new Uint8Array(byteNumbers);
+        byteArrays.push(byteArray);
+    }
+    
+    // Crear el Blob a partir de los arrays de bytes
+    return new Blob(byteArrays, { type: mimeType });
+}
 
 
 
