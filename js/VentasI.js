@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
         headers: {
             'Content-Type': 'application/json' // Especificar que el contenido es JSON
         },
-        body: JSON.stringify({ ID_User })
+        body: ID_User
     })
         .then(response => response.json())
         .then(data => {
