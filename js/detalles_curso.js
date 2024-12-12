@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Realiza una solicitud para obtener los detalles del curso
-    fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
+    fetch(`Controllers/CursoController.php?id_curso=${cursoId}&detalles`)
     .then(response => {
         console.log('Respuesta del servidor:', response);  // Verifica la respuesta completa
         if (!response.ok) {
