@@ -55,22 +55,12 @@ function mostrarDetallesCurso(detallesCursoArray) {
     document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.Costo}`;
     document.getElementById('curso-descripcion').textContent = detallesCurso.Descripcion;
 
-    // Mostrar los detalles del temario por nivel
     const temarioList = document.getElementById('temario-lista');
-    temarioList.innerHTML = ''; // Limpiar lista anterior
-
-    if (detallesCurso.Temarios && detallesCurso.Temarios.length > 0) {
-        console.log(`Nivel: ${temario.Nivel}, Tema: ${temario.Tema}`);
-        detallesCurso.Temarios.forEach(temario => {
-            const nivelElemento = document.createElement('li');
-            nivelElemento.textContent = `Nivel: ${temario.Nivel} - Tema: ${temario.Tema}`;
-            temarioList.appendChild(nivelElemento);
-        });
-    } else {
-        const noTemarioElemento = document.createElement('li');
-        noTemarioElemento.textContent = 'No hay temarios disponibles para este curso.';
-        temarioList.appendChild(noTemarioElemento);
-    }
+    detallesCurso.forEach(detalle => {
+        const nivelElemento = document.createElement('li');
+        nivelElemento.textContent = `Nivel: ${detalle.Nivel} - Tema: ${detalle.Tema}`;
+        temarioList.appendChild(nivelElemento);
+    });
 }
 
 
