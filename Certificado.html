@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background-color: #f7eab3;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,7 +15,7 @@
             margin: 0;
         }
         .certificate {
-            background-color: #f4eaaf;
+            background-color: #ffffff;
             padding: 20px;
             border: 2px solid #000;
             width: 800px;
@@ -37,6 +37,7 @@
         }
         .certificate .date {
             margin: 1em 0;
+            font-size: 1.2em;
         }
         .certificate .signatures {
             display: flex;
@@ -49,27 +50,32 @@
         .certificate .signatures div p {
             margin: 0.2em 0;
         }
+        .certificate .signatures img {
+            width: 150px;
+            height: auto;
+            margin-bottom: -15px; /* Ajusta el margen inferior para alinear las firmas */
+        }
     </style>
 </head>
 <body>
-    <div class="certificate"> <h1>CERTIFICADO DE RECONOCIMIENTO</h1> 
-        
-  <p>Por su notable desempeño en el Máster de Clases de Dibujo se le hace entrega de este certificado a:</p> <div class="name" id="nombre-estudiante">Nombre del Estudiante</div> 
-  <p class="date" id="fecha-certificado">Fecha del Certificado</p> 
-  <div class="signatures"> <div> 
-    <img src="firma_director.jpg" alt="Firma del Director"> 
-    <p>____________________</p> 
-    <p>Bruno Lago</p> 
-    <p>Director</p> 
-    </div> 
-    <div> 
-    <img src="firma_subdirector.png"  alt="Firma del Subdirector"> 
-    <p>____________________</p> 
-    <p>Rosa Martínez</p> 
-    <p>Subdirector</p> 
-</div> 
-</div>
- </div>
+    <div class="certificate">
+        <h1>CERTIFICADO DE RECONOCIMIENTO</h1>
+        <p>Por su notable desempeño en el Máster de Clases de Dibujo se le hace entrega de este certificado a:</p>
+        <div class="name" id="nombre-estudiante">Nombre del Estudiante</div>
+        <p class="date" id="fecha-certificado">Fecha del Certificado</p>
+        <div class="signatures">
+            <div>
+                <img src="./Recursos/firma de director.png" alt="Firma del Director">
+                <p>Bruno Lago</p>
+                <p>Director</p>
+            </div>
+            <div>
+                <img src="./Recursos/firma_subdirector.png" alt="Firma del Subdirector">
+                <p>Rosa Martínez</p>
+                <p>Subdirector</p>
+            </div>
+        </div>
+    </div>
 
     <script>
         // Obtener el usuario desde el localStorage
@@ -82,6 +88,15 @@
         } else {
             // Manejar el caso en que no haya usuario o NombreCompleto
             document.getElementById('nombre-estudiante').textContent = 'Desconocido';
+        }
+
+        // Verificar si el usuario existe y tiene el campo Fecha
+        if (usuario && usuario.Fecha) {
+            // Insertar la fecha en el elemento con id "fecha-certificado"
+            document.getElementById('fecha-certificado').textContent = usuario.Fecha;
+        } else {
+            // Manejar el caso en que no haya usuario o Fecha
+            document.getElementById('fecha-certificado').textContent = 'Fecha desconocida';
         }
     </script>
 </body>
