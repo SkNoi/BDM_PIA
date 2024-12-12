@@ -86,11 +86,13 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-
-    // Mostrar el video
     const videoSection = document.querySelector('.video-section video');
+
+    // Verificar si hay video y mostrarlo
     if (temario.Video) {
-        videoSection.src = temario.Video;  // Concatenar la ruta base con el video
+        const videoBlob = new Blob([new Uint8Array(atob(temario.Video).split("").map(c => c.charCodeAt(0)))], { type: 'video/mp4' });
+        const videoURL = URL.createObjectURL(videoBlob);
+        videoSection.src = videoURL; // Asignar el URL temporal al video
     } else {
         videoSection.src = ''; // Limpiar video si no hay
     }
