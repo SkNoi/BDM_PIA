@@ -18,7 +18,7 @@ if ($conn->connect_error) {
 
 // Verifica si se envió la variable ID_Uses mediante POST
 if (!isset($_POST['ID_User'])) {
-    echo json_encode(['error' => 'ID_Uses no proporcionado']);
+    echo json_encode(['error' => 'ID_User no proporcionado']);
     exit;
 }
 

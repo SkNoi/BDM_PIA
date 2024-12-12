@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     const user = JSON.parse(localStorage.getItem('usuario'));
     const ID_User= user.ID_User;
+
+    console.log("El ID del usuario es:" + ID_User);
     
     // Realiza la solicitud al backend
     fetch("../Models/VentasI.php", {
