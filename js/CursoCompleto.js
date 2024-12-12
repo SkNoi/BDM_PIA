@@ -101,15 +101,32 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(linkItem);
     }
 
-    // Agregar PDF_Recurso si existe y es un Blob
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
         const link = document.createElement('a');
     
         // Si el PDF es base64
         if (typeof temario.PDF_Recurso === 'string') {
-            // Establecer el PDF como fuente base64
-            link.href = `data:application/pdf;base64,${temario.PDF_Recurso}`;
+            // Convertir base64 a Blob
+            const byteCharacters = atob(temario.PDF_Recurso); // Decodificar el base64
+            const byteArrays = [];
+    
+            // Crear un array de bytes del base64
+            for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
+                const slice = byteCharacters.slice(offset, offset + 1024);
+                const byteNumbers = new Array(slice.length);
+                for (let i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                byteArrays.push(new Uint8Array(byteNumbers));
+            }
+    
+            // Crear un Blob con los bytes
+            const pdfBlob = new Blob(byteArrays, { type: 'application/pdf' });
+    
+            // Crear una URL para el Blob
+            const pdfUrl = URL.createObjectURL(pdfBlob);
+            link.href = pdfUrl; // Establecer la URL del Blob como el href
         } else {
             // Si no es base64, usar el valor directamente como ruta
             link.href = temario.PDF_Recurso;
