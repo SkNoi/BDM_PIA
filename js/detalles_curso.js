@@ -33,7 +33,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function mostrarDetallesCurso(detallesCurso) {
+function mostrarDetallesCurso(detallesCursoArray) {
+    if (!detallesCursoArray || detallesCursoArray.length === 0) {
+        console.error('No se encontraron detalles del curso.');
+        return;
+    }
+
+    // Solo usamos el primer elemento del array (asumiendo que hay uno por curso)
+    const detallesCurso = detallesCursoArray[0];
+
     // Mostrar el título del curso
     document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
 
@@ -49,12 +57,21 @@ function mostrarDetallesCurso(detallesCurso) {
 
     // Mostrar los detalles del temario por nivel
     const temarioList = document.getElementById('temario-lista');
-    detallesCurso.forEach(detalle => {
-        const nivelElemento = document.createElement('li');
-        nivelElemento.textContent = `Nivel: ${detalle.Nivel} - Tema: ${detalle.Tema}`;
-        temarioList.appendChild(nivelElemento);
-    });
+    temarioList.innerHTML = ''; // Limpiar lista anterior
+
+    if (detallesCurso.Temarios && detallesCurso.Temarios.length > 0) {
+        detallesCurso.Temarios.forEach(temario => {
+            const nivelElemento = document.createElement('li');
+            nivelElemento.textContent = `Nivel: ${temario.Nivel} - Tema: ${temario.Tema}`;
+            temarioList.appendChild(nivelElemento);
+        });
+    } else {
+        const noTemarioElemento = document.createElement('li');
+        noTemarioElemento.textContent = 'No hay temarios disponibles para este curso.';
+        temarioList.appendChild(noTemarioElemento);
+    }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
     // Verificar si el usuario está en la página de un curso
