@@ -192,40 +192,7 @@
                         <button type="submit">Enviar comentario</button>
                     </form>
                 </div>
-              <div class="comentarios">
-    <h3>Comentarios</h3>
-    <?php
-    // Recuperar comentarios de la base de datos
-    $ID_Curso = 1; // Cambia dinámicamente según el curso
-    $sql = "SELECT * FROM Comentario WHERE ID_Curso = ? AND FechaEliminado IS NULL ORDER BY FechaCreacion DESC";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $ID_Curso);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    while ($row = $result->fetch_assoc()) {
-        echo "<div class='comentario'>";
-        echo "<p><strong>Usuario:</strong> " . htmlspecialchars($row['ID_User']) . "</p>";
-        echo "<p><strong>Comentario:</strong> " . htmlspecialchars($row['Contenido']) . "</p>";
-        echo "<p><strong>Calificación:</strong> " . htmlspecialchars($row['Calificacion']) . " estrellas</p>";
-        echo "<p><em>Fecha: " . htmlspecialchars($row['FechaCreacion']) . "</em></p>";
-        echo "</div>";
-    }
-
-    $stmt->close();
-    ?>
-</div>
-
-                
-
-
-
-
-
-
-
-        
-                <button type="button" class="submit-btn">Enviar nota/comentario</button>
+              
                 <a href="Certificado.html" class="button">Ver Certificado</a>
             </div>
         </div>
