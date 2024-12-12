@@ -246,10 +246,16 @@
                     }).render('#paypal-button-container');
                 });
     
-                        function limpiarCarrito() {
-                        document.getElementById('carrito-body').innerHTML = ''; // Eliminar todos los productos del carrito
-                        document.getElementById('total').textContent = '$0.00'; // Reiniciar el total
-                    }
+                function limpiarCarrito() {
+                // Eliminar todos los productos del carrito en la página
+                document.getElementById('carrito-body').innerHTML = ''; 
+                document.getElementById('total').textContent = '$0.00'; // Reiniciar el total
+                
+                // Limpiar el carrito en localStorage
+                localStorage.removeItem('carrito'); // Eliminar el carrito del localStorage
+
+                console.log('Carrito limpiado tanto en la página como en localStorage.');
+            }
          </script>
     
 
