@@ -21,16 +21,6 @@ if ($conn->connect_error) {
     exit;
 }
 
-// Verifica si se envió la variable ID_User mediante POST
-if (!isset($_POST['ID_User'])) {
-    echo json_encode([
-        'success' => false,
-        'data' => [],
-        'error' => 'ID_User no proporcionado'
-    ]);
-    exit;
-}
-
 $ID_Uses = $_POST['ID_User'];
 
 // Asegúrate de que la variable sea segura para usar en la consulta
