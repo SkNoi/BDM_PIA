@@ -1,9 +1,9 @@
 <?php 
-$host = 'localhost';
+$host = 's9xpbd61ok2i7drv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com';
 $port = '3306';  // El puerto que estás utilizando
-$dbname = 'Lineda';
-$user = 'root';
-$password = '';
+$dbname = 'omggy318wf15rtc3';
+$user = 'w61uabsrpaswba47';
+$password = 'zgug8l6g0pj2cwrn';
 
 try {
     // Agregamos el parámetro port en la cadena de conexión

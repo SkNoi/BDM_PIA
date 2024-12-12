@@ -3,7 +3,7 @@
 session_start();
 
 // Verifica si el usuario ya está logueado
-if (isset($_SESSION['usuario_id'])) {
+if (isset($_SESSION['ID_User'])) {
     // Si ya está logueado, redirige al chat
     header("Location: chat.php");
     exit();
@@ -12,9 +12,9 @@ if (isset($_SESSION['usuario_id'])) {
 // Verifica si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['usuario'])) {
     // Guarda el nombre de usuario en la sesión
-    $_SESSION['usuario_id'] = $_POST['usuario'];
+    $_SESSION['ID_User'] = $_POST['Usuario'];
     // Redirige al chat
-    header("Location: chat.php");
+    header("Location: Chat.php");
     exit();
 }
 ?>
