@@ -101,7 +101,7 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(linkItem);
     }
 
-   // Verifica si el temario tiene un PDF
+  // Verifica si el temario tiene un PDF
     if (temario.PDF_Recurso) {
         // Asegúrate de que el PDF está en base64 y se está configurando correctamente
         const pdfBase64 = temario.PDF_Recurso;
@@ -109,7 +109,8 @@ function mostrarTemario(temario) {
 
         // Si el PDF está en base64, lo asignamos a un iframe o object
         const iframe = document.createElement('iframe');
-        iframe.src = `data:application/pdf;base64,${pdfBase64}`;  // Asignar el base64 al iframe
+        // Asegúrate de concatenar correctamente el prefijo "data:application/pdf;base64,"
+        iframe.src = `data:application/pdf;base64,${pdfBase64}`;
         iframe.width = '100%';
         iframe.height = '600px';  // Ajusta el tamaño según sea necesario
 
@@ -125,7 +126,6 @@ function mostrarTemario(temario) {
         resourcesSection.style.display = 'none';
     }
 
-    
 
 
     // Mostrar mensaje si no hay recursos
