@@ -32,7 +32,7 @@ class Venta {
     
         try {
             // Preparar la consulta para llamar a la función MySQL
-            $sql = "SELECT registrarVenta(?, ?, ?, ?, ?, ?) AS venta_id";
+            $sql = "SELECT registrarVenta(?, ?, ?, ?, ?) AS venta_id";
             $stmt = $conexionAbierta->prepare($sql);
     
             // Verificar si la preparación fue exitosa
