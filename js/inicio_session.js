@@ -1,3 +1,23 @@
+function guardarUsuario(){
+    // Suponiendo que tienes un dato en localStorage llamado "usuario"
+    const usuario = localStorage.getItem('usuario') || 'valor_por_defecto';
+    var id=usuario.ID_User;
+    // Enviar el dato al servidor mediante fetch
+    fetch('../Models/guardar_sesion.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message); // Confirmación desde el servidor
+    })
+    .catch(error => console.error('Error:', error));
+
+}
+
 function iniciosession(event) {
     event.preventDefault(); // Evita que se envíe el formulario de la manera tradicional
 
@@ -49,7 +69,8 @@ function iniciosession(event) {
                         Sexo: resultado.message.Sexo,
                         contrasena: resultado.message.Contraseña
                     }));
-                    
+
+                    guardarUsuario();                    
 
                     // Redirigir según el rol del usuario
                     if (resultado.message.Rol === 'Administrador') {
