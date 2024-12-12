@@ -11,18 +11,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Realiza una solicitud para obtener los detalles del curso
     fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.curso && data.detallesCurso) {
-                mostrarDetallesCurso(data.curso, data.detallesCurso);
-            } else {
-                alert('No se encontraron detalles del curso.');
-            }
-        })
-        .catch(error => {
-            console.error('Error al obtener los detalles del curso:', error);
-            alert('Error al cargar los detalles del curso.');
-        });
+    .then(response => {
+        console.log('Respuesta del servidor:', response);  // Verifica la respuesta completa
+        if (!response.ok) {
+            throw new Error('Error en la respuesta del servidor');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);  // Verifica que los datos sean correctos
+        if (data.success && data.curso && data.detallesCurso) {
+            mostrarDetallesCurso(data.curso, data.detallesCurso);
+        } else {
+            alert('No se encontraron detalles del curso.');
+        }
+    })
+    .catch(error => {
+        console.error('Error al obtener los detalles del curso:', error);
+        alert('Error al cargar los detalles del curso.');
+    });
+
 });
 
 function mostrarDetallesCurso(curso, detallesCurso) {
