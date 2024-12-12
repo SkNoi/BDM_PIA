@@ -208,8 +208,7 @@
                 alert('Pago completado por ' + details.payer.name.given_name);
 
                 
-
-                const usuarioId = localStorage.getItem("usuario");
+                const usuarioId = JSON.parse(localStorage.getItem("usuario"));
 
                 // Obtener datos del usuario y del carrito
                 const id = usuarioId.ID_User;
