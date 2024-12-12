@@ -131,28 +131,24 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(noResourcesMessage);
     }
 
-    // Mostrar descripción del temario
-    const descriptionSection = document.querySelector('.additional-resources h3');
-    descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
+   // Suponiendo que tienes el video en base64
+    const videoBase64 = "AAAAGGZ0eXBtcDQyAAAAAGlzb21tcDQyAAAYC21vb3YAAABsbXZoZAAAAADeasro3mrK6AAAMgAAAni+AAEAAAEAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAAAwsdHJhawAAAFx0a2hkAAAAA95qyujeasroAAAAAQAAAAAAAngAAAAAAAAAAAAAAAA"; // Sustituye con el video real en base64
 
+    // Encuentra el contenedor y el elemento <video>
     const videoSection = document.querySelector('.video-section');
-    const videoElement = videoSection.querySelector('video'); // Asumiendo que ya tienes un <video> dentro de .video-section
-    
-    // Verifica si el temario tiene un video
-    if (temario.Video) {
-        // Asegúrate de que el video está en base64 y se está configurando correctamente
-        const videoBase64 = temario.Video;
-        console.log("Video base64:", videoBase64);
-    
-        // Si el video está en base64, lo asignamos a la fuente
-        videoElement.src = `data:video/mp4;base64,${videoBase64.trim()}`;  // .trim() para eliminar cualquier espacio extra
-    
-        // Muestra la sección de video
-        videoSection.style.display = 'block';
-    } else {
-        // Si no hay video, ocultamos la sección
-        videoSection.style.display = 'none';
-    }
+    const videoElement = videoSection.querySelector('video'); // Esto obtiene el elemento <video>
+
+    // Encuentra la etiqueta <source> dentro de <video>
+    const videoSource = videoElement.querySelector('source');
+
+    // Asigna el video en base64 al src del <source>
+    videoSource.src = `data:video/mp4;base64,${videoBase64}`;
+
+    // Verifica que el video se ha cargado correctamente
+    console.log("Video base64 cargado en el elemento:", videoSource.src);
+
+    // Si lo deseas, puedes también mostrar el video automáticamente al asignarle el src
+    videoElement.load();  // Esto recarga el video con la nueva fuente
 }
 
 
