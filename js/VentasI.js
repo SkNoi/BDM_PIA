@@ -36,8 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 const celdaCursoEstatus = document.createElement("td");
                 celdaCursoEstatus.textContent = item.CursoEstatus || "N/A";
     
+
                 const celdaCosto = document.createElement("td");
-                celdaCosto.textContent = item.Costo || "N/A";
+                var costo = "$" + item.Costo;
+                celdaCosto.textContent = costo;
     
                 const celdaTotalVentas = document.createElement("td");
                 celdaTotalVentas.textContent = item.TotalVentas || "N/A";
