@@ -207,7 +207,6 @@
             return actions.order.capture().then(function(details) {
                 alert('Pago completado por ' + details.payer.name.given_name);
 
-                console.log('El carrito tiene:' + carrito);
                 const usuarioId = localStorage.getItem("usuario");
 
                 // Obtener datos del usuario y del carrito
