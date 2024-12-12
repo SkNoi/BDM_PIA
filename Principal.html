@@ -236,10 +236,10 @@
                 const data = {
                     accion: 'registrarVenta',
                     ID_Estudiante: id,
+                    ID_Curso: carrito[0].id_curso,
                     Total: total,
                     MetodoPago: metodoPago,
-                    Estatus: estatus,
-                    ID_Curso: carrito[0].id_curso
+                    Estatus: estatus
                 };
 
                 // Enviar datos al servidor
