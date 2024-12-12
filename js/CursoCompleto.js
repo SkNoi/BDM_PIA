@@ -85,10 +85,12 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
+    const baseUrl = '/';  // Ruta base desde la raíz del servidor
+
     // Mostrar el video
     const videoSection = document.querySelector('.video-section video');
     if (temario.Video) {
-        videoSection.src = temario.Video;
+        videoSection.src = baseUrl + temario.Video;  // Concatenar la ruta base con el video
     } else {
         videoSection.src = ''; // Limpiar video si no hay
     }
@@ -107,7 +109,7 @@ function mostrarTemario(temario) {
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
         const link = document.createElement('a');
-        link.href = temario.PDF_Recurso;
+        link.href = baseUrl + temario.PDF_Recurso;  // Concatenar la ruta base con el PDF
         link.textContent = 'PDF Recurso';
         pdfItem.appendChild(link);
         resourcesSection.appendChild(pdfItem);
@@ -124,5 +126,6 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 }
+
 
 
