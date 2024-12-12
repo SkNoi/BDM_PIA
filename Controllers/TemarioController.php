@@ -15,37 +15,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $LinkRecurso = $_POST['LinkRecurso'] ?? null;
             $PDF_Recurso = $_FILES['PDF_Recurso'] ?? null;
             $Video = $_FILES['Video'] ?? null;
-
+        
             // Validar datos obligatorios
             if (!$ID_Nivel || !$Tema || !$Descripcion || !$LinkRecurso || !$PDF_Recurso || !$Video) {
                 echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios.']);
                 exit();
             }
-
-            // Rutas de destino para los archivos
-            $pdfDestino = '../uploads/pdf' . uniqid('pdf_') . '_' . basename($PDF_Recurso['name']);
-            $videoDestino = '../uploads/videos/' . uniqid('video_') . '_' . basename($Video['name']);
-
-            // Mover archivos al servidor
-            if (!move_uploaded_file($PDF_Recurso['tmp_name'], $pdfDestino)) {
-                echo json_encode(['success' => false, 'error' => 'Error al subir el archivo PDF.']);
-                exit();
+        
+            // Leer el contenido de los archivos PDF y Video como binarios
+            $pdfData = null;
+            $videoData = null;
+        
+            if ($PDF_Recurso && $PDF_Recurso['error'] === UPLOAD_ERR_OK) {
+                $pdfData = file_get_contents($PDF_Recurso['tmp_name']); // Leer PDF como binario
             }
-
-            if (!move_uploaded_file($Video['tmp_name'], $videoDestino)) {
-                echo json_encode(['success' => false, 'error' => 'Error al subir el archivo de video.']);
-                exit();
+        
+            if ($Video && $Video['error'] === UPLOAD_ERR_OK) {
+                $videoData = file_get_contents($Video['tmp_name']); // Leer Video como binario
             }
-
+        
             // Llamar al modelo para guardar los datos en la base de datos
-            $resultado = Temario::crearTemario($ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $pdfDestino, $videoDestino);
-
+            $resultado = Temario::crearTemario($ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $pdfData, $videoData);
+        
             if ($resultado) {
                 echo json_encode(['success' => true, 'message' => 'Temario creado correctamente.']);
             } else {
                 echo json_encode(['success' => false, 'error' => 'Error al guardar el temario en la base de datos.']);
             }
             break;
+        
 
         case 'modificarTemario':
             // Lógica para modificar un nivel

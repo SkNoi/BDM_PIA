@@ -32,7 +32,7 @@ class Venta {
     
         try {
             // Preparar la consulta para llamar a la función MySQL
-            $sql = "SELECT registrarVenta(?, ?, ?, ?, ?, ?) AS venta_id";
+            $sql = "SELECT registrarVenta(?, ?, ?, ?, ?) AS venta_id";
             $stmt = $conexionAbierta->prepare($sql);
     
             // Verificar si la preparación fue exitosa
@@ -69,6 +69,61 @@ class Venta {
             $conexion->cerrarConexion();
         }
     }
+
+    public static function obtenerCursosComprados($ID_Estudiante) {
+        // Crear instancia de la conexión
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        if (!$conexionAbierta) {
+            echo json_encode(["success" => false, "error" => "Error de conexión a la base de datos."]);
+            exit();
+        }
+    
+        try {
+            // Preparar la consulta para obtener los cursos comprados
+            $sql = "SELECT * FROM CursosComprados WHERE ID_Curso IN (SELECT ID_Curso FROM Venta WHERE ID_Estudiante = ?)";
+    
+            $stmt = $conexionAbierta->prepare($sql);
+    
+            // Verificar si la preparación fue exitosa
+            if (!$stmt) {
+                throw new Exception("Error en la preparación de la consulta: " . $conexionAbierta->error);
+            }
+    
+            // Enlazar parámetros
+            $stmt->bind_param("i", $ID_Estudiante);
+            $stmt->execute();
+            $result = $stmt->get_result();
+    
+            $datos = [];
+    
+            // Verificar si hay resultados y almacenarlos en el array $datos
+            if ($result->num_rows > 0) {
+                while ($row = $result->fetch_assoc()) {
+                    $datos[] = $row;
+                }
+                // Responder con los datos obtenidos
+                echo json_encode(["success" => true, "cursos" => $datos]);
+            } else {
+                // Si no hay cursos comprados, devolver un mensaje adecuado
+                echo json_encode(["success" => false, "error" => "No se encontraron cursos comprados."]);
+            }
+    
+            $stmt->close();
+        } catch (Exception $e) {
+            // Registrar error en el log y devolver mensaje de error al cliente
+            error_log("Error al obtener los cursos comprados: " . $e->getMessage());
+            echo json_encode(["success" => false, "error" => "Error al obtener los cursos comprados: " . $e->getMessage()]);
+        } finally {
+            // Liberar recursos y cerrar conexión
+            if (isset($stmt)) {
+                $stmt->close();
+            }
+            $conexion->cerrarConexion();
+        }
+    }
+    
 }
 
 

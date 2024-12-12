@@ -207,7 +207,8 @@
             return actions.order.capture().then(function(details) {
                 alert('Pago completado por ' + details.payer.name.given_name);
 
-                const usuarioId = localStorage.getItem("usuario");
+                
+                const usuarioId = JSON.parse(localStorage.getItem("usuario"));
 
                 // Obtener datos del usuario y del carrito
                 const id = usuarioId.ID_User;
@@ -228,15 +229,16 @@
                     ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
                     Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
                 })); */
+                console.log(carrito[0].id_curso);
 
                 // Datos para enviar al servidor
                 const data = {
                     accion: 'registrarVenta',
                     ID_Estudiante: id,
+                    ID_Curso: carrito[0].id_curso,
                     Total: total,
                     MetodoPago: metodoPago,
-                    Estatus: estatus,
-                    ID_Curso: carrito.id_curso // Enviamos el carrito de cursos
+                    Estatus: estatus
                 };
 
                 // Enviar datos al servidor

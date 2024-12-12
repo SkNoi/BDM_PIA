@@ -285,6 +285,76 @@ class Curso{
         
     }
 
+    public static function obtenerCursoCompletoporID($id_curso) {
+        $conexion = Conexion::instanciaConexion();
+        $conexionAbierta = $conexion->abrirConexion();
+    
+        try {
+            if (!$conexionAbierta) {
+                throw new Exception("Error al conectar con la base de datos.");
+            }
+    
+            $sql = "SELECT * 
+                    FROM CursoCompleto
+                    WHERE ID_Curso = ?";
+    
+            $stmt = $conexionAbierta->prepare($sql);
+            $stmt->bind_param('i', $id_curso); // 'i' indica que es un entero
+            $stmt->execute();
+            $resultado = $stmt->get_result();
+    
+            $cursoGeneral = null; // Información general del curso
+            $niveles = []; // Niveles y temarios
+    
+            while ($fila = $resultado->fetch_assoc()) {
+                // Información general del curso (solo se asigna una vez)
+                if (!$cursoGeneral) {
+                    $cursoGeneral = [
+                        'ID_Curso' => $fila['ID_Curso'],
+                        'Titulo' => $fila['Titulo'],
+                        'Costo' => $fila['Costo'],
+                        'Duracion' => $fila['Duracion'],
+                        'ImagenCurso' => $fila['ImagenCurso']
+                    ];
+                }
+    
+                // Agrupamos niveles y temarios
+                $idNivel = $fila['ID_Nivel'];
+                if (!isset($niveles[$idNivel])) {
+                    $niveles[$idNivel] = [
+                        'ID_Nivel' => $fila['ID_Nivel'],
+                        'Nivel' => $fila['Nivel'],
+                        'Temarios' => []
+                    ];
+                }
+    
+                // Agregamos los temarios al nivel correspondiente
+                $niveles[$idNivel]['Temarios'][] = [
+                    'Tema' => $fila['Tema'],
+                    'Descripcion' => $fila['Descripcion'],
+                    'LinkRecurso' => $fila['LinkRecurso'],
+                    'PDF_Recurso' => $fila['PDF_Recurso'],
+                    'Video' => $fila['Video']
+                ];
+            }
+    
+            // Convertir niveles en una lista indexada
+            $nivelesList = array_values($niveles);
+    
+            return [
+                'curso' => $cursoGeneral,
+                'niveles' => $nivelesList
+            ];
+    
+        } catch (Exception $e) {
+            echo "Error en la base de datos: " . $e->getMessage();
+            return null;
+        } finally {
+            $conexion->cerrarConexion();
+        }
+    }
+    
+
     public static function obtenerCursoPorId($id_curso) {
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();

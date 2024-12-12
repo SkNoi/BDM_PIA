@@ -226,37 +226,91 @@
         <script src="https://www.paypal.com/sdk/js?client-id=AbzVKAU35LH6PZd7bsCMWJkB6M1ea_utScWyXhfli8HtarE0CX0RoR6MHeRlhbenBaYWlem_T1qkvnd8&currency=MXN"></script>
         <script type="text/javascript" src="js/PerfilUser.js"></script>
         <script> 
-            document.addEventListener('DOMContentLoaded', function () { 
-                paypal.Buttons({ 
-                    createOrder: function(data, actions) { 
-                        return actions.order.create({ 
-                            purchase_units: [{ 
-                                amount: { 
-                                    value: document.getElementById('total').textContent.replace('$', '') 
-                                } 
-                            }] 
-                        }); 
-                    }, 
-                    onApprove: function(data, actions) { 
-                        return actions.order.capture().then(function(details) { 
-                            alert('Pago completado por ' + details.payer.name.given_name);
-                            limpiarCarrito();
-                         }); 
+            document.addEventListener('DOMContentLoaded', function () {
+        paypal.Buttons({
+            
+            createOrder: function(data, actions) {
+                return actions.order.create({
+                    purchase_units: [{
+                        amount: {
+                            value: document.getElementById('total').textContent.replace('$', '')
                         }
-                    }).render('#paypal-button-container');
+                    }]
                 });
+            },
+            onApprove: function(data, actions) {
+                return actions.order.capture().then(function(details) {
+                    alert('Pago completado por ' + details.payer.name.given_name);
     
-                function limpiarCarrito() {
-                // Eliminar todos los productos del carrito en la página
-                document.getElementById('carrito-body').innerHTML = ''; 
-                document.getElementById('total').textContent = '$0.00'; // Reiniciar el total
-                
-                // Limpiar el carrito en localStorage
-                localStorage.removeItem('carrito'); // Eliminar el carrito del localStorage
-
-                console.log('Carrito limpiado tanto en la página como en localStorage.');
+                    
+                    const usuarioId = JSON.parse(localStorage.getItem("usuario"));
+    
+                    // Obtener datos del usuario y del carrito
+                    const id = usuarioId.ID_User;
+                    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+                    const total = document.getElementById('total').textContent.replace('$', '');
+                    const metodoPago = 'PayPal';
+                    const estatus = 'False';
+    
+                    if (!usuarioId) {
+                        console.error('Error: Usuario no identificado.');
+                        alert('No se pudo completar el registro de la venta. Usuario no identificado.');
+                        return;
+                    }
+    
+                    /* Crear un arreglo de los cursos comprados
+                    const cursosComprados = carrito.map(curso => ({
+                        
+                        ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
+                        Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
+                    })); */
+                    console.log(carrito[0].id_curso);
+    
+                    // Datos para enviar al servidor
+                    const data = {
+                        accion: 'registrarVenta',
+                        ID_Estudiante: id,
+                        ID_Curso: carrito[0].id_curso,
+                        Total: total,
+                        MetodoPago: metodoPago,
+                        Estatus: estatus
+                    };
+    
+                    // Enviar datos al servidor
+                    fetch('Controllers/VentaController.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                        
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.success) {
+                            console.log('Venta registrada con éxito:', result.venta_id);
+                            limpiarCarrito();
+                        } else {
+                            console.error('Error al registrar la venta:', result.error);
+                            alert('Ocurrió un error al registrar la venta. Intenta nuevamente.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la conexión:', error);
+                        alert('Hubo un problema con la conexión. Por favor, inténtalo de nuevo.');
+                    });
+                });
             }
-         </script>
+        }).render('#paypal-button-container');
+    });
+    
+    // Limpiar el carrito después de la compra
+    function limpiarCarrito() {
+        document.getElementById('carrito-body').innerHTML = ''; 
+        document.getElementById('total').textContent = '$0.00';
+        localStorage.removeItem('carrito');
+        console.log('Carrito limpiado.');
+    }
+    
+            </script>
     
 
 </body>
