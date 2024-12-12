@@ -222,10 +222,13 @@
                     return;
                 }
 
+                console.log('el curso es:' + curso);
+                
                 // Crear un arreglo de los cursos comprados
                 const cursosComprados = carrito.map(curso => ({
-                    ID_Curso: curso.id,  // Suponiendo que el curso tiene un campo 'id'
-                    Precio: curso.precio  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
+                    
+                    ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
+                    Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
                 }));
 
                 // Datos para enviar al servidor
@@ -242,7 +245,8 @@
                 fetch('Controllers/VentaController.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
+                    body: JSON.stringify(data),
+                    
                 })
                 .then(response => response.json())
                 .then(result => {
