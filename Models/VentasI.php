@@ -21,7 +21,7 @@ if ($conn->connect_error) {
     exit;
 }
 
-$ID_Uses = $_POST['ID_User'];
+$ID_Uses = intval($_POST['ID_User']);
 
 // Asegúrate de que la variable sea segura para usar en la consulta
 //$ID_Uses = $conn->real_escape_string($ID_Uses);
