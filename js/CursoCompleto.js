@@ -88,12 +88,9 @@ function mostrarDetallesCurso(cursoCompleto) {
 function mostrarTemario(temario) {
     const videoSection = document.querySelector('.video-section video');
 
-    // Verificar si hay video y mostrarlo
     if (temario.Video) {
-        // Suponiendo que temario.Video contiene los datos binarios del video
-        const videoBlob = new Blob([temario.Video], { type: 'video/mp4' });  // Suponiendo que el video es MP4
-        const videoURL = URL.createObjectURL(videoBlob);
-        videoSection.src = videoURL; // Asignar el URL temporal al video
+        // Crear una URL a partir del video en base64 y asignarla al elemento <video>
+        videoSection.src = 'data:video/mp4;base64,' + temario.Video;
     } else {
         videoSection.src = ''; // Limpiar video si no hay
     }
@@ -129,6 +126,7 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 }
+
 
 
 
