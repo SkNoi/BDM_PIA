@@ -207,7 +207,7 @@
                 alert('Pago completado por ' + details.payer.name.given_name);
 
                 // Obtener datos del usuario y del carrito
-                const usuarioId = localStorage.getItem("ID_User");
+                const usuarioId = localStorage.setItem("ID", usuario.ID_User);
                 const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
                 const total = document.getElementById('total').textContent.replace('$', '');
                 const metodoPago = 'PayPal';
