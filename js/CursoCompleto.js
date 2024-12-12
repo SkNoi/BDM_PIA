@@ -101,29 +101,31 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(linkItem);
     }
 
+  // Verifica si el temario tiene un PDF
     if (temario.PDF_Recurso) {
+        // Asegúrate de que el PDF está en base64 y se está configurando correctamente
+        const pdfBase64 = temario.PDF_Recurso;
+        console.log("PDF base64:", pdfBase64);
+
+        // Si el PDF está en base64, lo asignamos a un iframe o object
+        const iframe = document.createElement('iframe');
+        // Asegúrate de concatenar correctamente el prefijo "data:application/pdf;base64,"
+        iframe.src = `data:application/pdf;base64,${pdfBase64}`;
+        iframe.width = '100%';
+        iframe.height = '600px';  // Ajusta el tamaño según sea necesario
+
+        // Agregar el iframe a la sección de recursos
         const pdfItem = document.createElement('li');
-        const link = document.createElement('a');
-    
-        // Si el PDF es base64
-        if (typeof temario.PDF_Recurso === 'string') {
-            // Convertir base64 a Blob
-            const pdfBlob = base64ToBlob(temario.PDF_Recurso, 'application/pdf');
-            
-            // Crear una URL del Blob
-            const pdfUrl = URL.createObjectURL(pdfBlob);
-            link.href = pdfUrl;  // Establecer el enlace al Blob URL
-            link.textContent = 'Ver PDF Recurso';
-            link.target = "_blank";  // Abrir en una nueva pestaña
-        } else {
-            // Si no es base64, usar la ruta directamente
-            link.href = temario.PDF_Recurso;
-        }
-        
-        pdfItem.appendChild(link);
+        pdfItem.appendChild(iframe);
         resourcesSection.appendChild(pdfItem);
+        
+        // Muestra la sección del PDF
+        resourcesSection.style.display = 'block';
+    } else {
+        // Si no hay PDF, ocultamos la sección
+        resourcesSection.style.display = 'none';
     }
-    
+
 
 
     // Mostrar mensaje si no hay recursos
@@ -158,28 +160,7 @@ function mostrarTemario(temario) {
     }
 }
 
-function base64ToBlob(base64, mimeType) {
-    const byteCharacters = atob(base64);  // Decodificar base64
-    const byteArrays = [];
-    
-    // Dividir en bloques de 1024 bytes (para evitar problemas con tamaños grandes)
-    for (let offset = 0; offset < byteCharacters.length; offset += 1024) {
-        const slice = byteCharacters.slice(offset, offset + 1024);
-        const byteNumbers = new Array(slice.length);
-        
-        // Convertir cada carácter a un valor de byte
-        for (let i = 0; i < slice.length; i++) {
-            byteNumbers[i] = slice.charCodeAt(i);
-        }
-        
-        // Crear un Uint8Array con los bytes
-        const byteArray = new Uint8Array(byteNumbers);
-        byteArrays.push(byteArray);
-    }
-    
-    // Crear el Blob a partir de los arrays de bytes
-    return new Blob(byteArrays, { type: mimeType });
-}
+
 
 
 
