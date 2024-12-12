@@ -1,7 +1,7 @@
 <?php
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once '../Models/Venta.php'; // Incluye el modelo de Venta
+    require_once '../Models/Ventas.php'; 
 
     // Obtener la acción desde el POST
     $accion = $_POST['accion'] ?? '';
