@@ -30,9 +30,16 @@ class Temario {
         }
 
         try {
+
+             // Procesar el video a base64 o asignar null
+            $videoBase64 = null;
+            if ($Video !== null && isset($Video['tmp_name']) && $Video['size'] > 0) {
+                $videoBase64 = base64_encode(file_get_contents($Video['tmp_name']));
+            }
+            
             $sql = "CALL InsertarTemario(?, ?, ?, ?, ?, ?)";
             $stmt = $conexionAbierta->prepare($sql);
-            $stmt->bind_param('isssss', $ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $PDF_Recurso, $Video);
+            $stmt->bind_param('isssss', $ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $PDF_Recurso, $videoBase64);
 
             return $stmt->execute(); // Devuelve true si fue exitoso, false en caso contrario
         } catch (Exception $e) {

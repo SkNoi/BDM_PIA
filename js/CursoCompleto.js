@@ -90,7 +90,8 @@ function mostrarTemario(temario) {
 
     // Verificar si hay video y mostrarlo
     if (temario.Video) {
-        const videoBlob = new Blob([new Uint8Array(atob(temario.Video).split("").map(c => c.charCodeAt(0)))], { type: 'video/mp4' });
+        // Suponiendo que temario.Video contiene los datos binarios del video
+        const videoBlob = new Blob([temario.Video], { type: 'video/mp4' });  // Suponiendo que el video es MP4
         const videoURL = URL.createObjectURL(videoBlob);
         videoSection.src = videoURL; // Asignar el URL temporal al video
     } else {
@@ -128,6 +129,7 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 }
+
 
 
 
