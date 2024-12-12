@@ -3,6 +3,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../Models/Ventas.php'; 
 
+    $data = json_decode(file_get_contents('php://input'), true);
     // Obtener la acción desde el POST
     $accion = $_POST['accion'] ?? '';
 
