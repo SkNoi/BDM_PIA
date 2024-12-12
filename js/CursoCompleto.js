@@ -88,13 +88,16 @@ function mostrarDetallesCurso(cursoCompleto) {
 function mostrarTemario(temario) {
     const videoSection = document.querySelector('.video-section video');
     
+    // Verificar si hay un video en base64 y asignarlo correctamente
     if (temario.Video) {
-        // Crear una URL a partir del video en base64 y asignarla al elemento <video>
-        videoSection.src = 'data:video/mp4;base64,' + temario.Video;
+        const videoSection = document.querySelector('.video-section video');
+        // Convertir el video en base64 a un formato adecuado
+        videoSection.src = 'data:video/mp4;base64,' + btoa(temario.Video);  // Usa `btoa` para codificar los datos binarios en base64
         videoSection.style.display = 'block';  // Mostrar el video si existe
     } else {
         videoSection.style.display = 'none';  // Ocultar el video si no existe
     }
+
 
     // Mostrar los recursos adicionales
     const resourcesSection = document.querySelector('.additional-resources ul');
