@@ -25,8 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function mostrarDetallesCurso(cursoCompleto) {
-    console.log(cursoCompleto.niveles); // Verifica los niveles
-    console.log(cursoCompleto.titulo);
+    console.log(cursoCompleto); 
 
     document.title = cursoCompleto.titulo;
 
