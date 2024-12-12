@@ -18,12 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $total = $data['Total'] ?? null;
                 $metodoPago = $data['MetodoPago'] ?? null;
                 $estatus = $data['Estatus'] ?? null;
-
-                // Validar que todos los datos requeridos estén presentes
-                if ($idEstudiante || $idCurso || $total || $metodoPago || $estatus) {
-                    echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios.']);
-                    exit;
-                }
+                
 
                 // Registrar la venta usando el modelo
                 $ventaId = Venta::registrarVenta($idEstudiante, $idCurso, $total, $metodoPago, $estatus);
