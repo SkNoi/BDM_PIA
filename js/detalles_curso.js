@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Realiza una solicitud para obtener los detalles del curso
-    fetch(`Controllers/CursoController.php?id_curso=${cursoId}&detalles`)
+    fetch(`Controllers/CursoController.php?id_curso=${cursoId}&tipo=detalles`)
     .then(response => {
         console.log('Respuesta del servidor:', response);  // Verifica la respuesta completa
         if (!response.ok) {
@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(data => {
         console.log(data);  // Verifica que los datos sean correctos
-        if (data.success && data.curso && data.detallesCurso) {
-            mostrarDetallesCurso(data.curso, data.detallesCurso);
+        if (data.success && data.detallesCurso) {
+            mostrarDetallesCurso(data.detallesCurso);
         } else {
             alert('No se encontraron detalles del curso.');
         }
@@ -33,19 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
-function mostrarDetallesCurso(curso, detallesCurso) {
+function mostrarDetallesCurso(detallesCurso) {
     // Mostrar el título del curso
-    document.getElementById('curso-titulo').textContent = curso.titulo;
+    document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
 
     // Mostrar la imagen del curso (asumiendo que es base64)
     if (curso.imagencurso) {
-        document.getElementById('curso-imagen').src = `data:image/png;base64,${curso.imagencurso}`;
-        document.getElementById('curso-imagen').alt = `Imagen del curso ${curso.titulo}`;
+        document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
+        document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
     }
 
     // Mostrar precio y descripción del curso
-    document.getElementById('curso-precio').textContent = `Precio: $${curso.costo}`;
-    document.getElementById('curso-descripcion').textContent = curso.descripcion;
+    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.costo}`;
+    document.getElementById('curso-descripcion').textContent = detallesCurso.descripcion;
 
     // Mostrar los detalles del temario por nivel
     const temarioList = document.getElementById('temario-lista');
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (cursoId) {
         // Obtener los detalles del curso (puedes usar el código que ya tienes para obtener los detalles del curso)
-        fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
+        fetch(`Controllers/CursoController.php?id_curso=${cursoId}&tipo=curso`)
             .then(response => response.json())
             .then(data => {
                 if (data.success && data.curso) {
