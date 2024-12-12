@@ -27,17 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarDetallesCurso(cursoCompleto) {
     console.log(cursoCompleto); 
     
-     const videoSection = document.querySelector('#videoPlayer');
-    
-    const videoBase64 = cursoCompleto.niveles[0].Temarios[0].Video;
+    const videoBase64 = cursoCompleto.niveles[0].Temarios[1].Video;
+    console.log(videoBase64); 
 
-    if (temario.Video) {
-        // Si el video está en base64, asigna la cadena base64 al src
-        videoSection.src = 'data:video/mp4;base64,' + videoBase64;
-        videoSection.style.display = 'block';  // Mostrar el video si existe
-    } else {
-        videoSection.style.display = 'none';  // Ocultar el video si no existe
-    }
     document.title = cursoCompleto.curso.Titulo;
 
     // Obtener el contenedor de los contenidos del curso
@@ -97,10 +89,11 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-
     // Mostrar los recursos adicionales
     const resourcesSection = document.querySelector('.additional-resources ul');
     resourcesSection.innerHTML = ''; // Limpiar recursos previos
+    
+    // Agregar LinkRecurso si existe
     if (temario.LinkRecurso) {
         const linkItem = document.createElement('li');
         const link = document.createElement('a');
@@ -109,6 +102,8 @@ function mostrarTemario(temario) {
         linkItem.appendChild(link);
         resourcesSection.appendChild(linkItem);
     }
+
+    // Agregar PDF_Recurso si existe
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
         const link = document.createElement('a');
@@ -118,7 +113,7 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(pdfItem);
     }
 
-    // Si no hay recursos, mostrar mensaje
+    // Mostrar mensaje si no hay recursos
     if (!temario.LinkRecurso && !temario.PDF_Recurso) {
         const noResourcesMessage = document.createElement('li');
         noResourcesMessage.textContent = 'No hay recursos disponibles para este tema.';
@@ -128,7 +123,21 @@ function mostrarTemario(temario) {
     // Mostrar descripción del temario
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
+
+    // Mostrar el video si existe
+    const videoSection = document.querySelector('.video-section');
+    const videoElement = videoSection.querySelector('video'); // Asumiendo que ya tienes un <video> dentro de .video-section
+
+    // Verifica si el temario tiene un video
+    if (temario.Video) {
+        // Si el video está en base64
+        videoElement.src = 'data:video/mp4;base64,' + temario.Video;
+        videoSection.style.display = 'block';  // Mostrar la sección del video
+    } else {
+        videoSection.style.display = 'none';  // Ocultar la sección del video si no hay video
+    }
 }
+
 
 
 
