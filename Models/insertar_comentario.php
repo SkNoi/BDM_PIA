@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-if ($_SERVER['REQUEST_METHOD¿'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar los datos enviados desde el formulario
     $ID_Curso = $_POST['ID_Curso'] ?? null;
     $ID_User = $_POST['ID_User'] ?? null;
@@ -17,10 +17,10 @@ if ($_SERVER['REQUEST_METHOD¿'] === 'POST') {
     }
 
     // Conexión a la base de datos
-    $host = "s9xpbd61ok2i7drv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com"; // Cambiar si es necesario
+    $host = "s9xpbd61ok2i7drv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
     $username = "w61uabsrpaswba47"; 
     $password = "Zgug8l6g0pj2cwrn"; 
-    $dbname = "omgy318wf15rtc3"; 
+    $dbname = "Omggy318wf15rtc3"; 
     $port = 3306;
 
     $conn = new mysqli($host, $username, $password, $dbname,$port);
