@@ -60,6 +60,7 @@ function mostrarDetallesCurso(detallesCursoArray) {
     temarioList.innerHTML = ''; // Limpiar lista anterior
 
     if (detallesCurso.Temarios && detallesCurso.Temarios.length > 0) {
+        console.log(`Nivel: ${temario.Nivel}, Tema: ${temario.Tema}`);
         detallesCurso.Temarios.forEach(temario => {
             const nivelElemento = document.createElement('li');
             nivelElemento.textContent = `Nivel: ${temario.Nivel} - Tema: ${temario.Tema}`;
