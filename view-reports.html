@@ -44,6 +44,7 @@
         <a href="moderate-comments.html">Eliminar Comentarios Ofensivos</a>
         <a href="add-category.html">Registrar Categorías</a>
         <a href="view-reports.html">Ver Reportes</a>
+        <a href="PerfilAdmin.html">Mi perfil</a>
         <a href="index.html?accion=logout">Cerrar Sesión</a>
     </div>
 
@@ -152,8 +153,8 @@ function aplicarFiltros() {
 }
 
 function mostrarInstructores(datos) { const tbody = document.getElementById('reportes').getElementsByTagName('tbody')[0]; tbody.innerHTML = ''; 
- datos.forEach(instructor => { const tr = document.createElement('tr'); Object.values(instructor).forEach(valor => { const td = document.createElement('td'); td.textContent = valor; tr.appendChild(td); }); tbody.appendChild(tr); }); } function aplicarFiltros() { const estadoSeleccionado = document.getElementById('Estado').value; const instructoresFiltrados = instructores.filter(instructor => { if (estadoSeleccionado === "") { return true; 
-  } else { return instructor.Estado === estadoSeleccionado; } }); mostrarInstructores(instructoresFiltrados); } 
+ datos.forEach(reportes => { const tr = document.createElement('tr'); Object.values(reportes).forEach(valor => { const td = document.createElement('td'); td.textContent = valor; tr.appendChild(td); }); tbody.appendChild(tr); }); } function aplicarFiltros() { const estadoSeleccionado = document.getElementById('Estado').value; const instructoresFiltrados = reportes.filter(reportes => { if (estadoSeleccionado === "") { return true; 
+  } else { return reportes.Estado === estadoSeleccionado; } }); mostrarInstructores(reportesFiltrados); } 
         </script>
 
         
