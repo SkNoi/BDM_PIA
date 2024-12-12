@@ -67,7 +67,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.aplicarFiltros = () => {
         const categoria = document.getElementById("categoria").value;
         const estado = document.getElementById("estado").value;
-
+    
+        // Solicitar los datos filtrados
         fetch("../Models/VentasI.php", {
             method: 'POST',
             headers: {
@@ -78,16 +79,18 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(data => {
             if (data.success && Array.isArray(data.data)) {
+                // Filtrar los datos según los filtros aplicados
                 const datosFiltrados = data.data.filter(item => {
                     const cumpleCategoria = categoria ? item.Categoria === categoria : true;
                     const cumpleEstado = estado ? item.CursoEstatus === estado : true;
                     return cumpleCategoria && cumpleEstado;
                 });
-                mostrarDatos(datosFiltrados);
+                mostrarDatos(datosFiltrados); // Mostrar los datos filtrados
             } else {
                 console.error("La respuesta no contiene un arreglo válido en 'data'.", data);
             }
         })
         .catch(error => console.error("Error al aplicar los filtros:", error));
     };
+    
 });
