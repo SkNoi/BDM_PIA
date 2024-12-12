@@ -215,7 +215,6 @@
                 const total = document.getElementById('total').textContent.replace('$', '');
                 const metodoPago = 'PayPal';
                 const estatus = 'False';
-                const fechaVenta = new Date().toISOString();
 
                 if (!usuarioId) {
                     console.error('Error: Usuario no identificado.');
@@ -234,7 +233,6 @@
                     accion: 'registrarVenta',
                     ID_Estudiante: id,
                     Total: total,
-                    FechaVenta: fechaVenta,
                     MetodoPago: metodoPago,
                     Estatus: estatus,
                     Cursos: cursosComprados  // Enviamos el carrito de cursos
