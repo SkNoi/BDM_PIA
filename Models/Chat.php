@@ -21,7 +21,7 @@ if (!isset($_SESSION['ID_User'])) {
 </head>
 <body>
     <header>
-        <a href="./BDM_PIA/Principal.html">Inicio</a>
+        <a href="../Principal.html">Inicio</a>
             
       
     </header>
