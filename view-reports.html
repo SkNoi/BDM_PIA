@@ -151,6 +151,10 @@ function aplicarFiltros() {
         }
     });    
 }
+
+ function aplicarFiltros2() { const EstadoSeleccionado = document.getElementById('Estado').value; const reportesFiltrados = reportes.filter(reportes => { if (EstadoSeleccionado === "") { return true; 
+
+ } else { return reportes.Estado === estadoSeleccionado; } }); mostrarInstructores(reportesFiltrados); }  mostrarInstructores(reportes);
         </script>
 
         
