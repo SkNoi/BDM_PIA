@@ -89,17 +89,16 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-    const videoSection = document.querySelector('.video-section video');
+    const videoSection = document.querySelector('#videoPlayer');
     
-   // Verifica si hay un video en base64
-   if (temario.Video) {
+    const videoBase64 = cursoCompleto.niveles[0].Temarios[0].Video;
+
+    if (temario.Video) {
         // Si el video está en base64, asigna la cadena base64 al src
-        videoSection.src = 'data:video/mp4;base64,' + temario.Video;
+        videoSection.src = 'data:video/mp4;base64,' + videoBase64;
         videoSection.style.display = 'block';  // Mostrar el video si existe
     } else {
-        // Si no hay video en base64, puedes asignar un video local (por ejemplo, un archivo en tu carpeta "Recursos")
-        videoSection.src = 'Recursos/videotuto.mp4';  // Reemplaza con tu ruta de archivo
-        videoSection.style.display = 'block';  // Mostrar el video si existe
+        videoSection.style.display = 'none';  // Ocultar el video si no existe
     }
 
     // Mostrar los recursos adicionales
