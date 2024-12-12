@@ -366,7 +366,7 @@ function mostrarCursosComprados(cursos) {
 
         const imagenSrc = curso.ImagenCurso 
             ? `data:image/png;base64,${curso.ImagenCurso}` 
-            : 'ruta/por_defecto.png';
+            : '../Recursos/java.jpg';
 
         card.innerHTML = `
             <div class="card">
