@@ -35,17 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function mostrarDetallesCurso(detallesCurso) {
     // Mostrar el título del curso
-    document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
+    document.getElementById('curso-titulo').textContent = detallesCurso.Titulo;
 
     // Mostrar la imagen del curso (asumiendo que es base64)
-    if (detallesCurso.imagencurso) {
-        document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
-        document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
+    if (detallesCurso.ImagenCurso) {
+        document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.ImagenCurso}`;
+        document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.Titulo}`;
     }
 
     // Mostrar precio y descripción del curso
-    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.costo}`;
-    document.getElementById('curso-descripcion').textContent = detallesCurso.descripcion;
+    document.getElementById('curso-precio').textContent = `Precio: $${detallesCurso.Costo}`;
+    document.getElementById('curso-descripcion').textContent = detallesCurso.Descripcion;
 
     // Mostrar los detalles del temario por nivel
     const temarioList = document.getElementById('temario-lista');
