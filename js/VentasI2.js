@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Precio Pagado
                 const celdaPrecioPagado = document.createElement("td");
-                celdaPrecioPagado.textContent = "$" + (item.MontoPagado || 0);
+                celdaPrecioPagado.textContent = "$" + (item.Total || 0);
                 fila.appendChild(celdaPrecioPagado);
 
                 // Forma de Pago
