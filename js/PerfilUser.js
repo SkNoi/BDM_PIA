@@ -374,7 +374,7 @@ function mostrarCursosComprados(cursos) {
                 <div class="card-body">
                     <h5 class="card-title">${curso.Titulo}</h5>
                     <p class="card-text">${curso.Descripcion}</p>
-                    <a href="ver_curso.php?id_curso=${curso.ID_Curso}" class="btn btn-primary">Ver Curso</a>
+                    <a href="Demo.html?id_curso=${curso.ID_Curso}" class="btn btn-primary">Ver Curso</a>
                 </div>
             </div>
         `;

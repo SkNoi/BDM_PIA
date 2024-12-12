@@ -84,17 +84,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $termino = isset($_GET['termino']) ? $_GET['termino'] : '';
         $categoria = isset($_GET['categoria']) ? $_GET['categoria'] : '';
         $calificacion = isset($_GET['calificacion']) ? $_GET['calificacion'] : '';
-    
+        
         if ($id_curso) {
             // Obtener detalles de un curso específico por id_curso
             $curso = Curso::obtenerCursoPorId($id_curso);
             $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
-    
-            if ($curso && $detallesCurso) {
+            $cursoCompleto = Curso::obtenerCursoCompletoporID($id_curso);
+            
+            if ($curso && $detallesCurso && $cursoCompleto) {
                 echo json_encode([
                     'success' => true, 
                     'curso' => $curso, 
-                    'detallesCurso' => $detallesCurso
+                    'detallesCurso' => $detallesCurso,
+                    'cursoCompleto' => $cursoCompleto // Aquí se devuelve la información completa del curso
                 ]);
             } else {
                 echo json_encode(['success' => false, 'error' => 'No se encontró el curso especificado.']);
@@ -102,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else if ($id_instructor) {
             // Obtener cursos de un instructor específico
             $cursos = Curso::obtenerCursosPorInstructor($id_instructor);
-    
+        
             if ($cursos) {
                 echo json_encode(['success' => true, 'cursos' => $cursos]);
             } else {
@@ -111,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else if ($termino || $categoria || $calificacion) {
             // Obtener cursos con los filtros de búsqueda
             $cursos = Curso::obtenerCursosConFiltros($termino, $categoria, $calificacion);
-    
+        
             if ($cursos) {
                 echo json_encode(['success' => true, 'cursos' => $cursos]);
             } else {
@@ -120,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } else {
             // Obtener todos los cursos si no hay parámetros de búsqueda
             $cursos = Curso::obtenerTodosLosCursos();
-    
+        
             if ($cursos) {
                 echo json_encode(['success' => true, 'cursos' => $cursos]);
             } else {
@@ -128,8 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    
-    
     
 
 ?>
