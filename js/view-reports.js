@@ -41,11 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 const celdaFechaRegistro = document.createElement("td");
                 celdaFechaRegistro.textContent = item.FechaRegistro;
 
+                
+                const celdaEstado= document.createElement("td");
+                celdaEstado.textContent = item.Estado;
+
                 const celdaNumeroCursos = document.createElement("td");
                 celdaNumeroCursos.textContent = item.NumeroCursos;
 
-                const celdaEstado= document.createElement("td");
-                celdaEstado.textContent = item.Estado;
 
                 const celdaTotalCostoVentas= document.createElement("td");
                 celdaTotalCostoVentas.textContent = item.TotalCostoVentas;
@@ -55,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 fila.appendChild(celdaUsuario);
                 fila.appendChild(celdaNombre);
                 fila.appendChild(celdaFechaRegistro);
-                fila.appendChild(celdaNumeroCursos);
                 fila.appendChild(celdaEstado);
+                fila.appendChild(celdaNumeroCursos);
                 fila.appendChild(celdaTotalCostoVentas);
              
                   

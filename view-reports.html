@@ -44,6 +44,7 @@
         <a href="moderate-comments.html">Eliminar Comentarios Ofensivos</a>
         <a href="add-category.html">Registrar Categorías</a>
         <a href="view-reports.html">Ver Reportes</a>
+        <a href="PerfilAdmin.html">Mi perfil</a>
         <a href="index.html?accion=logout">Cerrar Sesión</a>
     </div>
 
@@ -58,8 +59,8 @@
                     <option value="estudiante">Estudiante</option>
                 </select>
 
-                <label for="estado">Estado:</label>
-                <select id="estado">
+                <label for="Estado">Estado:</label>
+                <select id="Estado">
                     <option value="">Todos</option>
                     <option value="activo">Activos</option>
                     <option value="inactivo">Inactivos</option>
@@ -129,7 +130,7 @@ function cambiarTipoUsuario() {
 // Función para aplicar los filtros de estado
 function aplicarFiltros() {
     const tipoUsuario = document.getElementById("tipoUsuario").value;
-    const estado = document.getElementById("estado").value;
+    const Estado = document.getElementById("estado");
 
     let filas;
     if (tipoUsuario === "instructor") {
@@ -148,9 +149,8 @@ function aplicarFiltros() {
         } else {
             fila.style.display = "none";
         }
-    });
+    });    
 }
-
         </script>
 
         
