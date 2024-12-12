@@ -36,7 +36,7 @@ $ID_Uses = $_POST['ID_User'];
 // Asegúrate de que la variable sea segura para usar en la consulta
 $ID_Uses = $conn->real_escape_string($ID_Uses);
 
-$sql = "CALL GetInstructorCourseDetails(?);";
+$sql = "CALL GetInstructorCourseDetails(2);";
 $stmt = $conn->prepare($sql);
 
 if ($stmt === false) {
@@ -49,7 +49,7 @@ if ($stmt === false) {
 }
 
 // Vincula la variable ID_Uses a la consulta
-$stmt->bind_param("i", $ID_Uses);
+//$stmt->bind_param("i", $ID_Uses);
 $stmt->execute();
 $result = $stmt->get_result();
 
