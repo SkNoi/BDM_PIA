@@ -38,7 +38,7 @@ function mostrarDetallesCurso(detallesCurso) {
     document.getElementById('curso-titulo').textContent = detallesCurso.titulo;
 
     // Mostrar la imagen del curso (asumiendo que es base64)
-    if (curso.imagencurso) {
+    if (detallesCurso.imagencurso) {
         document.getElementById('curso-imagen').src = `data:image/png;base64,${detallesCurso.imagencurso}`;
         document.getElementById('curso-imagen').alt = `Imagen del curso ${detallesCurso.titulo}`;
     }
