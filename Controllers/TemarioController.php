@@ -22,23 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit();
             }
 
-            // Rutas de destino para los archivos
-            $pdfDestino = '../uploads/pdf' . uniqid('pdf_') . '_' . basename($PDF_Recurso['name']);
-            $videoDestino = '../uploads/videos/' . uniqid('video_') . '_' . basename($Video['name']);
-
-            // Mover archivos al servidor
-            if (!move_uploaded_file($PDF_Recurso['tmp_name'], $pdfDestino)) {
-                echo json_encode(['success' => false, 'error' => 'Error al subir el archivo PDF.']);
-                exit();
-            }
-
-            if (!move_uploaded_file($Video['tmp_name'], $videoDestino)) {
-                echo json_encode(['success' => false, 'error' => 'Error al subir el archivo de video.']);
-                exit();
-            }
 
             // Llamar al modelo para guardar los datos en la base de datos
-            $resultado = Temario::crearTemario($ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $pdfDestino, $videoDestino);
+            $resultado = Temario::crearTemario($ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $PDF_Recurso, $Video);
 
             if ($resultado) {
                 echo json_encode(['success' => true, 'message' => 'Temario creado correctamente.']);
