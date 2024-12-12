@@ -230,7 +230,7 @@
                     ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
                     Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
                 })); */
-                console.log(carrito);
+                console.log(carrito.id_curso);
 
                 // Datos para enviar al servidor
                 const data = {
@@ -239,7 +239,7 @@
                     Total: total,
                     MetodoPago: metodoPago,
                     Estatus: estatus,
-                    ID_Curso: carrito.ID_Curso
+                    ID_Curso: carrito.id_curso
                 };
 
                 // Enviar datos al servidor
