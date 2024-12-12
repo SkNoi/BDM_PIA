@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Obtener el parámetro 'id' de la URL
     const params = new URLSearchParams(window.location.search);
-    const cursoId = params.get('id');
+    const cursoId = params.get('id_curso');
 
     if (!cursoId) {
         alert('No se especificó un curso.');
