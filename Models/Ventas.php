@@ -20,7 +20,7 @@ class Venta {
         $this->Estatus = $Estatus;
     }
 
-    public static function registrarVenta($ID_Estudiante, $ID_Curso, $Total, $FechaVenta, $MetodoPago, $Estatus) {
+    public static function registrarVenta($ID_Estudiante, $ID_Curso, $Total, $MetodoPago, $Estatus) {
         // Crear instancia de la conexión
         $conexion = Conexion::instanciaConexion();
         $conexionAbierta = $conexion->abrirConexion();
@@ -41,7 +41,7 @@ class Venta {
             }
     
             // Enlazar parámetros
-            $stmt->bind_param("iidsis", $ID_Estudiante, $ID_Curso, $Total, $FechaVenta, $MetodoPago, $Estatus);
+            $stmt->bind_param("iidis", $ID_Estudiante, $ID_Curso, $Total, $MetodoPago, $Estatus);
     
             // Ejecutar la consulta
             if ($stmt->execute()) {

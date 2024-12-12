@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $idEstudiante = $_POST['ID_Estudiante'] ?? null;
                 $idCurso = $_POST['ID_Curso'] ?? null;
                 $total = $_POST['Total'] ?? null;
-                $fechaVenta = $_POST['FechaVenta'] ?? date('Y-m-d H:i:s'); // Fecha actual si no se proporciona
                 $metodoPago = $_POST['MetodoPago'] ?? null;
                 $estatus = $_POST['Estatus'] ?? null;
 
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // Registrar la venta usando el modelo
-                $ventaId = Venta::registrarVenta($idEstudiante, $idCurso, $total, $fechaVenta, $metodoPago, $estatus);
+                $ventaId = Venta::registrarVenta($idEstudiante, $idCurso, $total, $metodoPago, $estatus);
 
                 if ($ventaId) {
                     // Respuesta exitosa
