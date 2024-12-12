@@ -3,7 +3,7 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-if ($_SERVER['REQUEST_METHOD¿'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Capturar los datos enviados desde el formulario
     $ID_Curso = $_POST['ID_Curso'] ?? null;
     $ID_User = $_POST['ID_User'] ?? null;
