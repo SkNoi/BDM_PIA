@@ -27,9 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function mostrarDetallesCurso(cursoCompleto) {
     console.log(cursoCompleto); 
     
-    const videoBase64 = cursoCompleto.niveles[0].Temarios[1].Video;
-    console.log(videoBase64); 
+     const videoSection = document.querySelector('#videoPlayer');
+    
+    const videoBase64 = cursoCompleto.niveles[0].Temarios[0].Video;
 
+    if (temario.Video) {
+        // Si el video está en base64, asigna la cadena base64 al src
+        videoSection.src = 'data:video/mp4;base64,' + videoBase64;
+        videoSection.style.display = 'block';  // Mostrar el video si existe
+    } else {
+        videoSection.style.display = 'none';  // Ocultar el video si no existe
+    }
     document.title = cursoCompleto.curso.Titulo;
 
     // Obtener el contenedor de los contenidos del curso
@@ -89,17 +97,6 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-    const videoSection = document.querySelector('#videoPlayer');
-    
-    const videoBase64 = cursoCompleto.niveles[0].Temarios[0].Video;
-
-    if (temario.Video) {
-        // Si el video está en base64, asigna la cadena base64 al src
-        videoSection.src = 'data:video/mp4;base64,' + videoBase64;
-        videoSection.style.display = 'block';  // Mostrar el video si existe
-    } else {
-        videoSection.style.display = 'none';  // Ocultar el video si no existe
-    }
 
     // Mostrar los recursos adicionales
     const resourcesSection = document.querySelector('.additional-resources ul');
