@@ -65,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 detalleInscripciones.appendChild(fila);
 
                 // Sumar al total de ingresos
-                totalIngresos = totalIngresos + item.Total;
+                totalIngresos = totalIngresos + parseInt(item.Total);
             });
 
             // Actualizar el total de ingresos del curso
