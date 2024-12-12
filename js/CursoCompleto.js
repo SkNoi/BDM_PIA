@@ -130,13 +130,21 @@ function mostrarTemario(temario) {
 
     // Verifica si el temario tiene un video
     if (temario.Video) {
-        // Si el video está en base64
-        videoElement.src = 'data:video/mp4;base64,' + temario.Video;
-        videoSection.style.display = 'block';  // Mostrar la sección del video
+        // Asegúrate de que el video está en base64 y se está configurando correctamente
+        const videoBase64 = temario.Video;
+        console.log("Video base64:", videoBase64);
+
+        // Si el video está en base64, lo asignamos a la fuente
+        videoElement.src = 'data:video/mp4;base64,' + videoBase64;
+
+        // Muestra la sección de video
+        videoSection.style.display = 'block';
     } else {
-        videoSection.style.display = 'none';  // Ocultar la sección del video si no hay video
+        // Si no hay video, ocultamos la sección
+        videoSection.style.display = 'none';
     }
 }
+
 
 
 
