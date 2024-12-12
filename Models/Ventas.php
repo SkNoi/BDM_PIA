@@ -41,7 +41,7 @@ class Venta {
             }
     
             // Enlazar parámetros
-            $stmt->bind_param("iidis", $ID_Estudiante, $ID_Curso, $Total, $MetodoPago, $Estatus);
+            $stmt->bind_param("iidss", $ID_Estudiante, $ID_Curso, $Total, $MetodoPago, $Estatus);
     
             // Ejecutar la consulta
             if ($stmt->execute()) {
