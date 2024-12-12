@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Reconocimiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .certificate {
+            background-color: #fff;
+            padding: 20px;
+            border: 2px solid #000;
+            width: 800px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .certificate h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        .certificate p {
+            font-size: 1.2em;
+            margin: 0.5em 0;
+        }
+        .certificate .name {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 1em 0;
+        }
+        .certificate .date {
+            margin: 1em 0;
+        }
+        .certificate .signatures {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 2em;
+        }
+        .certificate .signatures div {
+            text-align: center;
+        }
+        .certificate .signatures div p {
+            margin: 0.2em 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate"> <h1>CERTIFICADO DE RECONOCIMIENTO</h1> 
+        
+  <p>Por su notable desempeño en el Máster de Clases de Dibujo se le hace entrega de este certificado a:</p> <div class="name" id="nombre-estudiante">Nombre del Estudiante</div> 
+  <p class="date" id="fecha-certificado">Fecha del Certificado</p> 
+  <div class="signatures"> <div> 
+    <img src="Captura de pantalla_11-12-2024_203145_www.bing.com.jpg" 
+    alt="Firma del Director"> 
+    <p>____________________</p> 
+    <p>Bruno Lago</p> 
+    <p>Director</p> 
+    </div> 
+    <div> 
+    <img src="Captura de pantalla_11-12-2024_203213_www.bing.com.jpg" 
+    alt="Firma del Subdirector"> 
+    <p>____________________</p> 
+    <p>Rosa Martínez</p> 
+    <p>Subdirector</p> 
+</div> 
+</div>
+ </div>
+
+    <script>
+        // Obtener el usuario desde el localStorage
+        const usuario = JSON.parse(localStorage.getItem('usuario'));
+
+        // Verificar si el usuario existe y tiene el campo NombreCompleto
+        if (usuario && usuario.NombreCompleto) {
+            // Insertar el nombre en el elemento con id "nombre-estudiante"
+            document.getElementById('nombre-estudiante').textContent = usuario.NombreCompleto;
+        } else {
+            // Manejar el caso en que no haya usuario o NombreCompleto
+            document.getElementById('nombre-estudiante').textContent = 'Desconocido';
+        }
+    </script>
+</body>
+</html>
