@@ -382,8 +382,6 @@ function mostrarCursosComprados(cursos) {
     });
 }
 
-// Llama a la función cuando cargue la página
-document.addEventListener('DOMContentLoaded', obtenerCursosComprados);
 
 
 
