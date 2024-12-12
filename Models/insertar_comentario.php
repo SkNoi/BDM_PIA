@@ -1,41 +1,50 @@
 <?php
-// Configuración de la conexión a la base de datos
-$servername = "s9xpbd61ok2i7drv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
-$username = "w61uabsrpaswba47";
-$password = "Zgug8l6g0pj2cwrn";
-$dbname = "Omggy318wf15rtc3";
-$port = "3306";
+// Habilitar la visualización de errores para depuración
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-// Crear la conexión
-$conn = new mysqli($servername, $username, $password, $dbname,$port);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Capturar los datos enviados desde el formulario
+    $ID_Curso = $_POST['ID_Curso'] ?? null;
+    $ID_User = $_POST['ID_User'] ?? null;
+    $Contenido = $_POST['Contenido'] ?? null;
+    $Calificacion = $_POST['Calificacion'] ?? null;
 
-// Verificar conexión
-if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
-}
+    // Verificar que todos los datos requeridos estén presentes
+    if (!$ID_Curso || !$ID_User || !$Contenido || !$Calificacion) {
+        echo "Error: Faltan datos en el formulario.";
+        exit;
+    }
 
-// Obtener datos del formulario
-$ID_Curso = $_POST['ID_Curso'];
-$ID_User = $_POST['ID_User'];
-$Contenido = $_POST['Contenido'];
-$Calificacion = $_POST['Calificacion'];
-$FechaCreacion = date("Y-m-d H:i:s");
+    // Conexión a la base de datos
+    $servername = "s9xpbd61ok2i7drv.cbetxkdyhwsb.us-east-1.rds.amazonaws.com"; // Cambiar si es necesario
+    $username = "w61uabsrpaswba47"; 
+    $password = "Zgug8l6g0pj2cwrn"; 
+    $dbname = "omgy318wf15rtc3"; 
+    $port = 3306;
 
-// Insertar el comentario en la base de datos
-$sql = "INSERT INTO Comentario (ID_Curso, ID_User, Contenido, FechaCreacion, Calificacion) 
-        VALUES (?, ?, ?, ?, ?)";
+    $conn = new mysqli($servername, $username, $password, $dbname,$port);
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("iissi", $ID_Curso, $ID_User, $Contenido, $FechaCreacion, $Calificacion);
+    // Verificar la conexión
+    if ($conn->connect_error) {
+        die("Error de conexión: " . $conn->connect_error);
+    }
 
-if ($stmt->execute()) {
-    echo "Comentario enviado exitosamente.";
-    header("Location: curso.php?ID_Curso=$ID_Curso"); // Redirige de vuelta al curso
+    // Preparar la consulta SQL para insertar el comentario
+    $stmt = $conn->prepare("INSERT INTO Comentario (ID_Curso, ID_User, Contenido, Calificacion, FechaCreacion) VALUES (?, ?, ?, ?, NOW())");
+    $stmt->bind_param("iisi", $ID_Curso, $ID_User, $Contenido, $Calificacion);
+
+    // Ejecutar la consulta
+    if ($stmt->execute()) {
+        echo "Comentario insertado correctamente.";
+    } else {
+        echo "Error al insertar el comentario: " . $stmt->error;
+    }
+
+    // Cerrar la conexión
+    $stmt->close();
+    $conn->close();
 } else {
-    echo "Error al enviar el comentario: " . $conn->error;
+    echo "Acceso no válido.";
 }
-
-// Cerrar la conexión
-$stmt->close();
-$conn->close();
 ?>
