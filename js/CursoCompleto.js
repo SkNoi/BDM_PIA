@@ -103,15 +103,26 @@ function mostrarTemario(temario) {
         resourcesSection.appendChild(linkItem);
     }
 
-    // Agregar PDF_Recurso si existe
+    // Agregar PDF_Recurso si existe y es un Blob
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
         const link = document.createElement('a');
-        link.href = temario.PDF_Recurso;  // Concatenar la ruta base con el PDF
+
+        // Si el PDF es un Blob, crea una URL
+        if (temario.PDF_Recurso instanceof Blob) {
+            // Crear una URL a partir del Blob
+            const pdfUrl = URL.createObjectURL(temario.PDF_Recurso);
+            link.href = pdfUrl; // Establecer la URL del Blob como el href
+        } else {
+            // Si no es un Blob, usa el valor directamente como ruta
+            link.href = temario.PDF_Recurso;
+        }
+
         link.textContent = 'PDF Recurso';
         pdfItem.appendChild(link);
         resourcesSection.appendChild(pdfItem);
     }
+
 
     // Mostrar mensaje si no hay recursos
     if (!temario.LinkRecurso && !temario.PDF_Recurso) {
@@ -124,19 +135,18 @@ function mostrarTemario(temario) {
     const descriptionSection = document.querySelector('.additional-resources h3');
     descriptionSection.textContent = `Descripción del tema: ${temario.Descripcion}`;
 
-    // Mostrar el video si existe
     const videoSection = document.querySelector('.video-section');
     const videoElement = videoSection.querySelector('video'); // Asumiendo que ya tienes un <video> dentro de .video-section
-
+    
     // Verifica si el temario tiene un video
     if (temario.Video) {
         // Asegúrate de que el video está en base64 y se está configurando correctamente
         const videoBase64 = temario.Video;
         console.log("Video base64:", videoBase64);
-
+    
         // Si el video está en base64, lo asignamos a la fuente
-        videoElement.src = `data:video/mp4;base64, ${temario.Video}` ;
-
+        videoElement.src = `data:video/mp4;base64,${videoBase64.trim()}`;  // .trim() para eliminar cualquier espacio extra
+    
         // Muestra la sección de video
         videoSection.style.display = 'block';
     } else {
