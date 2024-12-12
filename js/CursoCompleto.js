@@ -103,20 +103,23 @@ function mostrarTemario(temario) {
 
     if (temario.PDF_Recurso) {
         const pdfItem = document.createElement('li');
-        const link = document.createElement('a');
+        const pdfObject = document.createElement('object');
         
-        // Si el PDF es un Blob (ya contiene la URL de tipo blob:)
-        if (typeof temario.PDF_Recurso === 'string' && temario.PDF_Recurso.startsWith('blob:')) {
-            link.href = temario.PDF_Recurso; // Asignar la URL del Blob directamente
+        // Si el PDF está en base64
+        if (typeof temario.PDF_Recurso === 'string') {
+            pdfObject.data = `data:application/pdf;base64,${temario.PDF_Recurso}`;
+            pdfObject.type = 'application/pdf';
+            pdfObject.width = '100%';
+            pdfObject.height = '500px';  // Puedes ajustar el tamaño
         } else {
-            // Si es base64, podemos usar base64 como href
-            link.href = `data:application/pdf;base64,${temario.PDF_Recurso}`;
+            // Si no es base64, usa la URL directamente
+            pdfObject.data = temario.PDF_Recurso;
         }
     
-        link.textContent = 'PDF Recurso';
-        pdfItem.appendChild(link);
+        pdfItem.appendChild(pdfObject);
         resourcesSection.appendChild(pdfItem);
     }
+    
     
     
 
