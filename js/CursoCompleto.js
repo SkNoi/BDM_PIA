@@ -85,7 +85,6 @@ function mostrarDetallesCurso(cursoCompleto) {
 
 // Función para mostrar detalles de un temario específico
 function mostrarTemario(temario) {
-    const baseUrl = '/';  // Ruta base desde la raíz del servidor
 
     // Mostrar el video
     const videoSection = document.querySelector('.video-section video');
