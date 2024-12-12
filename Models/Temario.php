@@ -32,7 +32,7 @@ class Temario {
         try {
             $sql = "CALL InsertarTemario(?, ?, ?, ?, ?, ?)";
             $stmt = $conexionAbierta->prepare($sql);
-            $stmt->bind_param('isssss', $ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $PDF_Recurso, $Video);
+            $stmt->bind_param('issbss', $ID_Nivel, $Tema, $Descripcion, $LinkRecurso, $PDF_Recurso, $Video);
 
             return $stmt->execute(); // Devuelve true si fue exitoso, false en caso contrario
         } catch (Exception $e) {
