@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const resumencursos= document.getElementById("resumencursos");
+    const resumencursos = document.getElementById("resumencursos");
 
     // Obtén el usuario desde localStorage
     const usuarioStorage = JSON.parse(localStorage.getItem('usuario'));
@@ -8,53 +8,56 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    const usuario = usuarioStorage.ID_User;
+    const ID_User = usuarioStorage.ID_User; // Solo se necesita obtener una vez
+
+    console.log("El ID del usuario es:", ID_User);
 
     // Datos a enviar
     const datos = {
         accion: 'login', // Tipo de acción
-        usuario: usuario
+        usuario: ID_User
     };
-    const user = JSON.parse(localStorage.getItem('usuario'));
-    const ID_User= user.ID_User;
 
-    console.log("El ID del usuario es:" + ID_User);
-    
     // Realiza la solicitud al backend
     fetch("../Models/VentasI.php", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' // Especificar que el contenido es JSON
         },
-        body:JSON.stringify({ID_User})
+        body: JSON.stringify({ ID_User })
     })
         .then(response => response.json())
         .then(data => {
             console.log("Respuesta del servidor:", data);
+
+            // Verifica si se obtuvieron datos
+            if (!data || data.length === 0) {
+                console.log("No se encontraron datos para este usuario.");
+                return; // Si no hay datos, no hacer nada
+            }
+
             // Itera sobre los datos y crea filas
             data.forEach(item => {
                 const fila = document.createElement("tr");
 
                 // Crea las celdas
                 const celdaTitulo = document.createElement("td");
-                celdaTitulo.textContent = item.Titulo;
+                celdaTitulo.textContent = item.Titulo || "N/A"; // En caso de que no haya datos
 
                 const celdaCursoEstatus = document.createElement("td");
-                celdaCursoEstatus.textContent = item.CursoEstatus;
-                
-                const celdaCosto= document.createElement("td");
-                celdaCosto.textContent = item.Costo;
+                celdaCursoEstatus.textContent = item.CursoEstatus || "N/A";
+
+                const celdaCosto = document.createElement("td");
+                celdaCosto.textContent = item.Costo || "N/A";
 
                 const celdaTotalVentas = document.createElement("td");
-                celdaTotalVentas.textContent = item.TotalVentas;
+                celdaTotalVentas.textContent = item.TotalVentas || "N/A";
 
+                const celdaMetodoPago = document.createElement("td");
+                celdaMetodoPago.textContent = item.MetodoPago || "N/A";
 
-                const celdaMetodoPago= document.createElement("td");
-                celdaMetodoPago.textContent = item.MetodoPago;
-
-                const celdaPorcentajaEstatus= document.createElement("td");
-                celdaPorcentajaEstatus.textContent = item.celdaPorcentajaEstatus;
-
+                const celdaPorcentajeEstatus = document.createElement("td");
+                celdaPorcentajeEstatus.textContent = item.PorcentajeEstatus || "N/A"; // Asumiendo que el campo correcto es "PorcentajeEstatus"
 
                 // Agrega las celdas a la fila
                 fila.appendChild(celdaTitulo);
@@ -62,9 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 fila.appendChild(celdaCosto);
                 fila.appendChild(celdaTotalVentas);
                 fila.appendChild(celdaMetodoPago);
-                fila.appendChild(celdaPorcentajaEstatus);
-             
-                  
+                fila.appendChild(celdaPorcentajeEstatus);
+
                 // Agrega la fila a la tabla
                 resumencursos.appendChild(fila);
             });
