@@ -24,7 +24,7 @@ if ($conn->connect_error) {
 $ID_Uses = $_POST['ID_User'];
 
 // Asegúrate de que la variable sea segura para usar en la consulta
-$ID_Uses = $conn->real_escape_string($ID_Uses);
+//$ID_Uses = $conn->real_escape_string($ID_Uses);
 
 $sql = "CALL GetInstructorCourseDetails(?);";
 $stmt = $conn->prepare($sql);
