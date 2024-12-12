@@ -1,5 +1,5 @@
 <?php
-require 'config.php';
+require './config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $usuario_id = $_POST['ID_User'];

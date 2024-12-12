@@ -8,7 +8,7 @@ if (!isset($_SESSION['ID_User'])) {
 }
 
 // Incluye la configuración de la base de datos
-require 'config.php';
+require './config.php';
 
 // Consulta los mensajes de la base de datos
 $stmt = $pdo->query("SELECT * FROM mensajes ORDER BY timestamp ASC");
