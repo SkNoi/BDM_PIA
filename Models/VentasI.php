@@ -21,8 +21,25 @@ if ($conn->connect_error) {
     exit;
 }
 
-$ID_Uses = intval($_POST['ID_User']);
+// Obtener los datos del cuerpo JSON
+$rawData = file_get_contents("php://input");
+
+// Decodificar los datos JSON
+$data = json_decode($rawData, true);
+
+// Verificar si se recibió el ID_User
+if (!isset($data['ID_User'])) {
+    echo json_encode([
+        'success' => false,
+        'data' => [],
+        'error' => 'Falta el ID_User en los datos enviados.'
+    ]);
+    exit;
+}
+
+$ID_Uses = intval($data['ID_User']);
 error_log("ID_Uses: " . $ID_Uses);
+
 // Asegúrate de que la variable sea segura para usar en la consulta
 //$ID_Uses = $conn->real_escape_string($ID_Uses);
 
