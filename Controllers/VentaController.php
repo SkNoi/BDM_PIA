@@ -3,19 +3,21 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once '../Models/Ventas.php'; 
 
+    // Obtener los datos JSON enviados en el cuerpo de la solicitud
     $data = json_decode(file_get_contents('php://input'), true);
-    // Obtener la acción desde el POST
-    $accion = $_POST['accion'] ?? '';
+
+    // Verificar que la acción sea 'registrarVenta'
+    $accion = $data['accion'] ?? '';
 
     try {
         switch ($accion) {
             case 'registrarVenta':
-                // Obtener los datos enviados desde el formulario o el frontend
-                $idEstudiante = $_POST['ID_Estudiante'] ?? null;
-                $idCurso = $_POST['ID_Curso'] ?? null;
-                $total = $_POST['Total'] ?? null;
-                $metodoPago = $_POST['MetodoPago'] ?? null;
-                $estatus = $_POST['Estatus'] ?? null;
+                // Obtener los datos enviados desde el frontend
+                $idEstudiante = $data['ID_Estudiante'] ?? null;
+                $idCurso = $data['ID_Curso'] ?? null;
+                $total = $data['Total'] ?? null;
+                $metodoPago = $data['MetodoPago'] ?? null;
+                $estatus = $data['Estatus'] ?? null;
 
                 // Validar que todos los datos requeridos estén presentes
                 if (!$idEstudiante || !$idCurso || !$total || !$metodoPago || !$estatus) {
