@@ -91,12 +91,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $curso = Curso::obtenerCursoPorId($id_curso);
             $detallesCurso = Curso::obtenerDetallesCursoPorID($id_curso);
             $cursoCompleto = Curso::obtenerCursoCompletoporID($id_curso);
-
-            // Elimina o reemplaza var_dump con error_log para depuración
-                error_log(print_r($curso, true));
-                error_log(print_r($detallesCurso, true));
-                error_log(print_r($cursoCompleto, true));
-
             
             if ($curso && $detallesCurso && $cursoCompleto) {
                 echo json_encode([
