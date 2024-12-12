@@ -222,8 +222,11 @@
                     return;
                 }
 
+                console.log('el curso es:' + curso);
+                
                 // Crear un arreglo de los cursos comprados
                 const cursosComprados = carrito.map(curso => ({
+                    
                     ID_Curso: curso.id_curso,  // Suponiendo que el curso tiene un campo 'id'
                     Precio: curso.costo  // Asegúrate de que 'precio' esté disponible en tu objeto 'curso'
                 }));
