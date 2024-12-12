@@ -29,6 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($ventaId) {
                     // Respuesta exitosa
                     echo json_encode(['success' => true, 'message' => 'Venta registrada correctamente.', 'venta_id' => $ventaId]);
+                    exit;  // Asegúrate de llamar a exit después de enviar la respuesta JSON.
+                    
                 } else {
                     // Error al registrar la venta
                     echo json_encode(['success' => false, 'error' => 'No se pudo registrar la venta.']);
