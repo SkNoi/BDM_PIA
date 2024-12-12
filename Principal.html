@@ -209,11 +209,20 @@
                     limpiarCarrito();
                     });
 
-                    function limpiarCarrito() {
-                    document.getElementById('carrito-body').innerHTML = ''; // Eliminar todos los productos del carrito
-                    document.getElementById('total').textContent = '$0.00'; // Reiniciar el total
-                }
-
+                    function limpiarCarrito() { console.log('Limpiando carrito...'); // Verifica que esta línea se esté ejecutando 
+                    let carritoBody = document.getElementById('carrito-body'); 
+                    if (carritoBody) { 
+                    carritoBody.innerHTML = ''; // Eliminar todos los productos del carrito 
+                    console.log('Productos eliminados.'); 
+                    } else { 
+                    console.log('Elemento carrito-body no encontrado.'); 
+                    } 
+                    let totalElement = document.getElementById('total'); 
+                    if (totalElement) { totalElement.textContent = '$0.00'; // Reiniciar el total console.log('Total reiniciado.'); } else { 
+                    console.log('Elemento total no encontrado.'); 
+                    }
+                    }
+                    
      </script>
 
 </body>
