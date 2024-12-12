@@ -364,17 +364,17 @@ function mostrarCursosComprados(cursos) {
         const card = document.createElement('div');
         card.className = 'col-md-4 mb-3';
 
-        const imagenSrc = curso.imagencurso 
-            ? `data:image/png;base64,${curso.imagencurso}` 
+        const imagenSrc = curso.ImagenCurso 
+            ? `data:image/png;base64,${curso.ImagenCurso}` 
             : 'ruta/por_defecto.png';
 
         card.innerHTML = `
             <div class="card">
-                <img src="${imagenSrc}" alt="Imagen del curso ${curso.titulo}" class="card-img-top">
+                <img src="${imagenSrc}" alt="Imagen del curso ${curso.Titulo}" class="card-img-top">
                 <div class="card-body">
-                    <h5 class="card-title">${curso.titulo}</h5>
-                    <p class="card-text">${curso.descripcion}</p>
-                    <a href="ver_curso.php?id_curso=${curso.id_curso}" class="btn btn-primary">Ver Curso</a>
+                    <h5 class="card-title">${curso.Titulo}</h5>
+                    <p class="card-text">${curso.Descripcion}</p>
+                    <a href="ver_curso.php?id_curso=${curso.ID_Curso}" class="btn btn-primary">Ver Curso</a>
                 </div>
             </div>
         `;
