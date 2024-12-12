@@ -1,0 +1,271 @@
+header{
+
+	display: flex;
+	height: 70px;
+	background-color: coral;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	position: fixed;
+	width: 99%;
+	top: 0;
+}
+
+a{
+	text-decoration: none;
+	color: blanchedalmond;
+}
+
+nav i{
+	padding-right: 15px;
+	font-size: 22px;
+}
+
+nav img{
+	padding-right: 20px;
+	width: 25.5px;
+	height: 25.5px;
+}
+
+.logo h2{
+
+	color: white;
+	display: flex;
+	align-items: center;
+}
+.logo img{
+
+	display: flex;
+	height: 75px;
+	margin-right: 10px;
+}
+
+.buscador{
+
+	justify-content: center;
+	position: relative;
+}
+
+.buscador input{
+	width: 350px;
+	padding: 10px;
+	padding-right: 35px;
+	border-right: 5px;
+	border: 0;
+	outline: none;
+	font-size: 1rem;
+}
+
+.buscador i{
+
+	background-color: crimson;
+	padding: 15px 15px;
+	position: absolute;
+	border: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	margin: auto;
+	border-radius: 0 5px 5px 0;
+	color: white;
+	cursor: pointer;
+}
+
+.buscador i:hover{
+	background-color: black;
+}
+
+.menu img {
+    width: 45px;
+    height: 45px;
+    cursor: pointer; 
+}
+
+
+body {
+    padding-top: 90px; 
+    align-items: center;
+    background-color: white;
+    margin: 0;
+    
+}
+
+.product-list-container, .cart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgb(239, 189, 23);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.product {
+    background-color: #ba9d0e;
+    padding: 15px;
+    width: 45%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.product h3 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #007bff;
+}
+
+.product p {
+    margin: 10px 0;
+    font-size: 1em;
+}
+
+.product button {
+    padding: 10px;
+    background-color: #28a745;
+    color: rgb(170, 152, 30);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.product button:hover {
+    background-color: #218838;
+}
+
+.cart {
+    list-style-type: none;
+    padding: 0;
+}
+
+.cart li {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
+
+.cart li span {
+    font-weight: bold;
+}
+
+#total {
+    text-align: right;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 90px; /* Altura del header fijo + separación */
+}
+
+
+.chat-header {
+    background-color: #f4f4f4;
+    padding: 10px;
+    text-align: center;
+}
+
+.chat-main {
+    display: flex;
+}
+
+.chat-box {
+    flex: 2;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+    height: 300px;
+    overflow-y: auto;
+    background-color: #fff;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.message.vendor {
+    background-color: #e0f7fa;
+    text-align: left;
+}
+
+.message.buyer {
+    background-color: #c8e6c9;
+    text-align: right;
+}
+
+.details-box {
+    flex: 1;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.details-box input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.details-box button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.details-box button:disabled {
+    background-color: #ccc;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+}
+
+.chat-input input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 0 4px;
+}
+
+.chat-input button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+}
