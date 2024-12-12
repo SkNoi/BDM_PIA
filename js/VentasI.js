@@ -16,54 +16,51 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("../Models/VentasI.php", {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json' // Especificar que el contenido es JSON
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({ ID_User })
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Respuesta del servidor:", data);
-
-            // Verifica si se obtuvieron datos
-            if (!data || data.length === 0) {
-                console.log("No se encontraron datos para este usuario.");
-                return; // Si no hay datos, no hacer nada
-            }
-
-            // Itera sobre los datos y crea filas
-            data.forEach(item => {
+    .then(response => response.json())
+    .then(data => {
+        // Verifica que 'data' sea un objeto y contiene 'data' como un arreglo
+        console.log("Datos recibidos:", data);
+    
+        if (data.success && Array.isArray(data.data)) { // Verifica que la respuesta sea exitosa y que 'data' sea un arreglo
+            // Si es un arreglo, itera sobre él
+            data.data.forEach(item => {
                 const fila = document.createElement("tr");
-
-                // Crea las celdas
+    
                 const celdaTitulo = document.createElement("td");
-                celdaTitulo.textContent = item.Titulo || "N/A"; // En caso de que no haya datos
-
+                celdaTitulo.textContent = item.Titulo || "N/A";
+    
                 const celdaCursoEstatus = document.createElement("td");
                 celdaCursoEstatus.textContent = item.CursoEstatus || "N/A";
-
+    
                 const celdaCosto = document.createElement("td");
                 celdaCosto.textContent = item.Costo || "N/A";
-
+    
                 const celdaTotalVentas = document.createElement("td");
                 celdaTotalVentas.textContent = item.TotalVentas || "N/A";
-
+    
                 const celdaMetodoPago = document.createElement("td");
                 celdaMetodoPago.textContent = item.MetodoPago || "N/A";
-
+    
                 const celdaPorcentajeEstatus = document.createElement("td");
-                celdaPorcentajeEstatus.textContent = item.PorcentajeEstatus || "N/A"; // Asumiendo que el campo correcto es "PorcentajeEstatus"
-
-                // Agrega las celdas a la fila
+                celdaPorcentajeEstatus.textContent = item.PorcentajeEstatus || "N/A";
+    
                 fila.appendChild(celdaTitulo);
                 fila.appendChild(celdaCursoEstatus);
                 fila.appendChild(celdaCosto);
                 fila.appendChild(celdaTotalVentas);
                 fila.appendChild(celdaMetodoPago);
                 fila.appendChild(celdaPorcentajeEstatus);
-
-                // Agrega la fila a la tabla
+    
                 resumencursos.appendChild(fila);
             });
-        })
-        .catch(error => console.error("Error al obtener los datos:", error));
+        } else {
+            console.error("La respuesta no contiene un arreglo válido en 'data'.", data);
+        }
+    })
+    .catch(error => console.error("Error al obtener los datos:", error));
+    
 });
