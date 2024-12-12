@@ -247,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     obtenerCursos();
     obtenerCategorias();
+    obtenerCursosComprados();
     
 });
 
@@ -313,6 +314,76 @@ function mostrarCursosCreados(cursos) {
         listaCursos.appendChild(li);
     });
 }
+
+function obtenerCursosComprados() {
+    let estudianteId = localStorage.getItem("ID");
+    if (!estudianteId) {
+        alert('No se encontró el ID del estudiante.');
+        return;
+    }
+
+    fetch('Controllers/VentaController.php?id_estudiante=' + estudianteId, {
+        method: 'GET'
+    })
+    .then(response => response.text())
+    .then(responseText => {
+        console.log('Respuesta del servidor:', responseText);
+        try {
+            const data = JSON.parse(responseText);
+            if (data.success && Array.isArray(data.cursos)) {
+                mostrarCursosComprados(data.cursos);
+            } else {
+                console.error('Respuesta inesperada del servidor:', data);
+                alert('No se pudieron obtener los cursos.');
+            }
+        } catch (error) {
+            console.error('Error al analizar la respuesta como JSON:', error);
+            alert('El servidor no envió una respuesta válida.');
+        }
+    })
+    .catch(error => {
+        console.error('Error de comunicación con el servidor:', error);
+        alert('Error de comunicación con el servidor.');
+    });
+}
+
+function mostrarCursosComprados(cursos) {
+    const cardContainer = document.querySelector('#card-container');
+    const noResults = document.querySelector('#no-results');
+
+    cardContainer.innerHTML = ''; // Limpiar el contenedor actual
+
+    if (cursos.length === 0) {
+        noResults.style.display = 'block';
+        return;
+    }
+
+    noResults.style.display = 'none';
+
+    cursos.forEach(curso => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-3';
+
+        const imagenSrc = curso.imagencurso 
+            ? `data:image/png;base64,${curso.imagencurso}` 
+            : 'ruta/por_defecto.png';
+
+        card.innerHTML = `
+            <div class="card">
+                <img src="${imagenSrc}" alt="Imagen del curso ${curso.titulo}" class="card-img-top">
+                <div class="card-body">
+                    <h5 class="card-title">${curso.titulo}</h5>
+                    <p class="card-text">${curso.descripcion}</p>
+                    <a href="ver_curso.php?id_curso=${curso.id_curso}" class="btn btn-primary">Ver Curso</a>
+                </div>
+            </div>
+        `;
+        cardContainer.appendChild(card);
+    });
+}
+
+// Llama a la función cuando cargue la página
+document.addEventListener('DOMContentLoaded', obtenerCursosComprados);
 
 
 
