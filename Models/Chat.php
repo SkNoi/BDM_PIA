@@ -21,12 +21,8 @@ if (!isset($_SESSION['ID_User'])) {
 </head>
 <body>
     <header>
-        <a href="Principal.html">Inicio</a>
+        <a href="./BDM_PIA/Principal.html">Inicio</a>
             
-        <div class="buscador">
-            <input type="text" placeholder="Buscar">
-            <button><i class="fa-solid fa-magnifying-glass"></i></button>
-        </div>
       
     </header>
 
