@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Realiza una solicitud para obtener los detalles del curso
-    fetch(`Controllers/CursoController.php?id_curso=${cursoId}`)
+    fetch(`Controllers/CursoController.php?id_curso=${cursoId}&tipo=completo`)
         .then(response => response.json())
         .then(data => {
             if (data.success && data.cursoCompleto) {
