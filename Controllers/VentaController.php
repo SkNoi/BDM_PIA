@@ -24,9 +24,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 echo $total;
                 echo $metodoPago;
                 echo $estatus;
-                
+
                 // Validar que todos los datos requeridos estén presentes
-                if (!$idEstudiante || !$idCurso || !$total || !$metodoPago || !$estatus) {
+                if ($idEstudiante || $idCurso || $total || $metodoPago || $estatus) {
                     echo json_encode(['success' => false, 'error' => 'Faltan datos obligatorios.']);
                     exit;
                 }
