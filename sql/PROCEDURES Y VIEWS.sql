@@ -267,3 +267,126 @@ END //
 DELIMITER ;
 
 
+CREATE VIEW DetallesCursos AS
+SELECT 
+    C.ID_Curso,
+    C.Titulo,
+    C.Costo,
+    C.Descripcion,
+    C.Duracion,
+    C.ImagenCurso,
+    N.ID_Nivel,
+    N.Nivel,
+    T.Tema
+FROM Curso C
+INNER JOIN Nivel N ON C.ID_Curso = N.ID_Curso
+INNER JOIN Temario T ON N.ID_Nivel = T.ID_Nivel;
+
+CREATE VIEW CursosComprados AS
+SELECT 
+    c.ID_Curso,
+    c.Titulo,
+    c.Descripcion,
+    c.ImagenCurso
+FROM 
+    Venta v
+INNER JOIN 
+    Curso c
+ON 
+    v.ID_Curso = c.ID_Curso;
+
+    DELIMITER //
+
+CREATE FUNCTION registrarVenta(
+    p_ID_Estudiante INT,
+    p_ID_Curso INT,
+    p_Total DECIMAL(10, 2),
+    p_MetodoPago VARCHAR(50),
+    p_Estatus VARCHAR(50)
+) RETURNS INT
+BEGIN
+    DECLARE venta_id INT;
+    
+    INSERT INTO Venta (
+        ID_Estudiante, ID_Curso, Total, FechaVenta, MetodoPago, Estatus
+    ) VALUES (
+        p_ID_Estudiante, p_ID_Curso, p_Total, current_timestamp(), p_MetodoPago, p_Estatus
+    );
+    
+    SET venta_id = LAST_INSERT_ID();
+    RETURN venta_id;
+END//
+
+DELIMITER ;
+
+CREATE VIEW CursoCompleto AS
+SELECT 
+    C.ID_Curso,
+    C.Titulo,
+    C.Costo,
+    C.Duracion,
+    C.ImagenCurso,
+    N.ID_Nivel,
+    N.Nivel,
+    T.Tema,
+    T.Descripcion,
+    T.LinkRecurso,
+    T.PDF_Recurso,
+    T.Video
+FROM Curso C
+INNER JOIN Nivel N ON C.ID_Curso = N.ID_Curso
+INNER JOIN Temario T ON N.ID_Nivel = T.ID_Nivel;
+
+CREATE  PROCEDURE GetInstructorCursos(
+    IN ID_Uses INT
+)
+BEGIN
+    -- Crear una tabla temporal para almacenar los detalles de los cursos y alumnos
+    CREATE TEMPORARY TABLE TempCourseDetails AS
+    SELECT 
+        c.ID_Curso,
+        c.Titulo,
+        c.Estatus AS CursoEstatus,
+        c.Costo,
+        u.Nombre_Completo AS AlumnoNombre,
+        v.FechaVenta AS FechaInscripcion,
+        -- Calcular el porcentaje de avance basado en v.Estatus
+        ROUND(SUM(v.Estatus) / COUNT(v.Estatus) * 100, 2) AS PorcentajeEstatus,
+        v.MontoPagado,
+        v.MetodoPago,
+        -- Calcular el total de ingresos por curso
+        SUM(v.MontoPagado) OVER (PARTITION BY c.ID_Curso) AS TotalIngresos
+    FROM 
+        Curso c
+    LEFT JOIN 
+        Venta v ON c.ID_Curso = v.ID_Curso
+    LEFT JOIN 
+        Usuario u ON v.ID_Alumno = u.id_User
+    WHERE 
+        c.ID_Instructor = ID_Uses
+    GROUP BY 
+        c.ID_Curso, 
+        u.Nombre_Completo, 
+        v.FechaVenta, 
+        v.MontoPagado, 
+        v.MetodoPago;
+
+    -- Devolver los resultados
+    SELECT 
+        ID_Curso,
+        Titulo,
+        CursoEstatus,
+        Costo,
+        AlumnoNombre,
+        FechaInscripcion,
+        PorcentajeEstatus,
+        MontoPagado,
+        MetodoPago,
+        TotalIngresos
+    FROM 
+        TempCourseDetails;
+
+    -- Eliminar la tabla temporal
+    DROP TEMPORARY TABLE IF EXISTS TempCourseDetails;
+END$$
+DELIMITER ;
